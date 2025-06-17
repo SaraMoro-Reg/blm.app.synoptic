@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:commons="sap.ui.commons" xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" xmlns:table="sap.ui.table">
+	<Dialog id="dcPopup" title="{i18n&gt;matCritici}" afterClose="closePopup" class="popupHeader popupTitleFont" stretch="true" contentHeight="100%" horizontalScrolling="false" verticalScrolling="false">
+		<content>
+			<VBox width="100%" height="100%" renderType="Bare" justifyContent="Start" alignItems="Center">				
+				<ScrollContainer height="100%" width="100%" vertical="true" focusable="true">					
+					<Table id="tblDc" items="{path: '/dcPop'}" sticky="ColumnHeaders" selectionChange="rowSelection"  mode="None" >
+						<ColumnListItem>
+							<cells>
+								<Label text="{DC_PARAMETER_DESC}" design="Standard" width="100%" textAlign="Begin" textDirection="Inherit" visible="true" wrapping="true" />
+								<Label text="{STANDARD_VALUE}" design="Standard" width="100%" textAlign="Center" textDirection="Inherit" visible="false" wrapping="false" />
+								<Label text="{MIN_VALUE}" design="Standard" width="100%" textAlign="Center" textDirection="Inherit" visible="false" wrapping="false" />
+								<VBox>
+									<RadioButtonGroup visible="{parts:[{path: 'DC_TYPE'}], formatter: '.setVisibleRadiobutton'}" columns="2" selectedIndex="{parts:[{path: 'DC_VALUE'}], formatter: '.getRadiobuttonToBeSelected'}" enabled="{= ${EDITABLE} === 'true' &amp;&amp; ${/editMode}}" select="radiobuttonselect">
+											<buttons>
+												<RadioButton text="{i18n&gt;true}" />
+												<RadioButton text="{i18n&gt;false}" />
+											</buttons>
+									</RadioButtonGroup>
+									<Input visible="{parts:[{path: 'DC_TYPE'}], formatter: '.setVisibleInput'}" type="{parts:[{path: 'DC_TYPE'}], formatter: '.setTypeInput'}" value="{DC_VALUE}" enabled="{=(${EDITABLE} === 'true') ? true : false}" class="inputFieldDataCollection" textAlign="Center" change="dcValueChange"/>
+								</VBox>									
+								<Label text="{MAX_VALUE}" design="Standard" width="100%" textAlign="Center" textDirection="Inherit" visible="false" wrapping="false" />
+								<Label text="{MISURE_UNITY}" design="Standard" width="100%" textAlign="Center" textDirection="Inherit" visible="false" wrapping="false" />
+								<Button press="openPopupNotesDC" type="{parts:[{path: 'NOTE'}], formatter: '.setTypeNotesButton'}" visible="true" icon="sap-icon://notes" iconDensityAware="false" />	
+								<Button press="pressDeleteParam" type="Ghost" enabled="{= ${DEL} === 'false' &amp;&amp; ${DC_VALUE} !== '' &amp;&amp; ${/editMode}}" icon="sap-icon://delete" iconDensityAware="false" />																								
+							</cells>
+						</ColumnListItem>
+						<columns>
+							<Column hAlign="Begin" width="33%" minScreenWidth="Tablet" demandPopin="true" >
+								<header>
+									<Text text="{i18n&gt;DCDesc}" />
+								</header>
+							</Column>
+							<Column hAlign="Center" width="6%" demandPopin="true" visible="false">
+								<header>
+									<Text text="{i18n&gt;standard}" />
+								</header>
+							</Column>
+							<Column hAlign="Center" width="6%" minScreenWidth="Tablet" demandPopin="true" visible="false">
+								<header>
+									<Text text="{i18n&gt;min}" />
+								</header>
+							</Column>
+							<Column hAlign="Center" width="13%" minScreenWidth="Tablet" demandPopin="true" >
+								<header>
+									<Text text="{i18n&gt;Value}" />
+								</header>
+							</Column>
+							<Column hAlign="Center" width="6%" minScreenWidth="Tablet" demandPopin="true" visible="false" >
+								<header>
+									<Text text="{i18n&gt;max}" />
+								</header>
+							</Column>
+							<Column hAlign="Center" width="4%" minScreenWidth="Tablet" demandPopin="true" visible="false">
+								<header>
+									<Text text="{i18n&gt;measure}" />
+								</header>
+							</Column>
+							<Column hAlign="Center" width="3%" minScreenWidth="Tablet" demandPopin="true" >
+								<header>
+									<Text text="{i18n&gt;note}" />
+								</header>
+							</Column>
+							<Column hAlign="Center" width="5%" minScreenWidth="Tablet" demandPopin="true" >
+								<header>
+									<Text text="{i18n&gt;delete}" />
+								</header>
+							</Column>									
+						</columns>
+					</Table>
+				</ScrollContainer>		
+			</VBox>
+		</content>
+		<buttons>
+			<Button icon="sap-icon://undo" press="undoDCPopup" class="halfSizeButton"  type="Reject"/>
+			<Button icon="sap-icon://accept" press="onPressConfirmDc" class="halfSizeButton"  type="Accept"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

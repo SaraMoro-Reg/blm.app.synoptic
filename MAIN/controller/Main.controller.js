@@ -530,6 +530,15 @@ sap.ui.define([
 
         openSynopticBLM2: function () {
             window.location = "/XMII/CM/ADIGE7/SYNOPTIC_BLM2/main.html?SITE=" + controller.site;
+        },
+
+        openSynopticBLM3: function () {
+            window.location = "/XMII/CM/ADIGE7/SYNOPTIC_BLM3/main.html?SITE=" + controller.site;
+        },
+
+        openSynopticBLM4: function () {
+            window.location = "/XMII/CM/ADIGE7/SYNOPTIC_BLM4/main.html?SITE=" + controller.site;
         }
+
     });
 });

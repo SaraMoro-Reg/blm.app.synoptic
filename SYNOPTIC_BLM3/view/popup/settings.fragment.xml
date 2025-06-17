@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" controllerName="synoptic.controller.Main">
+	<Dialog title="{i18n&gt;settings}" contentWidth="30%" contentHeight="57%" class="sapUiContentPadding">
+		<content>
+			<FlexBox height="100px" alignItems="Center" justifyContent="Start">
+				<Text text="{i18n&gt;autoScroll}" class="sapUISmallMargin" width="250px" />
+				<Switch state="{/autoScrolling}" customTextOn="ON" customTextOff="OFF" enabled="true" id="switchId">
+					<layoutData>
+						<FlexItemData growFactor="1" />
+					</layoutData>
+				</Switch>
+			</FlexBox>
+			<FlexBox height="100px" alignItems="Center" justifyContent="Start" visible="{/autoScrolling}">
+				<Text text="{i18n&gt;scrollingTime}" class="sapUISmallMargin" width="250px" />
+				<StepInput id="stepInputId" value="{/scrollingTime}" width="60%" textAlign="Center" min="1" max="250" step="1" change="onChangeStepInput" />
+			</FlexBox>
+			<FlexBox height="100px" alignItems="Center" justifyContent="Start">
+				<Text text="{i18n&gt;autoScrollTile}" class="sapUISmallMargin" width="250px" />
+				<Switch state="{/autoScrollingTile}" customTextOn="ON" customTextOff="OFF" enabled="true" id="switchIdTile">
+					<layoutData>
+						<FlexItemData growFactor="1" />
+					</layoutData>
+				</Switch>
+			</FlexBox>
+			<FlexBox height="100px" alignItems="Center" justifyContent="Start" visible="{/autoScrollingTile}">
+				<Text text="{i18n&gt;scrollingTimeTile}" class="sapUISmallMargin" width="250px" />
+				<StepInput id="stepInputIdTile" value="{/scrollingTimeTile}" width="60%" textAlign="Center" min="10" max="15000" step="10" change="onChangeStepInput" />
+			</FlexBox>
+		</content>
+		<buttons>
+			<Button icon="sap-icon://undo" press="onCloseSettingsPopup" type="Reject" class="halfSizeButton" />
+			<Button icon="sap-icon://accept" press="onSaveSettings" type="Accept" class="halfSizeButton" />			
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

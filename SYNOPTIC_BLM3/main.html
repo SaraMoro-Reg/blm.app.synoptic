@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>SINOTTICO</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" charset="UTF-8" />		
+		<script id='sap-ui-bootstrap' type='text/javascript' src="/XMII/sapui5-rt-1.100.0/resources/sap-ui-core.js"
+			data-sap-ui-libs="sap.m,sap.ui.core"
+			data-sap-ui-theme="sap_belize"	
+	  		data-sap-ui-language="it"				
+			data-sap-ui-compatVersion="edge"			
+			data-sap-ui-async="true"
+			data-sap-ui-resourceroots='{"synoptic": ""}'>
+		</script>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script>
+			sap.ui.getCore().attachInit(function() {
+				new sap.m.Shell({
+					app: new sap.ui.core.ComponentContainer({
+						height : "100%",
+						name : "synoptic"
+					})
+				}).placeAt("content");
+			});			
+			var controller = undefined;				
+		</script>
+	</head>
+	<body class="sapUiBody sapUiSizeCompact" id="content" />
+</html>
