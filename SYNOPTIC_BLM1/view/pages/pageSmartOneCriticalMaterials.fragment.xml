@@ -1,0 +1,2065 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<!-- Materiali Critici - Pagina contentente le macchine SMART_ONE -->
+	<!-- area che contiene la prima e la seconda area orrizzontale-->
+	<HBox height="44%" width="100%" renderType="Bare">
+		<!-- prima area con al suo interno 8 box -->
+		<VBox height="100%" width="100%" renderType="Bare" class="dashedLine">
+			<!--prima box orizzontale-->
+			<HBox height="49%" width="100%" renderType="Bare" class="dashedLine">
+				<!--prima box, pos 24-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/0/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/0/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/0/PIAZZOLA}" tooltip="{/res/0/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/0/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/0/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-152" pages="{path: '/res/0/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/0/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/0/MATRICOLA} === '' || ${/res/0/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/0/MATRICOLA} === '') || (${/res/0/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/0/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/0/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/0/STATO_AVANZ'},{path: '/res/0/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/0/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/0/WKC_STATUS_ID','/resMachineStatus/0/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio
+											tra le box-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--seconda box, pos 25-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/1/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/1/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/1/PIAZZOLA}" tooltip="{/res/1/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/1/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/1/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-153" pages="{path: '/res/1/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/1/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/1/MATRICOLA} === '' || ${/res/1/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/1/MATRICOLA} === '') || (${/res/1/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/1/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/1/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/1/STATO_AVANZ'},{path: '/res/1/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/1/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/1/WKC_STATUS_ID','/resMachineStatus/1/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le box-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--terza box, pos 26-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/2/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/2/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/2/PIAZZOLA}" tooltip="{/res/2/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/2/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/2/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-154" pages="{path: '/res/2/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/2/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/2/MATRICOLA} === '' || ${/res/2/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/2/MATRICOLA} === '') || (${/res/2/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/2/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/2/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/2/STATO_AVANZ'},{path: '/res/2/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/2/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/2/WKC_STATUS_ID','/resMachineStatus/2/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le righe-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--quarta box, pos 27-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/3/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/3/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/3/PIAZZOLA}" tooltip="{/res/3/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/3/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/3/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-155" pages="{path: '/res/3/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/3/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/3/MATRICOLA} === '' || ${/res/3/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/3/MATRICOLA} === '') || (${/res/3/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/3/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/3/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/3/STATO_AVANZ'},{path: '/res/3/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/3/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/3/WKC_STATUS_ID','/resMachineStatus/3/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+			</HBox>
+			<!--spazio tra le righe-->
+			<HBox width="100%" height="5%" renderType="Bare" />
+			<!--seconda
+										box orizzontale-->
+			<HBox height="49%" width="100%" renderType="Bare" class="dashedLine">
+				<!-- quinta box, pos 28-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/4/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/4/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/4/PIAZZOLA}" tooltip="{/res/4/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/4/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/4/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-156" pages="{path: '/res/4/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/4/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/4/MATRICOLA} === '' || ${/res/4/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/4/MATRICOLA} === '') || (${/res/4/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/4/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/4/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/4/STATO_AVANZ'},{path: '/res/4/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/4/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/4/WKC_STATUS_ID','/resMachineStatus/4/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le righe-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--sesta box, pos 29-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/5/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/5/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/5/PIAZZOLA}" tooltip="{/res/5/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/5/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/5/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-157" pages="{path: '/res/5/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/5/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/5/MATRICOLA} === '' || ${/res/5/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/5/MATRICOLA} === '') || (${/res/5/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/5/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/5/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/5/STATO_AVANZ'},{path: '/res/5/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/5/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/5/WKC_STATUS_ID','/resMachineStatus/5/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le righe-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--settima box, pos 30-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/6/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/6/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/6/PIAZZOLA}" tooltip="{/res/6/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/6/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/6/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-158" pages="{path: '/res/6/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/6/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/6/MATRICOLA} === '' || ${/res/6/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/6/MATRICOLA} === '') || (${/res/6/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/6/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/6/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/6/STATO_AVANZ'},{path: '/res/6/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/6/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/6/WKC_STATUS_ID','/resMachineStatus/6/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le righe-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--ottava box, pos 31-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/7/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/7/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/7/PIAZZOLA}" tooltip="{/res/7/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/7/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/7/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-159" pages="{path: '/res/7/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/7/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/7/MATRICOLA} === '' || ${/res/7/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/7/MATRICOLA} === '') || (${/res/7/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/7/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/7/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/7/STATO_AVANZ'},{path: '/res/7/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/7/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/7/WKC_STATUS_ID','/resMachineStatus/7/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+			</HBox>
+		</VBox>
+		<!-- spazio tra le aree -->
+		<HBox width="8%" height="100%" renderType="Bare" />
+		<!-- seconda area con al suo interno 8 box -->
+		<VBox height="100%" width="100%" renderType="Bare" class="dashedLine">
+			<!--prima box orizzontale-->
+			<HBox height="49%" width="100%" renderType="Bare" class="dashedLine">
+				<!--prima box, pos 32-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/8/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/8/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/8/PIAZZOLA}" tooltip="{/res/8/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/8/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/8/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-160" pages="{path: '/res/8/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/8/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/8/MATRICOLA} === '' || ${/res/8/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/8/MATRICOLA} === '') || (${/res/8/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/8/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/8/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/8/STATO_AVANZ'},{path: '/res/8/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/8/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/8/WKC_STATUS_ID','/resMachineStatus/8/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le box-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--seconda box, pos 33-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/9/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/9/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/9/PIAZZOLA}" tooltip="{/res/9/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/9/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/9/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-161" pages="{path: '/res/9/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/9/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/9/MATRICOLA} === '' || ${/res/9/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/9/MATRICOLA} === '') || (${/res/9/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/9/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/9/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/9/STATO_AVANZ'},{path: '/res/9/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/9/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/9/WKC_STATUS_ID','/resMachineStatus/9/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le box-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--terza box, pos 34-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/10/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/10/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/10/PIAZZOLA}" tooltip="{/res/10/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/10/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/10/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-162" pages="{path: '/res/10/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/10/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/10/MATRICOLA} === '' || ${/res/10/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/10/MATRICOLA} === '') || (${/res/10/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/10/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/10/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/10/STATO_AVANZ'},{path: '/res/10/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/10/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/10/WKC_STATUS_ID','/resMachineStatus/10/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le box-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--quarta box, pos 35-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/11/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/11/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/11/PIAZZOLA}" tooltip="{/res/11/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/11/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/11/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-163" pages="{path: '/res/11/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/11/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/11/MATRICOLA} === '' || ${/res/11/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/11/MATRICOLA} === '') || (${/res/11/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/11/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/11/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/11/STATO_AVANZ'},{path: '/res/11/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/11/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/11/WKC_STATUS_ID','/resMachineStatus/11/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+			</HBox>
+			<!--spazio tra le righe-->
+			<HBox width="100%" height="5%" renderType="Bare" />
+			<!--seconda box orizzontale-->
+			<HBox height="49%" width="100%" renderType="Bare" class="dashedLine">
+				<!-- quinta box, pos 36-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/12/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/12/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/12/PIAZZOLA}" tooltip="{/res/12/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/12/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/12/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-164" pages="{path: '/res/12/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/12/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/12/MATRICOLA} === '' || ${/res/12/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/12/MATRICOLA} === '') || (${/res/12/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/12/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/12/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/12/STATO_AVANZ'},{path: '/res/12/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/12/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/12/WKC_STATUS_ID','/resMachineStatus/12/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le righe-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--sesta box, pos 37-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/13/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/13/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/13/PIAZZOLA}" tooltip="{/res/13/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/13/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/13/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-165" pages="{path: '/res/13/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/13/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/13/MATRICOLA} === '' || ${/res/13/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/13/MATRICOLA} === '') || (${/res/13/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/13/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/13/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/13/STATO_AVANZ'},{path: '/res/13/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/13/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/13/WKC_STATUS_ID','/resMachineStatus/13/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le righe-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--settima box, pos 38-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/14/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/14/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/14/PIAZZOLA}" tooltip="{/res/14/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/14/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/14/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-166" pages="{path: '/res/14/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/14/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/14/MATRICOLA} === '' || ${/res/14/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/14/MATRICOLA} === '') || (${/res/14/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/14/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/14/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/14/STATO_AVANZ'},{path: '/res/14/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/14/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/14/WKC_STATUS_ID','/resMachineStatus/14/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le righe-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--ottava box, pos 39-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/15/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/15/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/15/PIAZZOLA}" tooltip="{/res/15/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/15/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/15/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-167" pages="{path: '/res/15/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/15/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/15/MATRICOLA} === '' || ${/res/15/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/15/MATRICOLA} === '') || (${/res/15/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/15/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/15/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/15/STATO_AVANZ'},{path: '/res/15/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/15/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/15/WKC_STATUS_ID','/resMachineStatus/15/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+			</HBox>
+		</VBox>
+		<!-- </VBox> -->
+	</HBox>
+	<HBox height="8%" width="100%" renderType="Bare" />
+	<!--distanza tra aree orizzontali -->
+	<!-- area che contiene la terza e la quarta area orizzontale -->
+	<HBox height="44%" width="100%" renderType="Bare">
+		<!-- terza area con al suo interno 8 box -->
+		<VBox height="100%" width="100%" renderType="Bare" class="dashedLine">
+			<!--prima box orizzontale-->
+			<HBox height="49%" width="100%" renderType="Bare" class="dashedLine">
+				<!--prima box, pos 40-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/16/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/16/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/16/PIAZZOLA}" tooltip="{/res/16/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/16/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/16/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-168" pages="{path: '/res/16/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/16/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/16/MATRICOLA} === '' || ${/res/16/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/16/MATRICOLA} === '') || (${/res/16/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/16/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/16/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/16/STATO_AVANZ'},{path: '/res/16/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/16/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/16/WKC_STATUS_ID','/resMachineStatus/16/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le box-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--seconda box, pos 41-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/17/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/17/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/17/PIAZZOLA}" tooltip="{/res/17/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/17/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/17/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-169" pages="{path: '/res/17/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/17/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/17/MATRICOLA} === '' || ${/res/17/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/17/MATRICOLA} === '') || (${/res/17/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/17/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/17/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/17/STATO_AVANZ'},{path: '/res/17/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/17/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/17/WKC_STATUS_ID','/resMachineStatus/17/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le box-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--terza box, pos 42-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/18/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/18/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/18/PIAZZOLA}" tooltip="{/res/18/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/18/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/18/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-170" pages="{path: '/res/18/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/18/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/18/MATRICOLA} === '' || ${/res/18/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/18/MATRICOLA} === '') || (${/res/18/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/18/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/18/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/18/STATO_AVANZ'},{path: '/res/18/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/18/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/18/WKC_STATUS_ID','/resMachineStatus/18/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le box-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--quarta box, pos 43-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/19/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/19/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/19/PIAZZOLA}" tooltip="{/res/19/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/19/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/19/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-171" pages="{path: '/res/19/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/19/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/19/MATRICOLA} === '' || ${/res/19/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/19/MATRICOLA} === '') || (${/res/19/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/19/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/19/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/19/STATO_AVANZ'},{path: '/res/19/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/19/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/19/WKC_STATUS_ID','/resMachineStatus/19/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+			</HBox>
+			<!--spazio tra le righe -->
+			<HBox width="100%" height="5%" renderType="Bare" />
+			<!--seconda box orizzontale -->
+			<HBox height="49%" width="100%" renderType="Bare" class="dashedLine">
+				<!-- quinta box, pos 44 -->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/20/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/20/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/20/PIAZZOLA}" tooltip="{/res/20/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/20/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/20/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-172" pages="{path: '/res/20/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/20/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/20/MATRICOLA} === '' || ${/res/20/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/20/MATRICOLA} === '') || (${/res/20/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/20/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/20/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/20/STATO_AVANZ'},{path: '/res/20/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/20/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/20/WKC_STATUS_ID','/resMachineStatus/20/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le righe -->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--sesta box, pos 45 -->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/21/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/21/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/21/PIAZZOLA}" tooltip="{/res/21/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/21/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/21/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-173" pages="{path: '/res/21/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/21/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/21/MATRICOLA} === '' || ${/res/21/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/21/MATRICOLA} === '') || (${/res/21/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/21/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/21/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/21/STATO_AVANZ'},{path: '/res/21/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/21/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/21/WKC_STATUS_ID','/resMachineStatus/21/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le righe-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--settima box, pos 46 -->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/22/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/22/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/22/PIAZZOLA}" tooltip="{/res/22/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/22/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/22/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-174" pages="{path: '/res/22/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/22/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/22/MATRICOLA} === '' || ${/res/22/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/22/MATRICOLA} === '') || (${/res/22/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/22/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/22/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/22/STATO_AVANZ'},{path: '/res/22/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/22/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/22/WKC_STATUS_ID','/resMachineStatus/22/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le righe-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!-- ottava box, pos 47 -->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/23/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/23/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/23/PIAZZOLA}" tooltip="{/res/23/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/23/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/23/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-175" pages="{path: '/res/23/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/23/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/23/MATRICOLA} === '' || ${/res/23/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/23/MATRICOLA} === '') || (${/res/23/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/23/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/23/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/23/STATO_AVANZ'},{path: '/res/23/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/23/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/23/WKC_STATUS_ID','/resMachineStatus/23/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+			</HBox>
+		</VBox>
+		<!-- spazio tra le aree -->
+		<HBox width="8%" height="100%" renderType="Bare" />
+		<!-- quarta area con al suo interno 8 box -->
+		<VBox height="100%" width="100%" renderType="Bare" class="dashedLine">
+			<!--prima box orizzontale-->
+			<HBox height="49%" width="100%" renderType="Bare" class="dashedLine">
+				<!--prima box, pos 48 -->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/24/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/24/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/24/PIAZZOLA}" tooltip="{/res/24/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/24/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/24/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-176" pages="{path: '/res/24/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/24/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/24/MATRICOLA} === '' || ${/res/24/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/24/MATRICOLA} === '') || (${/res/24/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/24/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/24/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/24/STATO_AVANZ'},{path: '/res/24/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/24/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/24/WKC_STATUS_ID','/resMachineStatus/24/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le box-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--seconda box, pos 49-->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/25/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/25/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/25/PIAZZOLA}" tooltip="{/res/25/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/25/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/25/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-177" pages="{path: '/res/25/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/25/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/25/MATRICOLA} === '' || ${/res/25/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/25/MATRICOLA} === '') || (${/res/25/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/25/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/25/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/25/STATO_AVANZ'},{path: '/res/25/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/25/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/25/WKC_STATUS_ID','/resMachineStatus/25/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le box-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--terza box, pos 50 -->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/26/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/26/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/26/PIAZZOLA}" tooltip="{/res/26/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/26/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/26/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-178" pages="{path: '/res/26/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/26/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/26/MATRICOLA} === '' || ${/res/26/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/26/MATRICOLA} === '') || (${/res/26/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/26/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/26/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/26/STATO_AVANZ'},{path: '/res/26/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/26/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/26/WKC_STATUS_ID','/resMachineStatus/26/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le box-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!--quarta box, pos 51 -->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/27/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/27/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/27/PIAZZOLA}" tooltip="{/res/27/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/27/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/27/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-179" pages="{path: '/res/27/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/27/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/27/MATRICOLA} === '' || ${/res/27/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/27/MATRICOLA} === '') || (${/res/27/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/27/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/27/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/27/STATO_AVANZ'},{path: '/res/27/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/27/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/27/WKC_STATUS_ID','/resMachineStatus/27/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+			</HBox>
+			<!--spazio tra le righe-->
+			<HBox width="100%" height="5%" renderType="Bare" />
+			<!--seconda box orizzontale-->
+			<HBox height="49%" width="100%" renderType="Bare" class="dashedLine">
+				<!-- quinta box, pos 52 -->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/28/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/28/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/28/PIAZZOLA}" tooltip="{/res/28/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/28/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/28/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-180" pages="{path: '/res/28/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/28/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/28/MATRICOLA} === '' || ${/res/28/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/28/MATRICOLA} === '') || (${/res/28/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/28/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/28/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/28/STATO_AVANZ'},{path: '/res/28/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/28/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/28/WKC_STATUS_ID','/resMachineStatus/28/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le righe-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!-- sesta box, pos 53 -->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/29/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/29/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/29/PIAZZOLA}" tooltip="{/res/29/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/29/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/29/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-181" pages="{path: '/res/29/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/29/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/29/MATRICOLA} === '' || ${/res/29/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/29/MATRICOLA} === '') || (${/res/29/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/29/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/29/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/29/STATO_AVANZ'},{path: '/res/29/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/29/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/29/WKC_STATUS_ID','/resMachineStatus/29/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le righe-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!-- settima box, pos 54 -->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/30/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/30/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/30/PIAZZOLA}" tooltip="{/res/30/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/30/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/30/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-182" pages="{path: '/res/30/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/30/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/30/MATRICOLA} === '' || ${/res/30/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/30/MATRICOLA} === '') || (${/res/30/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/30/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/30/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/30/STATO_AVANZ'},{path: '/res/30/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/30/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/30/WKC_STATUS_ID','/resMachineStatus/30/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+				<!--spazio tra le righe-->
+				<HBox width="2%" height="100%" renderType="Bare" />
+				<!-- ottava box, pos 55 -->
+				<VBox width="32%" height="100%" class="customHeight" renderType="Bare">
+					<CustomTile class="myCustomTile" press="openPageDetail">
+						<content>
+							<VBox width="100%" height="100%" class="" renderType="Bare">
+								<HBox width="100%" height="2%" renderType="Bare" />
+								<HBox width="100%" height="25%" renderType="Bare">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/31/WKC_STATUS_ID} === '3') ? false : true}">
+										<core:Icon src="sap-icon://machine" color="{path: '/res/31/STATO', formatter:'.setIconColor'}" size="2vw" />
+										<Label text="{/res/31/PIAZZOLA}" tooltip="{/res/31/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+									</HBox>
+									<VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+										<HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+											<Label text="{/res/31/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+										</HBox>
+										<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+											<Label text="{/res/31/ODV}" width="100%" textAlign="Right" design="Bold" class="blackFont" />
+										</HBox>
+									</VBox>
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="7%" renderType="Bare" />
+								<!-- Materiali Critici-->
+								<VBox width="100%" height="47%" renderType="Bare">
+									<Carousel id="carousel-183" pages="{path: '/res/31/CriticalItems'}" width="100%" height="70%" loop="true" showPageIndicator="false" class="customCarousel">
+										<VBox width="100%" height="100%" renderType="Bare">
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText1}" tooltip="{CriticalItemText1}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText1} !== ''}" icon="{= ${CriticalItemStatus1} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus1} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus1}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText3}" tooltip="{CriticalItemText3}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText3} !== ''}" icon="{= ${CriticalItemStatus3} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus3} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus3}" />
+																				</HBox> -->
+											</HBox>
+											<HBox width="100%" height="50%" justifyContent="Start" renderType="Bare">
+												<HBox width="100%" height="100%" justifyContent="Start" renderType="Bare">
+													<ObjectStatus text="{CriticalItemText2}" tooltip="{CriticalItemText2}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText2} !== '' &amp;&amp; ${CriticalItemText2} !== undefined}" icon="{= ${CriticalItemStatus2} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus2} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus2}" />
+												</HBox>
+												<!--<HBox width="50%" height="100%" justifyContent="Start" renderType="Bare">															
+																					<ObjectStatus text="{CriticalItemText4}" tooltip="{CriticalItemText4}" press=".openCriticalItemDC" active="true" visible="{= ${CriticalItemText4} !== ''}" icon="{= ${CriticalItemStatus4} === 'Error' ? 'sap-icon://error' : ${CriticalItemStatus4} === 'None' ? 'sap-icon://circle-task' : 'sap-icon://sys-enter-2'}" state="{CriticalItemStatus4}" />
+																				</HBox> -->
+											</HBox>
+										</VBox>
+									</Carousel>
+									<Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/31/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont sapUiTinyMarginBegin" visible="{= (${/res/31/MATRICOLA} === '' || ${/res/31/WKC_STATUS_ID} !== '1') ? false : true}" />
+								</VBox>
+								<!-- Avanzamento-->
+								<HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/31/MATRICOLA} === '') || (${/res/31/ODV} === '')? false : true}">
+									<HBox width="2%" height="100%" renderType="Bare" />
+									<ProgressIndicator width="96%" percentValue="{path: '/res/31/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/31/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/31/STATO_AVANZ'},{path: '/res/31/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/31/MATRICOLA} === '') ? false : true}" />
+									<HBox width="2%" height="100%" renderType="Bare" />
+								</HBox>
+								<HBox width="100%" height="1%" renderType="Bare" />
+							</VBox>
+						</content>
+						<customData>
+							<core:CustomData key="class" value="{parts:[ '/res/31/WKC_STATUS_ID','/resMachineStatus/31/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+						</customData>
+					</CustomTile>
+				</VBox>
+			</HBox>
+		</VBox>
+	</HBox>
+	<!-- distanza dalla base-->
+	<HBox width="100%" height="2%" renderType="Bare" />
+</core:FragmentDefinition>

@@ -37,6 +37,34 @@
 							<Page showHeader="false" id="4-RUNNER">
 								<core:Fragment fragmentName="synoptic.view.pages.page4Runner" type="XML" />
 							</Page>
+							<!-- Carousel 1, Pag 4 -->
+							<Page showHeader="false" id="ELECT-MN">
+								<core:Fragment fragmentName="synoptic.view.pages.pageElectMN" type="XML" />
+							</Page>
+							<!-- Carousel 1, Pag 5 -->
+							<Page showHeader="false" id="E-TURNN">
+								<core:Fragment fragmentName="synoptic.view.pages.pageETurnn" type="XML" />
+							</Page>
+							<!-- Carousel 1, Pag 6 -->
+							<Page showHeader="false" id="E-TURN32N">
+								<core:Fragment fragmentName="synoptic.view.pages.pageETurn32N" type="XML" />
+							</Page>
+							<!-- Carousel 1, Pag 7 -->
+							<Page showHeader="false" id="SMART_ONE">
+								<core:Fragment fragmentName="synoptic.view.pages.pageSmartOne" type="XML" />
+							</Page>
+							<!-- Carousel 1, Pag 8 -->
+							<Page showHeader="false" id="ELECT-LE">
+								<core:Fragment fragmentName="synoptic.view.pages.pageElectLE" type="XML" />
+							</Page>
+							<!-- Carousel 1, Pag 9 -->
+							<Page showHeader="false" id="E-TURN63">
+								<core:Fragment fragmentName="synoptic.view.pages.pageETurn63" type="XML" />
+							</Page>
+							<!-- Carousel 1, Pag 10 -->
+							<Page showHeader="false" id="ELECT-XLN">
+								<core:Fragment fragmentName="synoptic.view.pages.pageElectXLN" type="XML" />
+							</Page>
 						</Carousel>
 					</content>
 				</Page>
@@ -76,6 +104,34 @@
 							<!-- Carousel 2, Pag 3 -->
 							<Page showHeader="false" id="-4-RUNNER">
 								<core:Fragment fragmentName="synoptic.view.pages.page4RunnerCriticalMaterials" type="XML" />
+							</Page>
+							<!-- Carousel 2, Pag 4 -->
+							<Page showHeader="false" id="-ELECT-MN">
+								<core:Fragment fragmentName="synoptic.view.pages.pageElectMNCriticalMaterials" type="XML" />
+							</Page>
+							<!-- Carousel 2, Pag 5 -->
+							<Page showHeader="false" id="-E-TURNN">
+								<core:Fragment fragmentName="synoptic.view.pages.pageETurnnCriticalMaterials" type="XML" />
+							</Page>
+							<!-- Carousel 2, Pag 6 -->
+							<Page showHeader="false" id="-E-TURN32N">
+								<core:Fragment fragmentName="synoptic.view.pages.pageETurn32NCriticalMaterials" type="XML" />
+							</Page>
+							<!-- Carousel 2, Pag 7 -->
+							<Page showHeader="false" id="-SMART_ONE">
+								<core:Fragment fragmentName="synoptic.view.pages.pageSmartOneCriticalMaterials" type="XML" />
+							</Page>
+							<!-- Carousel 2, Pag 8 -->
+							<Page showHeader="false" id="-ELECT-LE">
+								<core:Fragment fragmentName="synoptic.view.pages.pageElectLECriticalMaterials" type="XML" />
+							</Page>
+							<!-- Carousel 2, Pag 9 -->
+							<Page showHeader="false" id="-E-TURN63">
+								<core:Fragment fragmentName="synoptic.view.pages.pageETurn63CriticalMaterials" type="XML" />
+							</Page>
+							<!-- Carousel 2, Pag 10 -->
+							<Page showHeader="false" id="-ELECT-XLN">
+								<core:Fragment fragmentName="synoptic.view.pages.pageElectXLNCriticalMaterials" type="XML" />
 							</Page>
 						</Carousel>
 					</content>
