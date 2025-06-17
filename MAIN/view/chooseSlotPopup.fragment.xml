@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:table="sap.ui.table">
+	<Dialog title="{i18n&gt;popupPiazzola.title}" afterClose="closePopup" class="popupHeader popupTitleFontt" stretch="true">
+		<content>
+			<HBox height="100%" width="100%" justifyContent="Center" alignItems="Center" renderType="Bare">
+				<table:Table id="tableChooseSlotPop" width="100%" rows="{/tabPiazzola}" selectionBehavior="RowOnly" minAutoRowCount="15" visibleRowCountMode="Auto" rowSelectionChange="openLinkApp" selectionMode="Single" >
+						<table:extension>
+							<OverflowToolbar id="toolbarSelResrce" >								
+									<SegmentedButton id="segBtnResrce" width="100%" items="{/resrce}" selectedKey="/resrce/0/Workcenter}" selectionChange="getChecklistByResrce">
+										<items>
+											<SegmentedButtonItem text="{Workcenter}" key="{Workcenter}" />										
+										</items>
+									</SegmentedButton>							
+							</OverflowToolbar>
+						</table:extension>
+					<table:columns>
+						<table:Column id="colSlotPop" hAlign="Center" width="20%" >
+							<Label text="{i18n&gt;popupPiazzola.Piazzola}" />
+							<table:template>
+								<Text text="{Workcenter}" wrapping="false" />
+							</table:template>
+						</table:Column>
+						<table:Column id="colSlotDescrPop" hAlign="Center" width="40%" >
+							<Label text="{i18n&gt;popupPiazzola.Descrizione}" />
+							<table:template>
+								<Text text="{WorkcenterDescription}" wrapping="false" />
+							</table:template>
+						</table:Column>
+					     <table:Column hAlign="Center" width="auto" >
+							<Label text="{i18n&gt;popupPiazzola.Checklist}" />
+							<table:template>
+								<Text text="{Checklist}" wrapping="false" />
+							</table:template>
+						</table:Column>			
+						<table:Column hAlign="Center" width="auto" >
+							<Label text="{i18n&gt;popupPiazzola.ODV}" />
+							<table:template>
+								<Text text="{SalesOrder}" wrapping="false" />
+							</table:template>
+						</table:Column>					
+					</table:columns>
+				</table:Table>
+			</HBox>
+		</content>
+		<buttons>
+			<Button icon="sap-icon://undo" press="closePopup" type="Reject" class="fullSizeButton" />
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Main</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" charset="UTF-8" />
+		<script id='sap-ui-bootstrap' type='text/javascript' src="/XMII/sapui5-rt-1.111.8/resources/sap-ui-core.js"
+			data-sap-ui-libs="sap.m,sap.ui.core,sap.ui.table"
+		    data-sap-ui-language="it"
+			data-sap-ui-theme="sap_fiori_3_dark"
+			data-sap-ui-compatVersion="edge"
+			data-sap-ui-async="true"
+			data-sap-ui-resourceroots='{"main": ""}'>
+		</script>
+		<script>
+			sap.ui.getCore().attachInit(function() {
+					new sap.m.Shell({
+					app: new sap.ui.core.ComponentContainer({
+						height : "100%",
+						width : "100%",
+						name : "main"
+					})
+				}).placeAt("content");
+			});					
+		</script>			
+	</head>
+	<body class="sapUiBody sapUiSizeCompact " id="content" />
+</html>

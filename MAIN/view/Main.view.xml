@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:uxap="sap.uxap" xmlns:f="sap.f" xmlns:l="sap.ui.layout" controllerName="main.controller.Main" height="100%" displayBlock="true">
+	<f:ShellBar homeIcon="images/Intube21Logo.png" title="{i18n&gt;PlantTitle}: {/user/0/Site}" showCopilot="false" showSearch="false" showNotifications="false" showProductSwitcher="false" >
+		<f:menu/>						
+		<f:searchManager>
+			<f:SearchManager id="searchField" placeholder="{i18n&gt;search}" enableSuggestions="true" search=".onSearch" suggest=".onSuggest" suggestionItems="{path: '/filterList', templateShareable:true}" >
+				<f:suggestionItems>
+					<SuggestionItem text="{path: 'TILE_NAME', formatter: '.setTileName'}" icon="{TILE_ICON}" description="" key="{TILE_URL}" />
+				</f:suggestionItems>		
+			</f:SearchManager>
+		</f:searchManager>
+		<f:additionalContent>
+			<OverflowToolbarButton icon="sap-icon://factory" tooltip="{i18n&gt;changeSite}" type="Transparent" press=".onSelectSite" />					
+		</f:additionalContent>
+		<f:profile>						
+			<Avatar initials="{/user/0/AVATAR}" displaySize="XS" showBorder="true" press=".onAvatarPressed"/>						
+		</f:profile>
+	</f:ShellBar>
+	<VBox width="100%" height="93.5%" renderType="Bare" class="customBackgroung" >								
+		<uxap:ObjectPageLayout height="100%" showHeaderContent="false" sections="{path: '/tileModel', templateShareable:true}" upperCaseAnchorBar="false" class="">
+			<uxap:headerTitle />
+			<uxap:sections>
+				<uxap:ObjectPageSection titleUppercase="false">
+					<uxap:subSections>
+						<uxap:ObjectPageSubSection title="{path: 'SECTION_TITLE', formatter: '.setTileName'}" titleUppercase="false">
+							<uxap:blocks>
+								<l:HorizontalLayout allowWrapping="true" content="{path: 'tiles', templateShareable:true}">
+									<l:content>
+										<GenericTile press="onTilePress" header="{path: 'HEADER', formatter: '.setTileName'}" subheader="" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">															
+											<tileContent>
+												<TileContent>
+													<content>
+														<ImageContent src="{TILE_ICON}" />
+													</content>
+												</TileContent>
+											</tileContent>
+										</GenericTile>
+									</l:content>
+								</l:HorizontalLayout>
+							</uxap:blocks>
+						</uxap:ObjectPageSubSection>
+					</uxap:subSections>
+				</uxap:ObjectPageSection>
+			</uxap:sections>
+		</uxap:ObjectPageLayout>				
+	</VBox>	
+</mvc:View>
