@@ -241,7 +241,7 @@ sap.ui.define([
         
         sendData: function (Transaction, route, Input) {
             var results;
-            var transactionCall = "ADIGE7/SYNOPTIC_BLM1/" + route + "/" + Transaction;
+            var transactionCall = "ADIGE7/SYNOPTIC_BLM4/" + route + "/" + Transaction;
             Input.TRANSACTION = transactionCall;
             Input.OutputParameter = "JSON";
             $.ajax({
@@ -269,7 +269,7 @@ sap.ui.define([
         getAllWkcAndChecklistInfo: function () {
             let result = controller.sendData("GET_ALL_WKC_AND_CHECKLIST", "TRANSACTION", {
                 "SITE_ID": controller.siteId,
-                "SYNOPTIC_TYPE": 1
+                "SYNOPTIC_TYPE": 4
             }), aResult = [{"RC": "0"}];
             controller.model.setProperty("/getAllWkcAndChecklistInfo", result);
 
@@ -339,7 +339,7 @@ sap.ui.define([
 
        callBackend: function (Transaction, route, Input) {
             var results;
-            var transactionCall = "ADIGE7/SYNOPTIC_BLM1/" + route + "/" + Transaction;
+            var transactionCall = "ADIGE7/SYNOPTIC_BLM4/" + route + "/" + Transaction;
             Input.TRANSACTION = transactionCall;
             Input.OutputParameter = "JSON";
             $.ajax({
@@ -708,10 +708,10 @@ sap.ui.define([
 			
             var params = {
                 "SITE_ID": controller.siteId,
-                "SYNOPTIC_TYPE": 1,
+                "SYNOPTIC_TYPE": 4,
 				"PAGE": controller.model.getProperty("/ActulPage"),
 				"LANGUAGE": controller.model.getProperty("/user")[0]["Language"],
-                "TRANSACTION": "ADIGE7/SYNOPTIC_BLM1/TRANSACTION/GET_DATA",
+                "TRANSACTION": "ADIGE7/SYNOPTIC_BLM4/TRANSACTION/GET_DATA",
                 "OutputParameter": "JSON"
             };
             try {
@@ -1400,7 +1400,7 @@ sap.ui.define([
         sessionKeepAlive: function () {
             var input = {};
             input.SESSION = "Session";
-            controller.getDataSync("SEESSIONKEEPALIVE", "ADIGE7/SYNOPTIC_BLM1/TRANSACTION", input, controller.sessionKeepAliveSuccess, controller.sessionKeepAliveSuccess);
+            controller.getDataSync("SEESSIONKEEPALIVE", "ADIGE7/SYNOPTIC_BLM4/TRANSACTION", input, controller.sessionKeepAliveSuccess, controller.sessionKeepAliveSuccess);
         },
         sessionKeepAliveSuccess: function (data, response) {
             var jsonArrStr = jQuery(data).find("Row").text();
