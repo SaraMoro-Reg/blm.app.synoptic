@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"  xmlns:core="sap.ui.core" controllerName="synoptic.controller.Main" height="100%">
+	<App backgroundImage="images/sfondo.jpg" backgroundOpacity="0.1">
+		<pages>
+			<NavContainer id="navContainerId" width="100%" height="100%" class="navContainerControl sapUiSmallMarginBottom">
+				<Page id="p1">
+					<customHeader>
+						<Bar class="customBackGround">
+							<contentLeft>
+								<Button icon="sap-icon://nav-back" press="handleBackPress" class="whiteIcon" />
+								<Image width="16%" src="images/logo.jpg" densityAware="false">
+									<layoutData>
+										<FlexItemData growFactor="1" />
+									</layoutData>
+								</Image>
+							</contentLeft>
+							<contentMiddle>
+								<Label id="labelTime" text="" class="pageTitleStyle whiteFont" />
+							</contentMiddle>
+							<contentRight>
+								<Label text="{/user/0/Name}" class="whiteFont" />
+								<Avatar initials="{/user/0/AVATAR}" displaySize="XS" showBorder="false" press=".onAvatarPressed" backgroundColor="Accent1" class="sapUiTinyMarginEnd" />
+							</contentRight>
+						</Bar>
+					</customHeader>
+					<content>
+						<Carousel class="sapUiContentPadding" loop="{/automaticScroll}" id="carouselId" pageChanged="onPageChanged" arrowsPlacement="PageIndicator">
+							<!-- Carousel 1, Pag 1 -->
+							<Page showHeader="false" id="ELECT-LN">
+								<core:Fragment fragmentName="synoptic.view.pages.pageElectLN" type="XML" />
+							</Page>
+							<!-- Carousel 1, Pag 2 -->
+							<Page showHeader="false" id="SMARTN">
+								<core:Fragment fragmentName="synoptic.view.pages.pageSmartN" type="XML" />
+							</Page>
+							<!-- Carousel 1, Pag 3 -->
+							<Page showHeader="false" id="4-RUNNER">
+								<core:Fragment fragmentName="synoptic.view.pages.page4Runner" type="XML" />
+							</Page>
+						</Carousel>
+					</content>
+				</Page>
+				<!--*******************************************************************************************************-->
+				<!--fine prima pagina nav container - inizio seconda pagina nav container-->
+				<!--*******************************************************************************************************-->
+				<Page id="p2">
+					<customHeader>
+						<Bar class="customBackGround">
+							<contentLeft>
+								<Button icon="sap-icon://nav-back" press="handleBackPress" class="whiteIcon" />
+								<Image width="16%" src="images/logo.jpg" densityAware="false">
+									<layoutData>
+										<FlexItemData growFactor="1" />
+									</layoutData>
+								</Image>
+							</contentLeft>
+							<contentMiddle>
+								<Label id="labelTime2" text="" class="pageTitleStyle whiteFont" />
+							</contentMiddle>
+							<contentRight>
+								<Label text="{/user/0/Name}" class="whiteFont" />
+								<Avatar initials="{/user/0/AVATAR}" displaySize="XS" showBorder="false" press=".onAvatarPressed" backgroundColor="Accent1" class="sapUiTinyMarginEnd" />
+							</contentRight>
+						</Bar>
+					</customHeader>
+					<content>
+						<Carousel class="sapUiContentPadding" loop="{/automaticScroll}" id="carouselId2" pageChanged="onPageCriticalMaterialChanged" arrowsPlacement="PageIndicator">
+							<!-- Carousel 2, Pag 1 -->
+							<Page showHeader="false" id="-ELECT-LN">
+								<core:Fragment fragmentName="synoptic.view.pages.pageElectLNCriticalMaterials" type="XML" />
+							</Page>
+							<!-- Carousel 2, Pag 2 -->
+							<Page showHeader="false" id="-SMARTN">
+								<core:Fragment fragmentName="synoptic.view.pages.pageSmartNCriticalMaterials" type="XML" />
+							</Page>
+							<!-- Carousel 2, Pag 3 -->
+							<Page showHeader="false" id="-4-RUNNER">
+								<core:Fragment fragmentName="synoptic.view.pages.page4RunnerCriticalMaterials" type="XML" />
+							</Page>
+						</Carousel>
+					</content>
+				</Page>
+			</NavContainer>
+		</pages>
+	</App>
+</mvc:View>

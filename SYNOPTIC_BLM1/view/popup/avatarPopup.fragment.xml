@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Popover showHeader="false" placement="Bottom" enableScrolling="true" verticalScrolling="true" horizontalScrolling="true" >
+		<List headerText="{/user/0/Name}" >		
+			<StandardListItem title="{i18n&gt;settings}" icon="sap-icon://action-settings" iconDensityAware="true" iconInset="true" type="Active" press="onOpenSettings" visible="true" />
+			<StandardListItem title="{i18n&gt;filters}" icon="sap-icon://filter" iconDensityAware="true" iconInset="true" type="Active" press="onOpenFilter"  visible="{= ${/currentPageNavContainer} !== 1}" />
+			<StandardListItem title="{i18n&gt;nextPage}" icon="sap-icon://open-command-field" iconDensityAware="true" iconInset="true" type="Active" press="handleNav"/>
+			<StandardListItem title="{i18n&gt;logoff}" icon="sap-icon://log" iconDensityAware="true" iconInset="true" type="Active" press="handleLogOff"/>
+		</List>
+	</Popover>
+</core:FragmentDefinition>

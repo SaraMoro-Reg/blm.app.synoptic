@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:commons="sap.ui.commons" xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" xmlns:table="sap.ui.table">
+	<Dialog id="notesPopup" title="{i18n&gt;popup.Note}" afterClose="onPressConfirmNoteDC" class="popupHeader popupTitleFont">
+		<content>
+			<TextArea id="NoteParDC" height="100%" width="100%" value="{/notesPop/NOTE}" enabled="{/editMode}" rows="10" liveChange="setEditNotesParDC" />
+		</content>
+		<buttons>
+			<Button icon="sap-icon://accept" press="onPressConfirmNoteDC" class="fullSizeButton buttonGreen" />
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>
