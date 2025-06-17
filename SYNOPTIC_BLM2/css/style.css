@@ -1,0 +1,159 @@
+.pageTitleStyle{
+	font-size: 1.65vw !important;
+	font-family: sans-serif!important;
+}
+
+.sapMShellBrandingBar{
+	background-color: #0a342a !important;   
+}
+
+.customLabelTextColour{
+	color: #0a342a;
+}
+.customBackGround{
+	background-color: #0a342a !important;
+}
+
+.whiteFont{
+	color: white !important;
+	font-family: sans-serif!important;
+}
+
+.whiteIcon>.sapMBtnDefault>.sapMBtnIcon{
+	color: white !important;
+}
+
+.blackFont{
+	color: black !important;
+	font-family: sans-serif!important;
+	font-size:0.72vw!important;
+}
+
+.blackFontPiazzola{
+	color: black !important;
+	font-family: sans-serif!important;
+	font-size:1vw!important;	
+}
+	
+.myCustomTile{
+   	box-shadow: 5px 5px 5px #888888;
+	width:100%;
+	height:100%;
+  	border-top: 0.1vh solid;   
+	border-right: 0.1vh solid;
+            border-left: 0.1vh solid;
+            border-bottom: 0.1vh solid;
+	background-color: #f7f7f7;
+}
+
+.customHeight>.sapMFlexItem{
+    height:100%;
+}
+
+.fullSizeButton {
+   width: 98% !important;
+   padding: 0px !important;
+   margin: 0px !important;
+   border: 0px !important;
+ }
+.halfSizeButton {
+  width: 50% !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  border: 0px !important;
+}
+[data-class="colorRed"]{
+    background: #bb0000c4;
+}
+
+[data-class="colorYellow"]{
+ background: #ffdb02ab;
+}
+
+[data-class="colorLightGrey"]{    /*Colore grigio chiaro->non disponibile*/
+    background: #bfc3c5;   
+}
+[data-class="colorGrey"]{  /*Colore grigio scuro->non disponibile*/
+    background: #9ea1a2;
+}
+
+/*Colore giallo barra progressione*/
+.sapMPIBarCritical{
+  background: #e7d607;
+}
+
+/*Colore rosso barra progressione*/
+.sapMPIBarNegative{
+	background: red;
+}
+
+@media only screen and (min-width: 1280px) {
+    html.sap-desktop .sapMShellAppWidthLimited .sapMShellCentralBox {
+        width: auto;
+        margin-left: 0%;
+        left: 0%;
+    }
+}
+	
+/*CSS solo per explorer*/
+@media screen\0, @media screen\9 {
+	
+}
+
+/*CSS solo per chrome*/
+@media only screen and (-webkit-min-device-pixel-ratio:0) {
+   
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  
+  /*.blackFont{
+		color: black !important;
+		font-family: sans-serif!important;
+		font-size:0.4rem!important;
+	}*/
+  
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {  
+  /*.blackFont{
+		color: black !important;
+		font-family: sans-serif!important;
+		font-size:0.5rem!important;
+	}  */
+}
+
+/*Carousel*/
+.customCarousel {
+	min-width: 1rem !important;
+}
+
+.customCarousel > .sapMCrslInner > .sapMCrslItem > .sapMScrollCont {
+	height: 2.5rem !important;
+}
+
+.sapMIllustratedMessage {
+	display: none;
+}
+
+.buttonGreen>.sapMBtnDefault>.sapUiIcon {
+	color: green;
+  }
+
+
+.fullSizeButton {
+  width: 100% !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  border: 0px !important;
+}
