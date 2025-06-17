@@ -1,0 +1,1265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+<!-- Pagina contentente le macchine LINEA BIG -->
+
+    <!-- prima area orrizzontale che contiene 6 box -->
+    <HBox height="22%" width="100%" renderType="Bare">
+        <!--prima box, pos 24-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/24/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/24/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/24/PIAZZOLA}" tooltip="{/res/24/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/24/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/24/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/24/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/24/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/24/MATRICOLA} === '' || ${/res/24/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/24/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/24/MATRICOLA} === '') || (${/res/24/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/24/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/24/MATRICOLA} === '' || ${/res/24/STATO_MACCHINA} === 'NEW' || ${/res/24/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/24/MATRICOLA} === '') || (${/res/24/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/24/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/24/MATRICOLA} === '' || ${/res/24/STATO_MACCHINA} === 'NEW' || ${/res/24/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/24/MATRICOLA} === '') || (${/res/24/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/24/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/24/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/24/MATRICOLA} === '') || (${/res/24/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/24/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/24/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/24/STATO_AVANZ'},{path: '/res/24/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/24/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/24/WKC_STATUS_ID','/resMachineStatus/24/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le box-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--seconda box, pos 25-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/25/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/25/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/25/PIAZZOLA}" tooltip="{/res/25/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/25/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/25/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/25/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/25/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/25/MATRICOLA} === '' || ${/res/25/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/25/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/25/MATRICOLA} === '') || (${/res/25/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/25/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/25/MATRICOLA} === '' || ${/res/25/STATO_MACCHINA} === 'NEW' || ${/res/25/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/25/MATRICOLA} === '') || (${/res/25/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/25/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/25/MATRICOLA} === '' || ${/res/25/STATO_MACCHINA} === 'NEW' || ${/res/25/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/25/MATRICOLA} === '') || (${/res/25/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/25/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/25/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/25/MATRICOLA} === '') || (${/res/25/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/25/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/25/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/25/STATO_AVANZ'},{path: '/res/25/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/25/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/25/WKC_STATUS_ID','/resMachineStatus/25/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le box-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--terza box, pos 26-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/26/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/26/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/26/PIAZZOLA}" tooltip="{/res/26/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/26/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/26/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/26/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/26/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/26/MATRICOLA} === '' || ${/res/26/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/26/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/26/MATRICOLA} === '') || (${/res/26/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/26/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/26/MATRICOLA} === '' || ${/res/26/STATO_MACCHINA} === 'NEW' || ${/res/26/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/26/MATRICOLA} === '') || (${/res/26/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/26/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/26/MATRICOLA} === '' || ${/res/26/STATO_MACCHINA} === 'NEW' || ${/res/26/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/26/MATRICOLA} === '') || (${/res/26/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/26/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/26/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/26/MATRICOLA} === '') || (${/res/26/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/26/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/26/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/26/STATO_AVANZ'},{path: '/res/26/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/26/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/26/WKC_STATUS_ID','/resMachineStatus/26/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le box-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--quarta box, pos 27-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/27/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/27/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/27/PIAZZOLA}" tooltip="{/res/27/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/27/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/27/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/27/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/27/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/27/MATRICOLA} === '' || ${/res/27/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/27/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/27/MATRICOLA} === '') || (${/res/27/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/27/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/27/MATRICOLA} === '' || ${/res/27/STATO_MACCHINA} === 'NEW' || ${/res/27/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/27/MATRICOLA} === '') || (${/res/27/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/27/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/27/MATRICOLA} === '' || ${/res/27/STATO_MACCHINA} === 'NEW' || ${/res/27/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/27/MATRICOLA} === '') || (${/res/27/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/27/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/27/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/27/MATRICOLA} === '') || (${/res/27/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/27/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/27/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/27/STATO_AVANZ'},{path: '/res/27/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/27/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/27/WKC_STATUS_ID','/resMachineStatus/27/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le righe-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--quinta box, pos 28-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/28/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/28/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/28/PIAZZOLA}" tooltip="{/res/28/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/28/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/28/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/28/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/28/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/28/MATRICOLA} === '' || ${/res/28/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/28/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/28/MATRICOLA} === '') || (${/res/28/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/28/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/28/MATRICOLA} === '' || ${/res/28/STATO_MACCHINA} === 'NEW' || ${/res/28/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/28/MATRICOLA} === '') || (${/res/28/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/28/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/28/MATRICOLA} === '' || ${/res/28/STATO_MACCHINA} === 'NEW' || ${/res/28/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/28/MATRICOLA} === '') || (${/res/28/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/28/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/28/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/28/MATRICOLA} === '') || (${/res/28/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/28/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/28/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/28/STATO_AVANZ'},{path: '/res/28/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/28/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/28/WKC_STATUS_ID','/resMachineStatus/28/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le righe-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--sesta box, pos 29-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/29/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/29/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/29/PIAZZOLA}" tooltip="{/res/29/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/29/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/29/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/29/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/29/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/29/MATRICOLA} === '' || ${/res/29/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/29/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/29/MATRICOLA} === '') || (${/res/29/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/29/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/29/MATRICOLA} === '' || ${/res/29/STATO_MACCHINA} === 'NEW' || ${/res/29/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/29/MATRICOLA} === '') || (${/res/29/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/29/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/29/MATRICOLA} === '' || ${/res/29/STATO_MACCHINA} === 'NEW' || ${/res/29/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/29/MATRICOLA} === '') || (${/res/29/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/29/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/29/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/29/MATRICOLA} === '') || (${/res/29/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/29/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/29/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/29/STATO_AVANZ'},{path: '/res/29/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/29/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/29/WKC_STATUS_ID','/resMachineStatus/29/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+    </HBox>
+    <!--distanza tra aree orizzontali -->
+    <HBox height="3%" width="100%" renderType="Bare" />
+    <!-- seconda area che contiene 6 box -->
+    <HBox height="22%" width="100%" renderType="Bare">
+        <!--prima box, pos 30-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/30/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/30/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/30/PIAZZOLA}" tooltip="{/res/30/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/30/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/30/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/30/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/30/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/30/MATRICOLA} === '' || ${/res/30/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/30/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/30/MATRICOLA} === '') || (${/res/30/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/30/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/30/MATRICOLA} === '' || ${/res/30/STATO_MACCHINA} === 'NEW' || ${/res/30/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/30/MATRICOLA} === '') || (${/res/30/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/30/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/30/MATRICOLA} === '' || ${/res/30/STATO_MACCHINA} === 'NEW' || ${/res/30/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/30/MATRICOLA} === '') || (${/res/30/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/30/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/30/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/30/MATRICOLA} === '') || (${/res/30/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/30/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/30/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/30/STATO_AVANZ'},{path: '/res/30/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/30/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/30/WKC_STATUS_ID','/resMachineStatus/30/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le box-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--seconda box, pos 31-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/31/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/31/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/31/PIAZZOLA}" tooltip="{/res/31/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/31/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/31/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/31/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/31/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/31/MATRICOLA} === '' || ${/res/31/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/31/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/31/MATRICOLA} === '') || (${/res/31/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/31/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/31/MATRICOLA} === '' || ${/res/31/STATO_MACCHINA} === 'NEW' || ${/res/31/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/31/MATRICOLA} === '') || (${/res/31/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/31/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/31/MATRICOLA} === '' || ${/res/31/STATO_MACCHINA} === 'NEW' || ${/res/31/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/31/MATRICOLA} === '') || (${/res/31/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/31/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/31/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/31/MATRICOLA} === '') || (${/res/31/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/31/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/31/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/31/STATO_AVANZ'},{path: '/res/31/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/31/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/31/WKC_STATUS_ID','/resMachineStatus/31/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le box-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--terza box, pos 32-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/32/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/32/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/32/PIAZZOLA}" tooltip="{/res/32/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/32/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/32/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/32/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/32/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/32/MATRICOLA} === '' || ${/res/32/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/32/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/32/MATRICOLA} === '') || (${/res/32/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/32/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/32/MATRICOLA} === '' || ${/res/32/STATO_MACCHINA} === 'NEW' || ${/res/32/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/32/MATRICOLA} === '') || (${/res/32/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/32/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/32/MATRICOLA} === '' || ${/res/32/STATO_MACCHINA} === 'NEW' || ${/res/32/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/32/MATRICOLA} === '') || (${/res/32/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/32/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/32/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/32/MATRICOLA} === '') || (${/res/32/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/32/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/32/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/32/STATO_AVANZ'},{path: '/res/32/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/32/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/32/WKC_STATUS_ID','/resMachineStatus/32/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le box-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--quarta box, pos 33-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/33/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/33/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/33/PIAZZOLA}" tooltip="{/res/33/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/33/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/33/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/33/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/33/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/33/MATRICOLA} === '' || ${/res/33/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/33/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/33/MATRICOLA} === '') || (${/res/33/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/33/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/33/MATRICOLA} === '' || ${/res/33/STATO_MACCHINA} === 'NEW' || ${/res/33/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/33/MATRICOLA} === '') || (${/res/33/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/33/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/33/MATRICOLA} === '' || ${/res/33/STATO_MACCHINA} === 'NEW' || ${/res/33/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/33/MATRICOLA} === '') || (${/res/33/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/33/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/33/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/33/MATRICOLA} === '') || (${/res/33/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/33/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/33/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/33/STATO_AVANZ'},{path: '/res/33/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/33/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/33/WKC_STATUS_ID','/resMachineStatus/33/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le righe-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--quinta box, pos 34-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/34/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/34/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/34/PIAZZOLA}" tooltip="{/res/34/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/34/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/34/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/34/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/34/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/34/MATRICOLA} === '' || ${/res/34/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/34/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/34/MATRICOLA} === '') || (${/res/34/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/34/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/34/MATRICOLA} === '' || ${/res/34/STATO_MACCHINA} === 'NEW' || ${/res/34/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/34/MATRICOLA} === '') || (${/res/34/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/34/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/34/MATRICOLA} === '' || ${/res/34/STATO_MACCHINA} === 'NEW' || ${/res/34/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/34/MATRICOLA} === '') || (${/res/34/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/34/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/34/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/34/MATRICOLA} === '') || (${/res/34/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/34/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/34/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/34/STATO_AVANZ'},{path: '/res/34/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/34/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/34/WKC_STATUS_ID','/resMachineStatus/34/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le righe-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--sesta box, pos 35-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/35/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/35/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/35/PIAZZOLA}" tooltip="{/res/35/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/35/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/35/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/35/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/35/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/35/MATRICOLA} === '' || ${/res/35/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/35/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/35/MATRICOLA} === '') || (${/res/35/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/35/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/35/MATRICOLA} === '' || ${/res/35/STATO_MACCHINA} === 'NEW' || ${/res/35/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/35/MATRICOLA} === '') || (${/res/35/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/35/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/35/MATRICOLA} === '' || ${/res/35/STATO_MACCHINA} === 'NEW' || ${/res/35/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/35/MATRICOLA} === '') || (${/res/35/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/35/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/35/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/35/MATRICOLA} === '') || (${/res/35/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/35/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/35/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/35/STATO_AVANZ'},{path: '/res/35/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/35/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/35/WKC_STATUS_ID','/resMachineStatus/35/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+    </HBox>
+    <!-- distanza tra le aree orizzontali-->
+    <HBox height="3%" width="100%" renderType="Bare" />
+    <!-- terza area che contiene 6 box -->
+    <HBox height="22%" width="100%" renderType="Bare">
+        <!--prima box, pos 36-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/36/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/36/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/36/PIAZZOLA}" tooltip="{/res/36/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/36/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/36/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/36/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/36/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/36/MATRICOLA} === '' || ${/res/36/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/36/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/36/MATRICOLA} === '') || (${/res/36/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/36/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/36/MATRICOLA} === '' || ${/res/36/STATO_MACCHINA} === 'NEW' || ${/res/36/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/36/MATRICOLA} === '') || (${/res/36/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/36/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/36/MATRICOLA} === '' || ${/res/36/STATO_MACCHINA} === 'NEW' || ${/res/36/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/36/MATRICOLA} === '') || (${/res/36/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/36/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/36/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/36/MATRICOLA} === '') || (${/res/36/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/36/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/36/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/36/STATO_AVANZ'},{path: '/res/36/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/36/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/36/WKC_STATUS_ID','/resMachineStatus/36/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le box-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--seconda box, pos 37-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/37/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/37/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/37/PIAZZOLA}" tooltip="{/res/37/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/37/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/37/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/37/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/37/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/37/MATRICOLA} === '' || ${/res/37/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/37/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/37/MATRICOLA} === '') || (${/res/37/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/37/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/37/MATRICOLA} === '' || ${/res/37/STATO_MACCHINA} === 'NEW' || ${/res/37/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/37/MATRICOLA} === '') || (${/res/37/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/37/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/37/MATRICOLA} === '' || ${/res/37/STATO_MACCHINA} === 'NEW' || ${/res/37/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/37/MATRICOLA} === '') || (${/res/37/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/37/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/37/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/37/MATRICOLA} === '') || (${/res/37/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/37/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/37/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/37/STATO_AVANZ'},{path: '/res/37/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/37/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/37/WKC_STATUS_ID','/resMachineStatus/37/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le box-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--terza box, pos 38-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/38/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/38/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/38/PIAZZOLA}" tooltip="{/res/38/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/38/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/38/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/38/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/38/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/38/MATRICOLA} === '' || ${/res/38/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/38/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/38/MATRICOLA} === '') || (${/res/38/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/38/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/38/MATRICOLA} === '' || ${/res/38/STATO_MACCHINA} === 'NEW' || ${/res/38/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/38/MATRICOLA} === '') || (${/res/38/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/38/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/38/MATRICOLA} === '' || ${/res/38/STATO_MACCHINA} === 'NEW' || ${/res/38/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/38/MATRICOLA} === '') || (${/res/38/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/38/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/38/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/38/MATRICOLA} === '') || (${/res/38/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/38/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/38/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/38/STATO_AVANZ'},{path: '/res/38/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/38/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/38/WKC_STATUS_ID','/resMachineStatus/38/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le box-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--quarta box, pos 39-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/39/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/39/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/39/PIAZZOLA}" tooltip="{/res/39/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/39/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/39/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/39/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/39/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/39/MATRICOLA} === '' || ${/res/39/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/39/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/39/MATRICOLA} === '') || (${/res/39/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/39/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/39/MATRICOLA} === '' || ${/res/39/STATO_MACCHINA} === 'NEW' || ${/res/39/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/39/MATRICOLA} === '') || (${/res/39/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/39/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/39/MATRICOLA} === '' || ${/res/39/STATO_MACCHINA} === 'NEW' || ${/res/39/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/39/MATRICOLA} === '') || (${/res/39/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/39/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/39/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/39/MATRICOLA} === '') || (${/res/39/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/39/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/39/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/39/STATO_AVANZ'},{path: '/res/39/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/39/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/39/WKC_STATUS_ID','/resMachineStatus/39/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le righe-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--quinta box, pos 40-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/40/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/40/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/40/PIAZZOLA}" tooltip="{/res/40/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/40/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/40/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/40/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/40/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/40/MATRICOLA} === '' || ${/res/40/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/40/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/40/MATRICOLA} === '') || (${/res/40/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/40/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/40/MATRICOLA} === '' || ${/res/40/STATO_MACCHINA} === 'NEW' || ${/res/40/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/40/MATRICOLA} === '') || (${/res/40/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/40/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/40/MATRICOLA} === '' || ${/res/40/STATO_MACCHINA} === 'NEW' || ${/res/40/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/40/MATRICOLA} === '') || (${/res/40/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/40/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/40/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/40/MATRICOLA} === '') || (${/res/40/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/40/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/40/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/40/STATO_AVANZ'},{path: '/res/40/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/40/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/40/WKC_STATUS_ID','/resMachineStatus/40/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le righe-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--sesta box, pos 41-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/41/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/41/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/41/PIAZZOLA}" tooltip="{/res/41/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/41/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/41/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/41/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/41/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/41/MATRICOLA} === '' || ${/res/41/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/41/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/41/MATRICOLA} === '') || (${/res/41/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/41/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/41/MATRICOLA} === '' || ${/res/41/STATO_MACCHINA} === 'NEW' || ${/res/41/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/41/MATRICOLA} === '') || (${/res/41/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/41/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/41/MATRICOLA} === '' || ${/res/41/STATO_MACCHINA} === 'NEW' || ${/res/41/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/41/MATRICOLA} === '') || (${/res/41/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/41/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/41/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/41/MATRICOLA} === '') || (${/res/41/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/41/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/41/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/41/STATO_AVANZ'},{path: '/res/41/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/41/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/41/WKC_STATUS_ID','/resMachineStatus/41/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+    </HBox>
+    <!-- distanza tra le aree orizzontali-->
+    <HBox height="3%" width="100%" renderType="Bare" />
+    <!-- quarta area che contiene 6 box -->
+    <HBox height="22%" width="100%" renderType="Bare">
+        <!--prima box, pos 42-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/42/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/42/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/42/PIAZZOLA}" tooltip="{/res/42/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/42/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/42/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/42/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/42/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/42/MATRICOLA} === '' || ${/res/42/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/42/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/42/MATRICOLA} === '') || (${/res/42/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/42/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/42/MATRICOLA} === '' || ${/res/42/STATO_MACCHINA} === 'NEW' || ${/res/42/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/42/MATRICOLA} === '') || (${/res/42/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/42/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/42/MATRICOLA} === '' || ${/res/42/STATO_MACCHINA} === 'NEW' || ${/res/42/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/42/MATRICOLA} === '') || (${/res/42/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/42/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/42/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/42/MATRICOLA} === '') || (${/res/42/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/42/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/42/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/42/STATO_AVANZ'},{path: '/res/42/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/42/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/42/WKC_STATUS_ID','/resMachineStatus/42/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le box-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--seconda box, pos 43-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/43/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/43/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/43/PIAZZOLA}" tooltip="{/res/43/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/43/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/43/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/43/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/43/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/43/MATRICOLA} === '' || ${/res/43/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/43/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/43/MATRICOLA} === '') || (${/res/43/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/43/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/43/MATRICOLA} === '' || ${/res/43/STATO_MACCHINA} === 'NEW' || ${/res/43/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/43/MATRICOLA} === '') || (${/res/43/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/43/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/43/MATRICOLA} === '' || ${/res/43/STATO_MACCHINA} === 'NEW' || ${/res/43/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/43/MATRICOLA} === '') || (${/res/43/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/43/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/43/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/43/MATRICOLA} === '') || (${/res/43/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/43/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/43/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/43/STATO_AVANZ'},{path: '/res/43/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/43/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/43/WKC_STATUS_ID','/resMachineStatus/43/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le box-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--terza box, pos 44-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/44/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/44/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/44/PIAZZOLA}" tooltip="{/res/44/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/44/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/44/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/44/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/44/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/44/MATRICOLA} === '' || ${/res/44/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/44/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/44/MATRICOLA} === '') || (${/res/44/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/44/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/44/MATRICOLA} === '' || ${/res/44/STATO_MACCHINA} === 'NEW' || ${/res/44/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/44/MATRICOLA} === '') || (${/res/44/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/44/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/44/MATRICOLA} === '' || ${/res/44/STATO_MACCHINA} === 'NEW' || ${/res/44/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/44/MATRICOLA} === '') || (${/res/44/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/44/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/44/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/44/MATRICOLA} === '') || (${/res/44/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/44/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/44/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/44/STATO_AVANZ'},{path: '/res/44/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/44/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/44/WKC_STATUS_ID','/resMachineStatus/44/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le box-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--quarta box, pos 45-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/45/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/45/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/45/PIAZZOLA}" tooltip="{/res/45/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/45/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/45/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/45/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/45/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/45/MATRICOLA} === '' || ${/res/45/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/45/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/45/MATRICOLA} === '') || (${/res/45/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/45/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/45/MATRICOLA} === '' || ${/res/45/STATO_MACCHINA} === 'NEW' || ${/res/45/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/45/MATRICOLA} === '') || (${/res/45/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/45/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/45/MATRICOLA} === '' || ${/res/45/STATO_MACCHINA} === 'NEW' || ${/res/45/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/45/MATRICOLA} === '') || (${/res/45/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/45/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/45/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/45/MATRICOLA} === '') || (${/res/45/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/45/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/45/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/45/STATO_AVANZ'},{path: '/res/45/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/45/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/45/WKC_STATUS_ID','/resMachineStatus/45/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le righe-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--quinta box, pos 46-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/46/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/46/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/46/PIAZZOLA}" tooltip="{/res/46/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/46/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/46/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/46/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/46/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/46/MATRICOLA} === '' || ${/res/46/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/46/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/46/MATRICOLA} === '') || (${/res/46/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/46/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/46/MATRICOLA} === '' || ${/res/46/STATO_MACCHINA} === 'NEW' || ${/res/46/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/46/MATRICOLA} === '') || (${/res/46/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/46/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/46/MATRICOLA} === '' || ${/res/46/STATO_MACCHINA} === 'NEW' || ${/res/46/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/46/MATRICOLA} === '') || (${/res/46/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/46/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/46/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/46/MATRICOLA} === '') || (${/res/46/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/46/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/46/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/46/STATO_AVANZ'},{path: '/res/46/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/46/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/46/WKC_STATUS_ID','/resMachineStatus/46/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+        <!--spazio tra le righe-->
+        <HBox width="1%" height="100%" renderType="Bare" />
+        <!--sesta box, pos 47-->
+        <VBox width="16%" height="100%" class="customHeight" renderType="Bare">
+            <CustomTile class="myCustomTile" press="openPageDetail">
+                <content>
+                    <VBox width="100%" height="100%" class="" renderType="Bare">
+                        <HBox width="100%" height="2%" renderType="Bare" />
+                        <HBox width="100%" height="25%" renderType="Bare">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <HBox width="50%" height="100%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{=(${/res/47/WKC_STATUS_ID} === '3') ? false : true}">
+                                <core:Icon src="sap-icon://machine" color="{path: '/res/47/STATO', formatter:'.setIconColor'}" size="2vw" />
+                                <Label text="{/res/47/PIAZZOLA}" tooltip="{/res/47/PIAZZOLA}" width="70%" textAlign="Right" design="Bold" class="blackFontPiazzola" />
+                            </HBox>
+                            <VBox width="56%" height="100%" alignItems="Center" renderType="Bare">
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <Label text="{/res/47/MATRICOLA}" textAlign="Right" width="100%" design="Bold" class="blackFont" />
+                                </HBox>
+                                <HBox width="100%" height="50%" justifyContent="End" renderType="Bare">
+                                    <!-- Apparentamento -->
+                                    <core:Icon src="{=(${/res/47/APP_STRONG} === 'X') ? 'sap-icon://rhombus-milestone-2' : 'sap-icon://status-inactive'}" class="sapUiTinyMarginEnd" size="0.8vw" color="{=(${/res/47/APP_STRONG} === 'X') ? 'green' : 'black'}" tooltip="{=(${/res/47/APP_STRONG} === 'X') ? ${i18n&gt;appStrong} : ${i18n&gt;notAppStrong}}" visible="{= (${/res/47/MATRICOLA} === '' || ${/res/47/WKC_STATUS_ID} !== '1') ? false : true}" />
+                                    <Label text="{/res/47/ODV}" width="auto" textAlign="Right" design="Bold" class="blackFont" />
+                                </HBox>
+                            </VBox>
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="7%" renderType="Bare" />
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/47/MATRICOLA} === '') || (${/res/47/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataOb}: {path: '/res/47/DATA_OBIETTIVO', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/47/MATRICOLA} === '' || ${/res/47/STATO_MACCHINA} === 'NEW' || ${/res/47/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/47/MATRICOLA} === '') || (${/res/47/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataPrevFine}: {path: '/res/47/DATA_FINE_PREVISTA', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/47/MATRICOLA} === '' || ${/res/47/STATO_MACCHINA} === 'NEW' || ${/res/47/IS_STARTED} === 'false') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="12%" justifyContent="Start" alignItems="Center" renderType="Bare" visible="{= (${/res/47/MATRICOLA} === '') || (${/res/47/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <Label width="98%" text="{i18n&gt;dataSpedizione}: {path: '/res/47/DATA_SPEDIZIONE', formatter: '.setFormatTime'}" design="Bold" class="blackFont" visible="{=(${/res/47/MATRICOLA} === '') ? false : true}" />
+                        </HBox>
+                        <HBox width="100%" height="29%" justifyContent="Center" alignItems="Center" renderType="Bare" visible="{= (${/res/47/MATRICOLA} === '') || (${/res/47/ODV} === '')? false : true}">
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                            <ProgressIndicator width="96%" percentValue="{path: '/res/47/AVANZAMENTO', formatter: '.progressFormat'}" displayValue="{path: '/res/47/AVANZAMENTO', formatter: '.progressFormat'}%" showValue="true" state="{parts: [{path: '/res/47/STATO_AVANZ'},{path: '/res/47/COLOR_AVANZ'}], formatter: '.progressColour'}" visible="{=(${/res/47/MATRICOLA} === '') ? false : true}" />
+                            <HBox width="2%" height="100%" renderType="Bare" />
+                        </HBox>
+                        <HBox width="100%" height="1%" renderType="Bare" />
+                    </VBox>
+                </content>
+                <customData>
+                    <core:CustomData key="class" value="{parts:[ '/res/47/WKC_STATUS_ID','/resMachineStatus/47/STATO_MACCHINA'], formatter: '.setResourceColor'}" writeToDom="true" />
+                </customData>
+            </CustomTile>
+        </VBox>
+    </HBox>
+    <HBox width="100%" height="2%" renderType="Bare" />
+    <!-- distanza dalla base-->
+</core:FragmentDefinition>

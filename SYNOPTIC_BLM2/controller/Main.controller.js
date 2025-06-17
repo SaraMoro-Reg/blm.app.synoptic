@@ -8,9 +8,12 @@ sap.ui.define([
     "use strict";
 
     return Controller.extend("synoptic.controller.Main", {
-        model: new sap.ui.model.json.JSONModel(
-            {"automaticScroll": true} 
-        ),
+        model: new sap.ui.model.json.JSONModel({
+			"automaticScroll": true,
+			"ActulPage": "LINEA-SMALL",
+			"selectedCriticalMaterials": [],
+			"currentPageNavContainer": 1	
+		}),
         oBundle: undefined,
         siteId: "",
         intervalAlarm: undefined,
@@ -25,86 +28,54 @@ sap.ui.define([
             controller.getUserID();
             controller.sessionKeepAlive();
             //Imposto la lingua del browser in base all'utente
-            var lang = controller.model.getProperty("/user")[0].Language;
-            sap.ui.getCore().getConfiguration().setLanguage(lang.toLowerCase());
+            sap.ui.getCore().getConfiguration().setLanguage(controller.model.getProperty("/user")[0].Language.toLowerCase());
+        },
 
-            // Aggiungo l'event handler per il cambio pagina di entrambi i Carousel
-            this.byId("carouselId").attachPageChanged(this.onPageChanged, this);
-            this.byId("carouselId2").attachPageChanged(this.onPageChanged, this);
-
-            setTimeout(function () {
-                controller.oBundle = controller.getView().getModel("i18n").getResourceBundle();
-                // Imposto il titolo iniziale con ELECT-L
-                var titleText = controller.oBundle.getText("titlePage1");
-                controller.byId("labelTime").setText(controller.oBundle.getText("title") + titleText + " - " + controller.time() + " - " + controller.oBundle.getText("lastUpd") + " " + controller.lastUpdate);
-                controller.byId("labelTime2").setText(controller.oBundle.getText("title") + titleText + " - " + controller.time() + " - " + controller.oBundle.getText("lastUpd") + " " + controller.lastUpdate);
-            }, 700);
-            setInterval(function () {
-                //--check sessione--//
-                controller.sessionKeepAlive();
-                try {
-                    // Mantengo il titolo corrente usando la pagina attiva del carousel
-                    var currentPage = controller.byId("carouselId").getActivePage().split("--")[1];
-                    var titleText = currentPage === "Car1Pag1" ? controller.oBundle.getText("titlePage1") : controller.oBundle.getText("titlePage2");
-                    controller.byId("labelTime").setText(controller.oBundle.getText("title") + titleText + " - " + controller.time() + " - " + controller.oBundle.getText("lastUpd") + " " + controller.lastUpdate);
-                    controller.byId("labelTime2").setText(controller.oBundle.getText("title") + titleText + " - " + controller.time() + " - " + controller.oBundle.getText("lastUpd") + " " + controller.lastUpdate);
-                } catch (e) {
-                    controller.byId("labelTime").setText(controller.oBundle.getText("title") + " - " + controller.time());
-                    controller.byId("labelTime2").setText(controller.oBundle.getText("title") + " - " + controller.time());
-                }
-            }, 30000);
-
-            //Chiamo la funzione per aggiornare le info presenti nella pagina ogni 10 secondi
+        onAfterRendering: function(){
+			controller.oBundle = controller.getView().getModel("i18n").getResourceBundle();
+            // Imposto il titolo iniziale con ELECT-L
+            controller.byId("labelTime").setText(controller.oBundle.getText("title") + controller.model.getProperty("/ActulPage") + " - " + controller.time() + " - " + controller.oBundle.getText("lastUpd") + " " + controller.lastUpdate);
+            
+			//Chiamo la funzione per aggiornare le info presenti nella pagina ogni 10 secondi
             controller.getAllWkcAndChecklistInfo();
             setInterval(function () {
                 controller.getAllWkcAndChecklistInfo();
             }, 10000);
 
             //Chiamo la funzione per visualizzare le info dalla tabella di cache ogni 30 secondi
-            controller.resfreshViewSynoptic();
+            controller.resfreshViewSynoptic(true);
             setInterval(function () {
-                controller.resfreshViewSynoptic();
+                controller.resfreshViewSynoptic(false);
             }, 30000);
 
-	        //giro navContainer
-            controller.model.setProperty("/currentPageNavContainer", 1);
-            controller.getSynopticSetup();
-
-            controller.model.setProperty("/selectedCriticalMaterials", []);
-
+            controller.getSynopticSetup();			
         },
 
-        onAfterRendering: function(){
-
-        },
-
-        handleNav: function () {
-            var navCon = this.byId("navContainerId");
-            var target;
-            var currentPage = controller.model.getProperty("/currentPageNavContainer");
-            if (currentPage == 1) {
-                target = "p2";
+        handleNav: function () {            
+            let sTarget = "",
+				sCurrentPage = "LINEA-SMALL";
+			
+            if (controller.model.getProperty("/currentPageNavContainer") == 1) {
+                sTarget = "p2";
                 controller.model.setProperty("/currentPageNavContainer", 2);
-                controller.getView().byId("carouselId2").setActivePage(controller.byId("Car2Pag1"));
-                controller.model.refresh(true);
+                controller.getView().byId("carouselId2").setActivePage(controller.byId("-LINEA-SMALL"));
+                controller.byId("labelTime2").setText(controller.oBundle.getText("title") + sCurrentPage + " - " + controller.time() + " - " + controller.oBundle.getText("lastUpd") + " " + controller.lastUpdate);
             } else {
-                target = "p1";
+                sTarget = "p1";
                 controller.model.setProperty("/currentPageNavContainer", 1);
-                controller.getView().byId("carouselId").setActivePage(controller.byId("Car1Pag1"));
-                controller.model.refresh(true);
+                controller.getView().byId("carouselId").setActivePage(controller.byId("LINEA-SMALL"));
+                 controller.byId("labelTime2").setText(controller.oBundle.getText("title") + sCurrentPage + " - " + controller.time() + " - " + controller.oBundle.getText("lastUpd") + " " + controller.lastUpdate);
             }
+			
+			controller.model.setProperty("/ActivePage", sCurrentPage);
 
-            if (target) {
-                var animation = "flip"
-                    navCon.to(this.byId(target), animation);
-                
-                
+            if (sTarget) {
+                controller.byId("navContainerId").to(controller.byId(sTarget), "flip");
             } else {
-                navCon.back();
+                controller.byId("navContainerId").back();
             }
 
-            //controller.getSynopticSetup();
-            controller.resfreshViewSynoptic();
+            controller.resfreshViewSynoptic(true);
         },
 
         time: function () {
@@ -118,23 +89,18 @@ sap.ui.define([
 
         onOpenSettings: function(){
            if (!controller._oSettingsDialog) {
-                controller._oSettingsDialog = sap.ui.xmlfragment("synoptic.view.settings", controller);
+                controller._oSettingsDialog = sap.ui.xmlfragment("synoptic.view.popup.settings", controller);
                 controller.getView().addDependent(controller._oSettingsDialog);
                 controller._oSettingsDialog.open();
             }else {
                 controller._oSettingsDialog.open();
             }
             controller.getView().setModel(controller.model);
-            //controller.model.setProperty("/autoScrolling", true);
-            //controller.model.setProperty("/settings", "");
-            //controller.getView().setModel(controller.model);
-            //controller._popup.open();
         },
 
         onOpenFilter: function () {
-            if (!controller._oFilterDialog) {
-                //controller._oFilterDialog = sap.ui.xmlfragment("SynopticBLM2.view.filters", controller); 
-                controller._oFilterDialog = sap.ui.xmlfragment("synoptic.view.filters", controller); 
+            if (!controller._oFilterDialog) { 
+                controller._oFilterDialog = sap.ui.xmlfragment("synoptic.view.popup.filters", controller); 
                 controller.getView().addDependent(controller._oFilterDialog);
                 controller._oFilterDialog.open();
             } else {
@@ -224,7 +190,7 @@ sap.ui.define([
 
         onCloseFilterPopup: function () {
             controller._oFilterDialog.close();
-            controller.resfreshViewSynoptic();
+            controller.resfreshViewSynoptic(false);
         },
 
         onSaveSettings: function () {
@@ -270,7 +236,7 @@ sap.ui.define([
 
         onSaveFilterPopup: function () {
             controller._oFilterDialog.close();
-            controller.resfreshViewSynoptic();
+            controller.resfreshViewSynoptic(false);
         },
         
         sendData: function (Transaction, route, Input) {
@@ -300,7 +266,7 @@ sap.ui.define([
         /*Pre calcolo i dati per la tabella SynopticCache*/
 
         //Verifico quali Checklist devo aggiornare
-       getAllWkcAndChecklistInfo: function () {
+        getAllWkcAndChecklistInfo: function () {
             let result = controller.sendData("GET_ALL_WKC_AND_CHECKLIST", "TRANSACTION", {
                 "SITE_ID": controller.siteId,
                 "SYNOPTIC_TYPE": 2
@@ -367,7 +333,7 @@ sap.ui.define([
 					if(aInput.length > 0)
 						controller.sendData("SAVE_DATA", "TRANSACTION", { "DATA": JSON.stringify(aInput)});
 				}
-				controller.resfreshViewSynoptic();
+				controller.resfreshViewSynoptic(false);
             }
         },
 
@@ -419,14 +385,14 @@ sap.ui.define([
             input.EXPECTED_CHECKLIST_DURATION = result["synopticDet"][0].GIORNI_TOTALI_PREVISTI;
             input.TARGET_DATE = controller.model.getProperty("/calendar")[controller.model.getProperty("/calendar").length - 1]["DATE_TIME"];
             input.EXPECTED_END_DATE = checklistInfo["OveralProgress"] !== '100' ? controller.model.getProperty("/teoricCalendarEndDate")[controller.model.getProperty("/teoricCalendarEndDate").length - 1]["DATE_TIME"] : checklistInfo["ExpectedEndDate"];
-            input.OVERALL_PROGRESS_STATUS = colore;
-			input.APP_STRONG = result["appStrong"][0]["APP_STRONG"];
-			
+            input.OVERALL_PROGRESS_STATUS = colore;			
+            input.APP_STRONG = result["appStrong"][0]["APP_STRONG"];
+
             arrInput.push(input);
 
             return controller.sendData("SAVE_DATA", "TRANSACTION", {
                 "DATA": JSON.stringify(arrInput)
-            }) 
+            })            
         },
 
         /*------*/
@@ -732,11 +698,18 @@ sap.ui.define([
         },
 
         /*-------------*/
-        resfreshViewSynoptic: function () {
-            sap.ui.core.BusyIndicator.show();
+				
+        resfreshViewSynoptic: function (bInstantOpen) {
+			if(bInstantOpen){
+				sap.ui.core.BusyIndicator.show(0);
+			}else{
+				sap.ui.core.BusyIndicator.show();
+			}
+			
             var params = {
                 "SITE_ID": controller.siteId,
                 "SYNOPTIC_TYPE": 2,
+				"PAGE": controller.model.getProperty("/ActulPage"),
 				"LANGUAGE": controller.model.getProperty("/user")[0]["Language"],
                 "TRANSACTION": "ADIGE7/SYNOPTIC_BLM2/TRANSACTION/GET_DATA",
                 "OutputParameter": "JSON"
@@ -756,8 +729,7 @@ sap.ui.define([
             }
         },
 
-        getDataSuccess: function (data) {
-            sap.ui.core.BusyIndicator.hide();
+        getDataSuccess: function (data) {            
             try {
                 var dividingParameter = 2; //parametro per dividere gli elementi del carosello all'interno della tile
 
@@ -881,16 +853,10 @@ sap.ui.define([
                     controller.intervalAlarm = undefined;
                 }
 
-                var obj = {};
-                var arrBlank = [],
-                arrStatus = [];
-
-                for (var i = 0; i < dataModel.length; i++) {
-                    if (dataModel[i]["DATA_ULTIMO_AGGIORNAMENTO"] != "TimeUnavailable") {
-                        controller.lastUpdate = new Date(dataModel[i]["DATA_ULTIMO_AGGIORNAMENTO"] + ".000Z");
-                        i = dataModel.length;
-                    }
-                }
+                let obj = {},
+					arrBlank = [],
+					arrStatus = [],
+					lastUpdate = "";
 
                 for (var i = 0; i < dataModel.length; i++) {
                     obj.STATO_MACCHINA = dataModel[i].STATO_MACCHINA;
@@ -900,22 +866,25 @@ sap.ui.define([
                     arrBlank.push(obj);
                     obj = new Object;
                     if (dataModel[i]["DATA_ULTIMO_AGGIORNAMENTO"] != "TimeUnavailable") {
-                        if (controller.lastUpdate > new Date(dataModel[i]["DATA_ULTIMO_AGGIORNAMENTO"] + ".000Z")) {
-                            controller.lastUpdate = new Date(dataModel[i]["DATA_ULTIMO_AGGIORNAMENTO"] + ".000Z");
+                        if (lastUpdate > new Date(dataModel[i]["DATA_ULTIMO_AGGIORNAMENTO"] + ".000Z") || lastUpdate === "") {
+                            lastUpdate = new Date(dataModel[i]["DATA_ULTIMO_AGGIORNAMENTO"] + ".000Z");
                         }
                     }
                 }
 
-                controller.lastUpdate = controller.setUpdateTitleTime(controller.lastUpdate);
+                controller.lastUpdate = controller.setUpdateTitleTime(lastUpdate);
 
                 controller.model.setProperty("/resStatus", arrStatus);
                 controller.model.setProperty("/resStatusBlank", arrBlank);
-
+				
+				clearInterval(controller.intervalAlarm);
+				
                 controller.intervalAlarm = setInterval(function () {
                     controller.setModelAlarm();
                 }, 1500);
 
             } catch (e) {}
+			sap.ui.core.BusyIndicator.hide();
         },
 
         setModelAlarm: function () {
@@ -980,11 +949,11 @@ sap.ui.define([
                 result[i].EDITABLE = "true";
 				//Decode Note URL for Critical Material
 				if(result[i]["DC_TYPE"] === "5")
-					result[i]["NOTE"] = decodeURIComponent(result[i]["NOTE"]);            
+					result[i]["NOTE"] = decodeURIComponent(result[i]["NOTE"]);
             }
 
             if (!controller._dcPopup) {
-                controller._dcPopup = sap.ui.xmlfragment("synoptic.view.dcPopup", controller);
+                controller._dcPopup = sap.ui.xmlfragment("synoptic.view.popup.dcPopup", controller);
                 controller.getView().addDependent(controller._dcPopup);
             }
 
@@ -1036,7 +1005,7 @@ sap.ui.define([
 
         undo: function () {
             controller.closeDCPopup();
-            controller.resfreshViewSynoptic();
+            controller.resfreshViewSynoptic(false);
         },
 
         undoDCPopup: function () {
@@ -1233,7 +1202,6 @@ sap.ui.define([
                     else {
                         obj.PARAMETER_ID = items[i].DCOL_PARAM_ID;
                         obj.VALUE = items[i].DC_VALUE.replace(/("|&|\\|')/g, ' ').replace(/\n|\r/g, '\\n').replace(",", ".");
-                        obj.VALUE_REL = items[i].VALUE_REL.replace(/("|&|\\|')/g, ' ').replace(/\n|\r/g, '\\n');
                         //Encode Note URL for Critical Material
 						if (items[i].DC_TYPE === "5"){
 							obj.NOTE = encodeURIComponent(items[i].NOTE);
@@ -1300,7 +1268,7 @@ sap.ui.define([
                 };
 
                 controller.closeDCPopup();
-                controller.resfreshViewSynoptic();
+                controller.resfreshViewSynoptic(true);
             }
         },
 
@@ -1323,7 +1291,7 @@ sap.ui.define([
 
         openPopupNotesDC: function (oSource) {
             if (!controller._NoteDCPopup) {
-                controller._NoteDCPopup = sap.ui.xmlfragment("synoptic.view.notesPopupDC", controller);
+                controller._NoteDCPopup = sap.ui.xmlfragment("synoptic.view.popup.notesPopupDC", controller);
                 controller.getView().addDependent(controller._NoteDCPopup);
             }
 
@@ -1400,7 +1368,7 @@ sap.ui.define([
         },
 
         onAvatarPressed: function (oEvent) {
-            controller._popup = sap.ui.xmlfragment("synoptic.view.avatarPopup", controller);
+            controller._popup = sap.ui.xmlfragment("synoptic.view.popup.avatarPopup", controller);
             controller.getView().addDependent(controller._popup);
             controller._popup.openBy(oEvent.getSource());
         },
@@ -1441,19 +1409,13 @@ sap.ui.define([
                 if (jsonArr[0].RC != "OK") {
                     window.location.href = "main.html?SITE=ADIGE&j_user=" + controller.usr + "&j_password=" + controller.pwd;
                     location.reload();
-                } else {
-                    //controller.usr=jsonArr[0].J_USER;
-                    //controller.pwd=jsonArr[0].J_PASSWORD;
                 }
             } catch (e) {
                 window.location.href = "main.html?SITE=ADIGE&j_user=" + controller.usr + "&j_password=" + controller.pwd
                     location.reload();
             }
         },
-        /*transactionError: function (error) {
-        window.location.href = "main.html?SITE=ADIGE&j_user="+controller.usr+"&j_password="+controller.pwd
-        location.reload();
-        },*/
+		
         getDataSync: function (trans, rt, inp, suss, errf) {
             var transactionCall = rt + "/" + trans;
             inp.TRANSACTION = transactionCall;
@@ -1472,20 +1434,21 @@ sap.ui.define([
         },
 
         onPageChanged: function(oEvent) {
-            var carousel = oEvent.getSource();  // Ottiene il carousel che ha generato l'evento
-            var currentPage = carousel.getActivePage().split("--")[1];
-            var titleText = "";
-            
-            // Imposto il titolo in base alla pagina corrente
-            if(currentPage === "Car1Pag1" || currentPage === "Car2Pag1") {
-                titleText = controller.oBundle.getText("titlePage1"); // Linea Small
-            } else {
-                titleText = controller.oBundle.getText("titlePage2"); // Linea Big
-            }
+            let currentPage = oEvent.getParameter("newActivePageId").split("--")[1];
+            controller.model.setProperty("/ActulPage", currentPage);
+            controller.resfreshViewSynoptic(true);
+			 
+            // Aggiorno il titolo
+            controller.byId("labelTime").setText(controller.oBundle.getText("title") + currentPage + " - " + controller.time() + " - " + controller.oBundle.getText("lastUpd") + " " + controller.lastUpdate);
+        },
+		
+		onPageCriticalMaterialChanged: function(oEvent) {
+            let currentPage = oEvent.getParameter("newActivePageId").split("---")[1];
+            controller.model.setProperty("/ActulPage", currentPage);
+			controller.resfreshViewSynoptic(true);
             
             // Aggiorno il titolo
-            controller.byId("labelTime").setText(controller.oBundle.getText("title") + titleText + " - " + controller.time() + " - " + controller.oBundle.getText("lastUpd") + " " + controller.lastUpdate);
-            controller.byId("labelTime2").setText(controller.oBundle.getText("title") + titleText + " - " + controller.time() + " - " + controller.oBundle.getText("lastUpd") + " " + controller.lastUpdate);
+            controller.byId("labelTime2").setText(controller.oBundle.getText("title") + currentPage + " - " + controller.time() + " - " + controller.oBundle.getText("lastUpd") + " " + controller.lastUpdate);
         },
     });
 });
