@@ -1,0 +1,110 @@
+.pageTitleStyle{
+	font-size: 1.4rem !important;
+	font-family: sans-serif!important;
+}
+
+.sapMShellBrandingBar{
+	background-color: #0a342a !important;   
+}
+
+.customMachineInfo{
+	font-size: 4vh !important;
+	font-weight: bold;
+	color: #017058;
+}
+
+.customLabelTextColour{
+	color: #0a342a;
+}
+.customBackGround{
+	background-color: #0a342a !important;
+}
+
+@media only screen and (min-width: 1280px) {
+    html.sap-desktop .sapMShellAppWidthLimited .sapMShellCentralBox {
+        width: auto;
+        margin-left: 0%;
+        left: 0%;
+    }
+}
+
+.whiteFont{
+	color: white !important;
+}
+
+.whiteIcon>.sapMBtnDefault>.sapMBtnIcon{
+	color: white !important;
+}
+
+.customBackGroundPopup{
+	background-color: #cceae4 !important;
+}
+
+.bottomBorderBackGround{
+	border-bottom: 0.2vh solid;
+	border-color: #cceae4;
+}
+
+.backButton{
+	width:100%!important;
+	padding: 0px !important;
+   	margin: 0px !important;
+  	border: 0px !important;
+}
+
+.backButton>.sapMBtnDefault>.sapUiIcon{
+	color:#0a342a;
+}
+
+.popupHeader>.sapMBar{
+	background-color: white !important;
+}
+
+.popupHeader>.sapContrast{
+	background-color: white !important;
+}
+
+.popupTitleFont>.sapMBar>.sapMBarMiddle>.sapMBarContainer>.sapMBarChild{
+	color: #0a342a!important;
+	font-weight:bold;
+}
+
+.popupTextFont{
+	font-size:2.3vh;
+}
+
+.halfSizeButton{
+   width: 50% !important;
+   padding: 0px !important;
+   margin: 0px !important;
+   border: 0px !important;
+}
+
+.fullSizeButton{
+   width: 100% !important;
+   padding: 0px !important;
+   margin: 0px !important;
+   border: 0px !important;
+}
+.buttonRed>.sapMBtnDefault>.sapUiIcon{
+	color:red;
+}
+
+.buttonGreen>.sapMBtnDefault>.sapUiIcon{
+	color:green;
+}
+
+
+/*CSS solo per explorer*/
+@media screen\0, @media screen\9 {
+	
+}
+
+/*CSS solo per chrome*/
+@media only screen and (-webkit-min-device-pixel-ratio:0) {
+   
+}
+
+
+
+

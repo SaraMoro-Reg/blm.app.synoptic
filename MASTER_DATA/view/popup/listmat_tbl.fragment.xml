@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<TableSelectDialog noDataText="No Material Found" title="{i18n&gt;viewMat.label.materialsearchPop}" liveChange=".handleSearchMat" confirm="handleValueHelpCloseMat" cancel="handleValueHelpCloseMat"  items="{path : '/matList',  sorter : { path : 'MATERIAL',descending : false} }">
+		<ColumnListItem>
+			<cells>
+				<core:Icon src="{ICON}" class="size1" color="{COLORDFT}">
+					<core:layoutData>
+						<FlexItemData growFactor="1" />
+					</core:layoutData>
+				</core:Icon>
+				<Text text="{MATERIAL}" />
+				<Text text="{DESCRIPTION}" />
+				<Text text="{VERSION}" />
+				<Text text="{MATERIAL_ID}" />
+				<Text text="{DFT}" />
+			</cells>
+		</ColumnListItem>
+		<columns>
+			<Column width="10%">
+				<header>
+					<Text text="Defaut" />
+				</header>
+			</Column>
+			<Column width="20%">
+				<header>
+					<Text text="{i18n&gt;viewMat.label.materialcurrent}" />
+				</header>
+			</Column>
+			<Column width="55%">
+				<header>
+					<Text text="{i18n&gt;viewMat.label.materialdescr}" />
+				</header>
+			</Column>
+			<Column width="15%" hAlign="Center">
+				<header>
+					<Text text="{i18n&gt;viewMat.label.materialvers}" />
+				</header>
+			</Column>
+			<Column visible="false">
+				<header>
+					<Text text="" />
+				</header>
+			</Column>
+			<Column visible="false">
+				<header>
+					<Text text="" />
+				</header>
+			</Column>
+		</columns>
+	</TableSelectDialog>
+</core:FragmentDefinition>

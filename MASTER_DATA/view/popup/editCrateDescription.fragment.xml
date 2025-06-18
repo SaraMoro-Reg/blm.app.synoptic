@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:table="sap.ui.table" controllerName="master_data.controller.Bgusa">
+	<Dialog title="{i18n&gt;viewBgusa.EditCratesDescriptonPopup}" contentHeight="20rem" contentWidth="70rem" horizontalScrolling="false" afterClose="onClosePopupCrateDescr">
+		<content>
+			<VBox width="100%" height="19rem" renderType="Bare">
+				<HBox width="100%" height="5%" renderType="Bare" />
+				<HBox width="100%" height="9%" alignItems="Center" renderType="Bare">
+					<HBox width="5%" renderType="Bare" />				
+					<HBox width="5%" renderType="Bare">
+						<Label width="100%" text="{i18n&gt;viewBgusa.Crates}:" />
+					</HBox>
+					<HBox width="20%" renderType="Bare">
+						<Input id="inputCrate" type="Text" enabled="false" />
+					</HBox>
+					<HBox width="70%" renderType="Bare" />
+				</HBox>
+				<HBox width="100%" height="5%" renderType="Bare" />
+				<HBox width="100%" height="75%" renderType="Bare">
+					<HBox width="2%" height="100%" renderType="Bare" />
+					<table:Table id="tabCrate" rows="{path: '/tabDescrCrate'}" width="96%" selectionMode="None" selectionBehavior="RowOnly" visibleRowCountMode="Auto">
+						<table:rowSettingsTemplate>
+							<table:RowSettings highlight="{=(${DEL} === 'false')? 'None' : 'Error'}" />
+						</table:rowSettingsTemplate>
+						<table:columns>
+							<table:Column width="15%" hAlign="Center" >
+								<Label text="{i18n&gt;viewSite.Lang}" />
+								<table:template>
+									<ComboBox selectedKey="{LANG}" selectionChange="onChangeStatus" width="100%" valueState="None" maxWidth="100%" editable="{=(${DEL} === 'false')? true : false}">
+										<items>
+											<core:Item key="IT" text="{i18n&gt;viewSite.it}" />
+											<core:Item key="EN" text="{i18n&gt;viewSite.en}" />
+										</items>
+									</ComboBox>
+								</table:template>
+							</table:Column>
+							<table:Column width="auto" hAlign="Center" >
+								<Label text="{i18n&gt;viewBgusa.table.CratesDescription}" />
+								<table:template>
+									<Input value="{CRATE_DESCR}" width="100%" editable="{=(${DEL} === 'false')? true : false}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="8%" hAlign="Center" >
+								<Label text="{i18n&gt;viewSite.Delete}" />
+								<table:template>
+									<Button press="deleteDescrCrate" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+								</table:template>
+							</table:Column>
+						</table:columns>
+					</table:Table>
+					<HBox width="2%" height="100%" renderType="Bare" />
+				</HBox>
+				<HBox width="100%" height="5%" alignItems="Center" renderType="Bare">
+					<HBox width="83%" height="100%" renderType="Bare" />
+					<HBox width="11%" height="100%" alignItems="Center"  renderType="Bare">
+						<Button text="{i18n&gt;viewBgusa.newDescrCrate}" tooltip="{i18n&gt;viewBgusa.newDescrCrate}" press="newDescrCrate" icon="sap-icon://add" />
+					</HBox>
+					<HBox width="6%" height="100%" renderType="Bare" />
+				</HBox>
+			</VBox>
+		</content>
+		<buttons>
+			<Button icon="sap-icon://undo" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="onClosePopupCrateDescr" type="Reject" />
+			<Button icon="sap-icon://accept" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="confirmEditCrateDescr" type="Accept" />
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

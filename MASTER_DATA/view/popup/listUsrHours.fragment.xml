@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" >
+	<SelectDialog contentWidth ="28rem" contentHeight="60rem"  title="{i18n&gt;viewMail.table.usrsel}" liveChange="handleUserSearchHours" confirm="confirmUserHelpHours" cancel="closeDialog" items="{path : '/tabUserlist',sorter : {path : 'Usr', descending : false}}">
+		<StandardListItem title="{Usr}" description="{Name}" highlightText="{UserId}" type="Active" />
+	</SelectDialog>
+</core:FragmentDefinition>

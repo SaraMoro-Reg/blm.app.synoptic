@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Gestione Dati Tecnici</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" charset="UTF-8" />
+		<script id='sap-ui-bootstrap' type='text/javascript' src="/XMII/sapui5-rt-1.111.8/resources/sap-ui-core.js"
+			data-sap-ui-libs="sap.m,sap.ui.core, sap.ui.table, sap.uxap, sap.ui.layout"
+		          	data-sap-ui-language="it"
+			data-sap-ui-theme="sap_belize"
+			data-sap-ui-compatVersion="edge"
+			data-sap-ui-async="true"
+			data-sap-ui-bindingSyntax="complex"
+			data-sap-ui-resourceroots='{"master_data": ""}'>
+		</script>
+	           <script type="text/javascript" src="libs/xlsx.full.min.js" > </script>
+		<script type="text/javascript" src="libs/lodash.min.js" > </script>
+		<script>
+			sap.ui.getCore().attachInit(function() {
+				new sap.m.Shell({
+					app: new sap.ui.core.ComponentContainer({
+						height : "100%",
+						width : "100%",
+						name : "master_data"
+					})
+				}).placeAt("content");
+			});
+		</script>
+	</head>
+	<body class="sapUiBody sapUiSizeCompact" id="content" />
+</html>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table" controllerName="master_data.controller.Attached" height="100%" displayBlock="true">
+	<VBox width="100%" height="100%" renderType="Bare">
+		<VBox width="100%" height="14%" renderType="Bare">
+			<Label text="{i18n&gt;viewPhase.serach}:" class="sapUiSmallMarginBottom" />
+			<HBox width="100%" renderType="Bare">
+				<Input id="checkListInput" type="Text" placeholder="{i18n&gt;viewAtt.selectchecklist}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelpChkList" class="sapUiSmallMarginBottom sapUiTinyMarginEnd" width="20%" />
+				<Button id="dwnlxecl" icon="sap-icon://excel-attachment" tooltip="{i18n&gt;viewPhase.download}" press="downloadModel" enabled="false" class="sapUiSmallMarginEnd" />
+				<Button id="resetChecklistAttachments" enabled="false" text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="closeChecklistAttachments" icon="sap-icon://reset" />
+			</HBox>
+		</VBox>
+		<HBox width="100%" height="86%" renderType="Bare">
+			<IconTabBar id="attachedTabBar" expandable="false" tabDensityMode="Compact" headerBackgroundDesign="Translucent" backgroundDesign="Translucent" stretchContentHeight="true" applyContentPadding="false">
+				<items>
+					<!-- Checklist Attachment -->
+					<IconTabFilter icon="sap-icon://checklist-item" text="{i18n&gt;viewAtt.attechedchklist}" key="chkatt">
+						<VBox width="100%" height="100%" renderType="Bare">							
+							<HBox width="100%" height="0.5%" renderType="Bare"/>
+							<HBox width="100%" height="13%" renderType="Bare" alignItems="Center" >
+								<Button id="btnNewAttachChecklist" text="{i18n&gt;viewAtt.cheklist.newattached}" tooltip="{i18n&gt;viewAtt.cheklist.newattached}" press="addAttachChkList" icon="sap-icon://attachment" class="sapUiSmallMarginEnd" />
+								<Button id="btnCloseAttachChecklist" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getCheckListAtt" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+								<Button id="btnSaveAttachChecklist" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveAttachChkList" icon="sap-icon://save" type="Accept" />
+							</HBox>
+							<table:Table id="checklistatt" rows="{path: '/checklistatt'}" width="100%" selectionMode="None" visibleRowCountMode="Fixed" visibleRowCount="9" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+								</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="70%" hAlign="Center">
+										<Label text="{i18n&gt;viewAtt.attached.path}" />
+										<table:template>
+											<Input value="{ATTACHED}" type="Text" placeholder="{i18n&gt;viewAtt.attechedchklist.table.search}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelpChkListAtt"  width="100%" fieldWidth="100%" editable="{EDIT}" />
+										</table:template>
+									</table:Column>
+									<table:Column width="23%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.wrktypedescr}" />
+										<table:template>
+											<Input value="{DESCRIPTION}" tooltip="{DESCRIPTION}" width="100%" fieldWidth="100%" editable="{EDIT}" />
+										</table:template>
+									</table:Column>
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewSite.Delete}" />
+										<table:template>
+											<Button press="deleteDescr" tooltip="{i18n&gt;viewSite.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false"  width="100%" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</VBox>
+					</IconTabFilter>
+					
+					<!-- Phase Attachment -->
+					<IconTabFilter icon="sap-icon://checklist" text="{i18n&gt;viewAtt.attechedchklistop}" key="chkattop">
+						<VBox width="100%" height="100%" renderType="Bare">	
+							<HBox width="100%" height="1%" renderType="Bare" />
+							<HBox width="100%" height="18%" renderType="Bare" >
+								<VBox width="15%" height="100%" renderType="Bare" >
+									<Label text="{i18n&gt;viewPhase.macrophase}:" class="sapUiSmallMarginBottom" />
+									<ComboBox id="comboMacro" selectionChange="getComboFase" items="{path: '/macrofase',sorter: { path: 'MACROFASE' }}" width="90%">
+										<core:Item key="{MACROFASE}" text="{MACROFASE}" />
+									</ComboBox>
+								</VBox>									
+								<VBox width="15%" height="100%" renderType="Bare" >
+									<Label text="{i18n&gt;viewPhase.phase}:" class="sapUiSmallMarginBottom" />
+									<ComboBox id="comboPhase" selectionChange="getChkListOp" items="{path: '/phase',sorter: { path: 'FASE' }}" width="90%">
+										<core:Item key="{CHECKLISTOP_ID}" text="{FASE}" />
+									</ComboBox>
+								</VBox>
+								<HBox width="70%" height="100%" renderType="Bare" />
+							</HBox>
+							<HBox width="100%" height="10%" renderType="Bare" alignItems="Center">									
+								<Button id="btnNewAttachPhase" text="{i18n&gt;viewAtt.cheklist.newattached}" tooltip="{i18n&gt;viewAtt.cheklist.newattached}" press="addAttachChkListOP" icon="sap-icon://attachment" class="sapUiSmallMarginEnd" />
+								<Button id="btnCloseAttachPhase" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getChkListOp" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+								<Button id="btnSaveAttachPhase" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveAttachChkListOP" icon="sap-icon://save" type="Accept" />
+							</HBox>
+							<HBox width="100%" height="71%" renderType="Bare">	
+								<table:Table id="checklistattop" rows="{path: '/checklistattop'}" width="100%" selectionMode="None" visibleRowCountMode="Fixed" visibleRowCount="7" >
+									<table:rowSettingsTemplate>
+										<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+									</table:rowSettingsTemplate>
+									<table:columns>
+										<table:Column width="70%" hAlign="Center">
+											<Label text="{i18n&gt;viewAtt.attached.path}" />
+											<table:template>
+												<Input value="{ATTACHED}" tooltip="{ATTACHED}" type="Text" placeholder="{i18n&gt;viewAtt.attechedchklist.table.search}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelpChkListOPAtt" width="100%" fieldWidth="100%" editable="{EDIT}" />
+											</table:template>
+										</table:Column>
+										<table:Column width="23%" hAlign="Center">
+											<Label text="{i18n&gt;viewWRK.table.wrktypedescr}" />
+											<table:template>
+												<Input value="{DESCRIPTION}" tooltip="{DESCRIPTION}" width="100%" fieldWidth="100%" editable="{EDIT}" />
+											</table:template>
+										</table:Column>
+										<table:Column width="7%" hAlign="Center">
+											<Label text="{i18n&gt;viewSite.Delete}" />
+											<table:template>
+												<Button press="deleteDescrOP" tooltip="{i18n&gt;viewSite.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" width="100%" />
+											</table:template>
+										</table:Column>
+									</table:columns>
+								</table:Table>
+							</HBox>	
+						</VBox>
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+		</HBox>
+	</VBox>
+</mvc:View>

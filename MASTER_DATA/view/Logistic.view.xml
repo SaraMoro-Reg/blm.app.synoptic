@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" controllerName="master_data.controller.Logistic" height="100%" displayBlock="true">
+	<VBox height="100%" renderType="Bare">
+		<IconTabBar id="logisticITB" expandable="false" tabDensityMode="Compact" headerBackgroundDesign="Translucent" select="pressLogisticTabBar" backgroundDesign="Translucent" stretchContentHeight="true" applyContentPadding="false">
+			<items>
+				<!-- Logistic Type -->
+				<IconTabFilter key="LTYPE" icon="sap-icon://sap-box" text="{i18n&gt;viewLogistic.logisticType}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Button text="{i18n&gt;viewLogistic.newLogisticType}" tooltip="{i18n&gt;viewLogistic.newLogisticType}" press="newLogisticType" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnCloseLogisticType" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getLogisticType" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />	
+							<Button id="btnSaveLogisticType" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveNewLogisticType" icon="sap-icon://save" type="Accept" />								
+						</HBox>
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabLogisticType" rows="{path: '/tabLogisticType'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="90%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.logisticType}" />
+										<table:template>
+											<Input value="{LOGISTIC_TYPE}" tooltip="{LOGISTIC_TYPE}" editable="{=(${EDIT} === 'true')}" width="100%" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Edit}" />
+										<table:template>
+											<Button press="editLogisticType" tooltip="{i18n&gt;viewLogistic.table.Edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Delete}" />
+										<table:template>
+											<Button press="deleteLogisticType" tooltip="{i18n&gt;viewLogistic.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>	
+				</IconTabFilter>
+				
+				<!-- Logistic Dimension -->
+				<IconTabFilter key="LDIM" icon="sap-icon://measure" text="{i18n&gt;viewLogistic.logisticDimension}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Button text="{i18n&gt;viewLogistic.newDimension}" tooltip="{i18n&gt;viewLogistic.newDimension}" press="newLogisticDimension" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnCloseLogisticDimension" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getLogisticDimension" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />	
+							<Button id="btnSaveLogisticDimension" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveNewLogisticDimension" icon="sap-icon://save" type="Accept" />
+						</HBox>
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabLogisticDimension" rows="{path: '/tabLogisticDimension'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="45%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.logisticDimension}" />
+										<table:template>
+											<Input value="{LOGISTIC_DIMENSION}" tooltip="{LOGISTIC_DIMENSION}" editable="{=(${EDIT} === 'true')}" width="100%" />
+										</table:template>
+									</table:Column>	
+									<table:Column width="45%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.logisticUoM}" />
+										<table:template>
+											<ComboBox selectedKey="{UOM_ID}" items="{path: '/uomList', templateShareable:false}" width="100%" editable="{=(${EDIT} === 'true')}" change="comboUoMChange">
+												<core:Item key="{UOM_ID}" text="{UOM}" />
+											</ComboBox>
+										</table:template>
+									</table:Column>									
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Edit}" />
+										<table:template>
+											<Button press="editLogisticDimension" tooltip="{i18n&gt;viewLogistic.table.Edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Delete}" />
+										<table:template>
+											<Button press="deleteLogisticDimension" tooltip="{i18n&gt;viewLogistic.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				
+				<!-- Logistic Province -->
+				<IconTabFilter key="LPROV" icon="sap-icon://globe" text="{i18n&gt;viewLogistic.province}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Button text="{i18n&gt;viewLogistic.newProvince}" tooltip="{i18n&gt;viewLogistic.newProvince}" press="newLogisticProvince" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnCloseLogisticProvince" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getLogisticProvince" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />	
+							<Button id="btnSaveLogisticProvince" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveNewProvince" icon="sap-icon://save" type="Accept" />
+						</HBox>
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabLogisticProvince" rows="{path: '/tabLogisticProvince'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="20%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.province}" />
+										<table:template>
+											<Input value="{PROVINCE}" tooltip="{PROVINCE}" editable="{=(${EDIT} === 'true')}" width="100%" />
+										</table:template>
+									</table:Column>	
+									<table:Column width="50%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.provinceDescription}" />
+										<table:template>
+											<Input value="{DESCRIPTION}" tooltip="{DESCRIPTION}" editable="{=(${EDIT} === 'true')}" width="100%" />
+										</table:template>
+									</table:Column>		
+									<table:Column width="20%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.state}" />
+										<table:template>
+											<Input value="{STATE} - {STATE_DESCRIPTION}" tooltip="{STATE} - {STATE_DESCRIPTION}" editable="{=(${EDIT} === 'true')}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openStatePopup" width="100%" />
+										</table:template>
+									</table:Column>	
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Edit}" />
+										<table:template>
+											<Button press="editProvince" tooltip="{i18n&gt;viewLogistic.table.Edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Delete}" />
+										<table:template>
+											<Button press="deleteProvince" tooltip="{i18n&gt;viewLogistic.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				
+				<!-- Logistic State -->
+				<IconTabFilter key="LSTATE" icon="sap-icon://map" text="{i18n&gt;viewLogistic.state}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Button text="{i18n&gt;viewLogistic.newState}" tooltip="{i18n&gt;viewLogistic.newState}" press="newLogisticState" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnCloseLogisticState" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getLogisticState" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />	
+							<Button id="btnSaveLogisticState" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveNewState" icon="sap-icon://save" type="Accept" />
+						</HBox>
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabLogisticStates" rows="{path: '/tabLogisticStates'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="20%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.State}" />
+										<table:template>
+											<Input value="{STATE}" tooltip="{STATE}" editable="{=(${NEW_STATE} === 'true')}" width="100%" />
+										</table:template>
+									</table:Column>	
+									<table:Column width="50%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.StateDescription}" />
+										<table:template>
+											<Input value="{STATE_DESCRIPTION}" tooltip="{STATE_DESCRIPTION}" editable="{=(${EDIT} === 'true')}" width="100%" />
+										</table:template>
+									</table:Column>		
+									<table:Column width="20%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.Country}" />
+										<table:template>
+											<ComboBox selectedKey="{COUNTRY_ID}" enabled="{=(${EDIT} === 'true')}" >
+												<core:Item key="EU" text="EU" />
+												<core:Item key="US" text="US" />
+											</ComboBox>
+										</table:template>
+									</table:Column>	
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Edit}" />
+										<table:template>
+											<Button press="editState" tooltip="{i18n&gt;viewLogistic.table.Edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Delete}" />
+										<table:template>
+											<Button press="deleteState" tooltip="{i18n&gt;viewLogistic.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				
+				<!-- Logistic Message Template -->
+				<IconTabFilter key="LTEMP" icon="sap-icon://comment" text="{i18n&gt;viewMail.template}">
+					<VBox width="100%" height="100%" renderType="Bare">						
+						<HBox width="100%" height="15%" renderType="Bare" >
+							<l:VerticalLayout width="100%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewWRK.label.search}:" class="sapUiContentPadding" />
+								<HBox width="100%" height="100%" renderType="Bare">
+									<HBox width="25%" height="100%" renderType="Bare" class="sapUiTinyMarginEnd">
+										<Label id="messageTemplateId" text="" visible="false" />
+										<Input id="inputTemplateMessage" type="Text" value="" placeholder="{i18n&gt;viewMail.template.selecttemplate}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="getMessageTemplate" class="sapUiSmallMarginBottom" width="100%" />										
+									</HBox>									
+									<HBox width="74%" height="100%" renderType="Bare">
+										<Button id="newMessageTemplate" text="{i18n&gt;viewMail.template.newtemplate}" tooltip="{i18n&gt;viewMail.template.newtemplate}" press="newTemplate" icon="sap-icon://letter" class="sapUiTinyMarginEnd" visible="{/VisibleAdmin/VISIBLE}" />
+										<Button id="resetMessageTemplate" text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="closeTemplate" icon="sap-icon://reset" type="Reject" class="sapUiSmallMarginEnd" />
+										<Button id="saveMessageTemplate" text="{i18n&gt;viewUsr.save}" tooltip="{i18n&gt;viewUsr.save}" press="saveTemplate" icon="sap-icon://save" type="Accept" class="sapUiTinyMarginEnd" />
+										<Button id="delMessageTemplate" text="{i18n&gt;viewUsr.delete}" tooltip="{i18n&gt;viewUsr.delete}" press="deleteTemplate" icon="sap-icon://delete" type="Reject" visible="{/VisibleAdmin/VISIBLE}" />										
+									</HBox>
+								</HBox>
+							</l:VerticalLayout>
+						</HBox>
+						<HBox width="100%" height="15%" renderType="Bare">
+							<l:VerticalLayout width="25%" class="sapUiContentPadding" visible="{/VisibleAdmin/VISIBLE}">
+								<Label text="{i18n&gt;viewMail.template.name}:" />
+								<Input id="messageTemplateName" width="100%" change="checkIfExistMessageTemplate" enabled="false" />
+							</l:VerticalLayout>							
+							<l:VerticalLayout width="25%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewLogistic.template.description}:" />
+								<Input id="messageTemplateDescription" width="100%" enabled="false" />
+							</l:VerticalLayout>
+							<l:VerticalLayout width="25%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewLogistic.template.status}:" />
+								<ComboBox id="comboTemplateStatus" items="{path: '/messageStatusList', sorter: { path: 'ORDER',	descending: false}}" enabled="false" >
+									<core:Item key="{STATUS}" text="{STATUS_DESCRIPTION}" />
+								</ComboBox>
+							</l:VerticalLayout>
+							<HBox width="25%" height="100%" renderType="Bare" />
+						</HBox>
+						<HBox width="100%" height="25%" renderType="Bare">
+							<l:VerticalLayout width="100%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewMail.template.object}:" />
+								<HBox width="100%" renderType="Bare">
+									<ComboBox id="comboTagObject" selectionChange="onChangeTag" items="{path: '/tagList',sorter: { path: 'descr' }}" class="sapUiTinyMarginEnd" >
+										<core:Item key="{value}" text="{descr}" />
+									</ComboBox>
+									<Button text="{i18n&gt;viewMail.template.addtag}" press="addTagObject" icon="sap-icon://blank-tag" class="sapUiTinyMarginEnd" />
+									<Button text="{i18n&gt;viewMail.template.removetag}" press="removeTagObject" icon="sap-icon://blank-tag-2" type="Reject" />
+								</HBox>
+								<Input id="templateMessageObject" width="70%" fieldWidth="100%" change="" />
+							</l:VerticalLayout>
+						</HBox>
+						<HBox width="100%" height="45%" renderType="Bare">
+							<l:VerticalLayout width="100%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewMail.template.body}:" />
+								<HBox width="100%" renderType="Bare">
+									<ComboBox id="comboTagMessageBody" selectionChange="onChangeTag" items="{path: '/tagList',sorter: { path: 'descr' }}" class="sapUiTinyMarginEnd" >
+										<core:Item key="{value}" text="{descr}" />
+									</ComboBox>
+									<Button text="{i18n&gt;viewMail.template.addtag}" press="addTagBody" icon="sap-icon://blank-tag" class="sapUiTinyMarginEnd" />
+									<Button text="{i18n&gt;viewMail.template.removetag}" press="removeTagBody" icon="sap-icon://blank-tag-2" type="Reject" />
+								</HBox>
+								<TextArea id="templateMessageBody" rows="6" cols="160" />
+							</l:VerticalLayout>
+						</HBox>
+					</VBox>
+				</IconTabFilter>				
+			</items>
+		</IconTabBar>
+	</VBox>
+</mvc:View>

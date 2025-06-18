@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" xmlns:u="sap.uxap" >
+    <u:ObjectPageSubSection title="{i18n&gt;viewPhase.header}" class="sapUxAPObjectPageSubSectionFitContainer">
+		<HBox justifyContent="SpaceBetween">
+			<VBox width="33%" class="sapUiContentPadding">
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.sequence}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Input value="{/PhaseData/SEQUENCE}" change="checkifPhasehasDot" enabled="{/viewPhaseElements/enabledSequenceField}" required="{= !!${/viewPhaseElements/editMode}}" />
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.phasevers}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<StepInput width="30%" value="{/PhaseData/OP_CODE}" change="changeStepInputCheck" min="0" textAlign="Center" enabled="{/viewPhaseElements/enabledVersionField}" required="{= !!${/viewPhaseElements/editMode}}" />
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.macrophase}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<ComboBox value="{/PhaseData/MAINSEQUENCE}" selectedKey="{/PhaseData/MAINSEQUENCE}" items="{path: '/macrophaselist',sorter: { path: 'MAINSEQUENCE' }}" width="60%" enabled="{/viewPhaseElements/enabledMacroPhaseField}" required="{= !!${/viewPhaseElements/editMode}}">
+						<core:Item key="{MAINSEQUENCE}" text="{MAINSEQUENCE}" />
+					</ComboBox>
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.phaseDescr}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Input type="Text" value="{/PhaseData/OP_CODE_DESCR}" showValueHelp="{= ${/viewPhaseElements/editMode} &amp;&amp; ${/PhaseData/OP_CODE_ID} !== '0'}" valueHelpOnly="{= ${/viewPhaseElements/editMode} &amp;&amp; ${/PhaseData/OP_CODE_ID} !== '0'}" valueHelpRequest="handlePhaseDescrValueHelp" valueHelpIconSrc="sap-icon://globe" enabled="{/viewPhaseElements/enabledDescriptionField}" required="{= !!${/viewPhaseElements/editMode}}" />
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.phasePriceListCode}:" />
+					<Input type="Text" value="{/PhaseData/CODE_LIST}" enabled="{/viewPhaseElements/enabledPriceListCodeField}" />
+				</l:VerticalLayout>
+			</VBox>
+			<VBox width="33%" class="sapUiContentPadding">
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.state}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Select selectedKey="{/PhaseData/STATE_ID}" enabled="{/viewPhaseElements/enabledStateField}" required="{= !!${/viewPhaseElements/editMode}}">
+						<core:Item key="1" text="{i18n&gt;viewPhase.active}" />
+						<core:Item key="0" text="{i18n&gt;viewPhase.inactive}" />
+					</Select>
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.phaseType}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Select width="60%" selectedKey="{/PhaseData/SEQUENCE_TYPE}" showSecondaryValues="false" enabled="{/viewPhaseElements/enabledPhaseTypeField}" required="{= !!${/viewPhaseElements/editMode}}">
+						<core:ListItem key="0" text="0 - {i18n&gt;viewPhase.phasetype.0}" />
+						<core:ListItem key="1" text="1 - {i18n&gt;viewPhase.phasetype.1}" />
+						<core:ListItem key="2" text="2 - {i18n&gt;viewPhase.phasetype.2}" />
+						<core:ListItem key="3" text="3 - {i18n&gt;viewPhase.phasetype.3}" />
+					</Select>
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.kmat}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<MultiComboBox items="{/kmatlist}" selectedKeys="{/PhaseData/KMAT_ID}" showSecondaryValues="false" enabled="{/viewPhaseElements/enabledKmatField}" required="{= !!${/viewPhaseElements/editMode}}">
+						<core:ListItem key="{KMAT_ID}" text="{KMAT}" />
+					</MultiComboBox>
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.phaseparal}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Switch state="{/PhaseData/PARALLEL}" change="updParalelValue" customTextOn="{i18n&gt;viewPhase.yes}" customTextOff="{i18n&gt;viewPhase.no}" enabled="{/viewPhaseElements/enabledParallelField}" />
+				</l:VerticalLayout>
+                <l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+                    <Label text="{i18n&gt;viewPhase.notes}" />
+                    <Button icon="sap-icon://notes" text="{i18n&gt;viewPhase.notes}" press="onOpenPhaseNotes" enabled="{/viewPhaseElements/enableNotesBtn}" />
+                </l:VerticalLayout>
+			</VBox>
+			<VBox width="33%" class="sapUiContentPadding">
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.currentVersion}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Switch state="{/PhaseData/CURRENT_VERSION}" change="updDftValue" customTextOn="{i18n&gt;viewPhase.yes}" customTextOff="{i18n&gt;viewPhase.no}" enabled="{= !${/PhaseData/CURRENT_VERSION} &amp;&amp; ${/viewPhaseElements/enabledCurrentVersionField}}" />
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.relevantTime}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Select width="60%" selectedKey="{/PhaseData/TIMEREL}" showSecondaryValues="false" enabled="{/viewPhaseElements/enabledRelevantTimeField}" required="{= !!${/viewPhaseElements/editMode}}">
+						<core:ListItem key="0" text="0 - {i18n&gt;viewPhase.timerel.0}" />
+						<core:ListItem key="1" text="1 - {i18n&gt;viewPhase.timerel.1}" />
+						<core:ListItem key="2" text="2 - {i18n&gt;viewPhase.timerel.2}" />
+					</Select>
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.operatorsStd}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<StepInput width="30%" value="{/PhaseData/OPERATORS}" change="changeStepInputCheck" min="0" textAlign="Center" enabled="{/viewPhaseElements/enabledOperatorsStdField}" required="{= !!${/viewPhaseElements/editMode}}" />
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.standardTime}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<StepInput width="30%" value="{/PhaseData/STDTIME}" change="changeStepInputCheck" min="0" textAlign="Center" enabled="{/viewPhaseElements/enabledStandardTimeField}" required="{= !!${/viewPhaseElements/editMode}}" />
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.recoveryPhase}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Switch state="{/PhaseData/RECOVERYPHASE}" customTextOn="{i18n&gt;viewPhase.yes}" customTextOff="{i18n&gt;viewPhase.no}" enabled="{/viewPhaseElements/enabledRecoveryField}" />
+				</l:VerticalLayout>
+			</VBox>
+		</HBox>
+	</u:ObjectPageSubSection>
+</core:FragmentDefinition>

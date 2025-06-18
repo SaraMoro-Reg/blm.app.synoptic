@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" >
+	<Dialog id="phaseMasterFilter" title="{i18n&gt;viewPhase.phaseFilterMaster}" contentWidth="30rem" contentHeight="80rem" horizontalScrolling="false" afterClose="onClosePhaseFilterMaster" class="sapUiContentPadding">
+		<content>
+			<VBox width="100%">
+				<Label text="{i18n&gt;viewPhase.kmat}:" required="true" />
+				<MultiComboBox items="{/kmatlist}" selectedKeys="{/filterMasterChecklist/KMAT_ID}" showSecondaryValues="false" class="sapUiSmallMarginBottom" selectionChange="onFilterMasterChecklistChange">
+					<core:ListItem key="{KMAT_ID}" text="{KMAT}" />
+				</MultiComboBox>
+				<Label text="{i18n&gt;viewPhase.macrophase}:" />
+				<MultiComboBox selectedKeys="{/filterMasterChecklist/MAINSEQUENCE}" items="{path: '/macrophaselist',sorter: { path: 'MAINSEQUENCE' }}" class="sapUiSmallMarginBottom" selectionChange="onFilterMasterChecklistChange">
+					<core:Item key="{MAINSEQUENCE}" text="{MAINSEQUENCE}" />
+				</MultiComboBox>
+				<Label text="{i18n&gt;viewPhase.recoveryPhase}:" />
+				<Switch state="{/filterMasterChecklist/RECOVERYPHASE}" customTextOn="{i18n&gt;viewPhase.yes}" customTextOff="{i18n&gt;viewPhase.no}" change="onFilterMasterChecklistChange" />
+			</VBox>
+		</content>
+		<buttons>
+			<Button id="resetPhaseMasterFilter" tooltip="{i18n&gt;viewSupWh.removeFilters}" press="removePhaseMasterFilter" icon="sap-icon://clear-filter" iconDensityAware="true" visible="{/viewPhaseElements/isFilterMasterChecklist}" />
+			<Button text="{i18n&gt;viewSite.applyFilters}" tooltip="{i18n&gt;viewSite.applyFilters}" press="savePhaseMasterFilter" type="Emphasized" />
+			<Button text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="onClosePopupPhaseMasterFilter" type="Ghost" />
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

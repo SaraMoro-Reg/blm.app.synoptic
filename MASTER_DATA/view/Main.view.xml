@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:html="http://www.w3.org/1999/xhtml" controllerName="master_data.controller.Main" height="100%">
+	<App>
+		<pages>
+			<Page enableScrolling="false">
+				<customHeader>
+					<Bar class="customBackGround">
+						<contentLeft>
+							<Button icon="sap-icon://nav-back" press="handleBackPress" class="whiteIcon" />
+							<Image width="16%" src="images/logo.jpg" densityAware="false">
+								<layoutData>
+									<FlexItemData growFactor="1" />
+								</layoutData>
+							</Image>
+						</contentLeft>
+						<contentMiddle>
+							<Label id="labelTime" text="" class="pageTitleStyle whiteFont" />
+						</contentMiddle>
+						<contentRight>
+							<Label text="{/user/0/Name}" class="lbheader whiteFont" />
+							<!-- <Button icon="sap-icon://person-placeholder" enabled="false" class="paddingLeft1rem whiteIcon" /> -->
+							<!-- <Button icon="sap-icon://log" press="handleLogOff" class="whiteIcon" /> -->
+							<Avatar initials="{/user/0/AVATAR}" displaySize="XS" showBorder="false" press=".onAvatarPressed" backgroundColor="Accent1" class="sapUiTinyMarginEnd" />
+						</contentRight>
+					</Bar>
+				</customHeader>
+				<content>
+					<IconTabBar expandable="false" select="selectedIcontab" headerBackgroundDesign="Translucent" backgroundDesign="Translucent" stretchContentHeight="true" applyContentPadding="true">
+						<items>
+							<IconTabFilter visible="{/VisibleAdmin/FULL_EDIT_MODE}" icon="sap-icon://factory" text="{i18n&gt;site}" key="SITE">
+								<mvc:XMLView viewName="master_data.view.Site" async="true" />
+							</IconTabFilter>
+							<IconTabFilter visible="{/VisibleAdmin/FULL_EDIT_MODE}" icon="sap-icon://user-settings" text="{i18n&gt;usr}" key="USR">
+								<mvc:XMLView viewName="master_data.view.User" async="true" />
+							</IconTabFilter>
+							<IconTabFilter visible="{/VisibleAdmin/FULL_EDIT_MODE}" icon="sap-icon://machine" text="{i18n&gt;wkc}" key="WKC">
+								<mvc:XMLView viewName="master_data.view.WorkCenter" async="true" />
+							</IconTabFilter>
+							<IconTabFilter visible="{= ${/VisibleAdmin/VISIBLE} &amp;&amp; ${/VisibleAdmin/FULL_EDIT_MODE}}" icon="sap-icon://Chart-Tree-Map" text="{i18n&gt;mainTile}" key="MAIN">
+								<mvc:XMLView viewName="master_data.view.MainTile" async="true" />
+							</IconTabFilter>
+							<IconTabFilter visible="{/VisibleAdmin/FULL_EDIT_MODE}" icon="sap-icon://clinical-tast-tracker" text="{i18n&gt;datacollection}" key="DC">
+								<mvc:XMLView viewName="master_data.view.DC" async="true" />
+							</IconTabFilter>
+							<IconTabFilter visible="{/VisibleAdmin/FULL_EDIT_MODE}" icon="sap-icon://chevron-phase" text="{i18n&gt;operations}" key="OP">
+								<mvc:XMLView viewName="master_data.view.Phase" async="true" />
+							</IconTabFilter>
+							<IconTabFilter visible="{/VisibleAdmin/FULL_EDIT_MODE}" icon="sap-icon://action-settings" text="{i18n&gt;item}" key="ITEM">
+								<mvc:XMLView viewName="master_data.view.Material" async="true" />
+							</IconTabFilter>
+							<IconTabFilter visible="{/VisibleAdmin/FULL_EDIT_MODE}" icon="sap-icon://email" text="{i18n&gt;mail}" key="EM">
+								<mvc:XMLView viewName="master_data.view.Mailing" async="true" />
+							</IconTabFilter>
+							<IconTabFilter visible="{/VisibleAdmin/FULL_EDIT_MODE}" icon="sap-icon://documents" text="{i18n&gt;documents}" key="DOC">
+								<mvc:XMLView viewName="master_data.view.Attached" async="true" />
+							</IconTabFilter>
+							<IconTabFilter visible="{= ${/user/0/Site} === 'ADIGE' &amp;&amp; ${/VisibleAdmin/FULL_EDIT_MODE}}" icon="sap-icon://customer-and-supplier" text="{i18n&gt;SupplierWarehouse}" key="SW">
+								<mvc:XMLView viewName="master_data.view.SupplierWarehouse" async="true" />
+							</IconTabFilter>
+							<IconTabFilter visible="{= ${/user/0/Site} === 'ADIGE' &amp;&amp; ${/VisibleAdmin/FULL_EDIT_MODE}}" icon="sap-icon://shipping-status" text="{i18n&gt;logistic}" key="LOGISTIC">
+								<mvc:XMLView viewName="master_data.view.Logistic" async="true" />
+							</IconTabFilter>
+							<IconTabFilter visible="{/VisibleAdmin/FULL_EDIT_MODE}" icon="sap-icon://subway-train" text="{i18n&gt;Bgusa}" key="BGUSA">
+								<mvc:XMLView viewName="master_data.view.Bgusa" async="true" />
+							</IconTabFilter>
+							<IconTabFilter icon="sap-icon://upload" text="{i18n&gt;upload}" key="UPLOAD">
+								<mvc:XMLView viewName="master_data.view.Upload" async="true" />
+							</IconTabFilter>
+						</items>
+					</IconTabBar>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

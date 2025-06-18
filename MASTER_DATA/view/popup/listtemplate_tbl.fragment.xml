@@ -1,0 +1,63 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<TableSelectDialog
+		title="{i18n&gt;viewMail.template.selecttemplatePop}" 
+		liveChange=".handleSearchTmp"
+		confirm="handleValueHelpCloseTmp" 
+		cancel="handleValueHelpCloseTmp" 		
+		items="{    path : '/templatelist',    
+				sorter : {     path : 'MessageTemplate',     
+						descending : false    }   
+			}">
+		<ColumnListItem selected="">
+			<cells>
+			        <Text text="{MessageTemplate}" />
+			          <Text text="{MessageObject}" />
+			          <Text text="{MessageBody}" />
+			        <Text text="{MessageTemplateId}" />
+			        <Text text="{DEL}" />
+			<core:Icon
+				src="{ICON}"
+				class="size1"
+				color="{COLORDFT}" >
+				<core:layoutData>
+					<FlexItemData growFactor="1" />
+				</core:layoutData>
+			</core:Icon>
+			</cells>
+		</ColumnListItem>
+		<columns>
+			<Column width="20%">
+				<header>
+					<Text text="{i18n&gt;viewMail.template.name}" />
+				</header>
+			</Column>
+			<Column width="20%">
+				<header>
+					<Text text="{i18n&gt;viewMail.template.object}" />
+				</header>
+			</Column>
+			<Column width="50%">
+				<header>
+					<Text text="{i18n&gt;viewMail.template.body}" />
+				</header>
+			</Column>
+			<Column  visible="false">
+				<header>
+					<Text text="" />
+				</header>
+			</Column>
+			<Column  visible="false">
+				<header>
+					<Text text="" />
+				</header>
+			</Column>
+			<Column width="10%">
+				<header>
+					<Text text="{i18n&gt;viewMail.inuse}" />
+				</header>
+			</Column>
+		</columns>
+	</TableSelectDialog>
+</core:FragmentDefinition>

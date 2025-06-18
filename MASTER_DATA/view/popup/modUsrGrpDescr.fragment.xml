@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:table="sap.ui.table" controllerName="master_data.controller.User">
+	<Dialog id="EditRulePopup" title="{i18n&gt;viewUsr.userGroupDescr}" contentHeight="20rem" contentWidth="70rem" horizontalScrolling="false" afterClose="closePopup">
+		<content>
+			<VBox width="100%" height="19rem" renderType="Bare">
+				<HBox width="100%" height="5%" renderType="Bare" />
+				<HBox width="100%" height="9%" alignItems="Center" renderType="Bare">
+					<HBox width="2%" renderType="Bare" />				
+					<HBox width="10%" renderType="Bare">
+						<Label width="100%" text="{i18n&gt;viewUser.UsrGrp}:" />
+					</HBox>
+					<HBox width="20%" renderType="Bare">
+						<Input id="inputUsrGrpPop" type="Text" enabled="false" />
+					</HBox>
+					<HBox width="63%" renderType="Bare" />
+				</HBox>
+				<HBox width="100%" height="5%" renderType="Bare" />
+				<HBox width="100%" height="75%" renderType="Bare">
+					<HBox width="2%" height="100%" renderType="Bare" />
+					<table:Table rows="{path: '/tabDescrUsrGrp'}" width="96%" selectionMode="None" selectionBehavior="RowOnly" visibleRowCountMode="Auto">
+						<table:rowSettingsTemplate>
+							<table:RowSettings highlight="{=(${DEL} === 'false' &amp;&amp; ${EDIT} === 'false') ? 'None' : ${DEL} === 'true' ? 'Error' : 'Warning'}" />
+						</table:rowSettingsTemplate>
+						<table:columns>
+							<table:Column width="15%" hAlign="Center" >
+								<Label text="{i18n&gt;viewUser.UsrGrp}" />
+								<table:template>
+									<ComboBox selectedKey="{LANG}" width="100%" valueState="None" maxWidth="100%" editable="{=(${DEL} === 'false')? true : false}">
+										<items>
+											<core:Item key="IT" text="{i18n&gt;viewSite.it}" />
+											<core:Item key="EN" text="{i18n&gt;viewSite.en}" />
+										</items>
+									</ComboBox>
+								</table:template>
+							</table:Column>
+							<table:Column width="auto" hAlign="Center" >
+								<Label text="{i18n&gt;viewUsr.usrGrpDescr}" />
+								<table:template>
+									<Input value="{DESCRIPTION}" width="100%" editable="{=(${DEL} === 'false')? true : false}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="8%" hAlign="Center" >
+								<Label text="{i18n&gt;viewSite.Delete}" />
+								<table:template>
+									<Button press="deleteDescrUsrGrp" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+								</table:template>
+							</table:Column>
+						</table:columns>
+					</table:Table>
+					<HBox width="2%" height="100%" renderType="Bare" />
+				</HBox>
+				<HBox width="100%" height="5%" alignItems="Center" renderType="Bare">
+					<HBox width="83%" height="100%" renderType="Bare" />
+					<HBox width="11%" height="100%" alignItems="Center"  renderType="Bare">
+						<Button text="{i18n&gt;viewUsr.newDescrRule}" press="newDescrUsrGrp" icon="sap-icon://add" />
+					</HBox>
+					<HBox width="6%" height="100%" renderType="Bare" />
+				</HBox>
+			</VBox>
+		</content>
+		<buttons>
+			<Button icon="sap-icon://undo" press="closePopup" class="halfSizeButton buttonRed" />
+			<Button icon="sap-icon://accept" press="confirmEditUsrGrpDescr" class="halfSizeButton buttonGreen" />
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

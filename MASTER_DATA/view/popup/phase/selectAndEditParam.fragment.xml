@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Dialog showHeader="false" stretch="true" horizontalScrolling="false" afterClose="onClosePhaseControllerPopupParam">
+		<content>
+			<NavContainer id="paramNavContainer">
+				<Page id="paramListPage1" title="{i18n&gt;viewDC.listparamPop}" backgroundDesign="Transparent">
+					<!-- fragment lista parametri (listparam2.fragment.xml) -->
+					<headerContent />
+					<subHeader>
+						<OverflowToolbar>
+							<SearchField id="searchFieldParam" width="28%" liveChange="onSearchParamFilter" />
+							<ToolbarSpacer />
+							<Button text="{i18n&gt;viewDC.addparam}" tooltip="{i18n&gt;viewDC.addparam}" press="newParam(true)" icon="sap-icon://add" type="Transparent" />
+						</OverflowToolbar>
+					</subHeader>
+					<content>
+						<List id="paramList" items="{/paramlist}" mode="SingleSelectMaster" selectionChange="onConfirmSearchParam">
+							<items>
+								<StandardListItem selected="" title="{PARAMDESC}" description="{PARAMNAME}" type="Detail" wrapping="true" detailPress="onEditParamInPhase" />
+							</items>
+						</List>
+					</content>
+					<footer>
+						<OverflowToolbar>
+							<ToolbarSpacer />
+							<Button text="{i18n&gt;viewLogistic.reset}" press="onClosePhaseControllerPopupParam" type="Emphasized" />
+						</OverflowToolbar>
+					</footer>
+				</Page>
+				<Page id="paramEditPage2" title="Modifica Parametro" showNavButton="true" navButtonPress="backListParamPopup" backgroundDesign="Transparent">
+					<!-- view Raccolta Dati tab Parametro per modifica parametro (DC.viewxml) -->
+					<core:Fragment fragmentName="master_data.view.popup.dc.dcPageContent" type="XML" />
+				</Page>
+			</NavContainer>
+		</content>
+	</Dialog>
+</core:FragmentDefinition>

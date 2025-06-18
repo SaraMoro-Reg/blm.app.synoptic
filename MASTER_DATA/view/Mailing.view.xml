@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" xmlns:u="sap.ui.unified" controllerName="master_data.controller.Mailing" height="100%" displayBlock="true">
+	<VBox height="100%" width="100%" renderType="Bare">
+	<!-- headerMode="Inline" tabDensityMode="Compact" -->
+		<IconTabBar id="mailTabBar" expandable="false" tabDensityMode="Compact"  headerBackgroundDesign="Translucent" select="pressMailTabBar" backgroundDesign="Translucent" stretchContentHeight="true" applyContentPadding="false">
+			<items>
+				<!-- Mailing List -->
+				<IconTabFilter icon="sap-icon://address-book" text="{i18n&gt;viewMail.maillist}" key="ML">
+					<HBox width="100%" height="20%" renderType="Bare">
+						<l:VerticalLayout width="100%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewWRK.label.search}:" />
+							<HBox width="100%" height="100%" renderType="Bare">
+								<Input id="mailInputList" type="Text" value="" placeholder="{i18n&gt;viewMail.ListMail}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelpMail" class="sapUiSmallMarginBottom sapUiTinyMarginEnd" width="20%" />
+								<Button id="dwnlxecl" tooltip="{i18n&gt;viewPhase.download}" icon="sap-icon://excel-attachment" press="downloadModel" enabled="true" class="sapUiSmallMarginEnd"  />
+								<Button id="newMailingList" text="{i18n&gt;vieMail.newMail}" press="refreshNewMail(true)" icon="sap-icon://address-book" class="sapUiSmallMarginEnd" />
+								<Button id="closeMailingList" enabled="false" text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="refreshNewMail(false)" icon="sap-icon://reset" class="sapUiMediumMarginEnd"/>
+								<Button id="saveMailingList" enabled="false" text="{i18n&gt;viewUsr.save}" tooltip="{i18n&gt;viewUsr.save}" press="saveNewMaillist('0')" icon="sap-icon://save" type="Accept" class="sapUiTinyMarginEnd" />
+								<Button id="delMailingList" enabled="false" text="{i18n&gt;viewUsr.delete}" tooltip="{i18n&gt;viewUsr.delete}" press="saveNewMaillist('1')" icon="sap-icon://delete" type="Reject" />
+							</HBox>
+						</l:VerticalLayout>
+					</HBox>
+					<HBox width="100%" height="20%" renderType="Bare">
+						<l:VerticalLayout width="25%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewMail.maillist}:" />
+							<Input id="inputMail" width="100%" fieldWidth="100%" change="checkifmaillistexist" />
+						</l:VerticalLayout>
+						<l:VerticalLayout width="25%" class="sapUiContentPadding" visible="{/VisibleAdmin/VISIBLE}">
+							<Label text="{i18n&gt;viewMail.SystemMailingList}:" />
+							<Switch id="switchSystemMailingList" state="false" change="onChangeSystemMailingList" />
+						</l:VerticalLayout>
+						<HBox width="50%" renderType="Bare" />
+					</HBox>
+					<HBox width="100%" height="60%" renderType="Bare">
+						<l:VerticalLayout class="sapUiContentPadding">
+							<HBox width="100%" height="10%" renderType="Bare">
+								<Button id="addMail" enabled="false" text="{i18n&gt;viewMail.addmail}" tooltip="{i18n&gt;viewMail.addmail}" press="addMail" icon="sap-icon://email" class="sapUiTinyMarginEnd" />
+								<Button id="saveUserToMail" enabled="false" text="{i18n&gt;viewMail.saveMail}" tooltip="{i18n&gt;viewMail.saveMail}" press="updateMail" icon="sap-icon://save" type="Accept" />
+							</HBox>
+							<table:Table id="tablemail" rows="{path: '/tablemail'}" width="100%" selectionMode="None" visibleRowCountMode="Fixed" visibleRowCount="6" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+								</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="20%" hAlign="Center">
+										<Label text="{i18n&gt;viewUsr.user}" />
+										<table:template>
+											<Input id="usrList" type="Text" value="{USR}" placeholder="{i18n&gt;viewMail.table.usrsel}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelpMailUsr" width="100%" textAlign="Center" editable="{EDIT}" />
+										</table:template>
+									</table:Column>
+									<table:Column width="38%" hAlign="Center">
+										<Label text="{i18n&gt;viewUsr.Table.ruledescr}" />
+										<table:template>
+											<Label text="{NAME}" tooltip="{NAME}" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="35%" hAlign="Center">
+										<Label text="{i18n&gt;viewMail.mailAddr}" />
+										<table:template>
+											<Label text="{EMAILADDRESS}" tooltip="{EMAILADDRESS}" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewUsr.Table.ruledelete}" />
+										<table:template>
+											<Button press="deleteUsrfromlist" tooltip="{i18n&gt;viewUsr.Table.ruledelete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</l:VerticalLayout>
+					</HBox>
+				</IconTabFilter>
+				<!-- <IconTabSeparator icon="sap-icon://vertical-grip" /> -->
+				<!-- Mailing Template -->
+				<IconTabFilter icon="sap-icon://letter" text="{i18n&gt;viewMail.template}" key="TP">
+					<VBox width="100%" height="100%" renderType="Bare">						
+						<HBox width="100%" height="15%" renderType="Bare" >
+							<l:VerticalLayout width="100%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewWRK.label.search}:" class="sapUiContentPadding" />
+								<HBox width="100%" height="100%" renderType="Bare">
+									<Input id="templateInputList" type="Text" value="" placeholder="{i18n&gt;viewMail.template.selecttemplate}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelpTmp" class="sapUiSmallMarginBottom sapUiTinyMarginEnd" width="20%" />
+									<Button id="dwnlxecltemp" tooltip="{i18n&gt;viewPhase.download}" icon="sap-icon://excel-attachment" press="dwnlxecltemp" class="sapUiSmallMarginEnd" />								
+									<Button id="newTemplate" text="{i18n&gt;viewMail.template.newtemplate}" tooltip="{i18n&gt;viewMail.template.newtemplate}" press="newTemplate(true)" icon="sap-icon://letter" class="sapUiSmallMarginEnd" />
+									<Button id="closeTemplate" text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="newTemplate(false)" icon="sap-icon://reset" class="sapUiMediumMarginEnd"/>
+									<Button id="saveTemplate" text="{i18n&gt;viewUsr.save}" tooltip="{i18n&gt;viewUsr.save}" press="addTemplate('0')" icon="sap-icon://save" type="Accept" class="sapUiTinyMarginEnd" />								
+									<Button id="delTemplate" text="{i18n&gt;viewUsr.delete}" tooltip="{i18n&gt;viewUsr.delete}"  press="addTemplate('1')" icon="sap-icon://delete" type="Reject" class="sapUiSmallMarginEnd" />								
+									<Button id="testMail" text="{i18n&gt;viewMail.template.sendtest}" tooltip="{i18n&gt;viewMail.template.sendtest}" press="sendMaitest" icon="sap-icon://paper-plane" type="Emphasized" />									
+								</HBox>
+							</l:VerticalLayout>
+						</HBox>
+						<HBox width="100%" height="15%" renderType="Bare">
+							<l:VerticalLayout width="25%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewMail.template.name}:" />
+								<Input id="templateName" width="100%" change="checkIfExistTemplate" />
+							</l:VerticalLayout>
+							<l:VerticalLayout width="25%" class="sapUiContentPadding" visible="{/VisibleAdmin/VISIBLE}">
+								<Label text="{i18n&gt;viewMail.SystemMessageTemplate}:" />
+								<Switch id="switchSystemMessageTemplate" state="false" change="onChangeSystemMessageTemplate" />
+							</l:VerticalLayout>
+							<HBox width="50%" renderType="Bare" />
+						</HBox>
+						<HBox width="100%" height="25%" renderType="Bare">
+							<l:VerticalLayout width="100%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewMail.template.object}:" />
+								<HBox width="100%" renderType="Bare">
+									<ComboBox id="comboTag1" selectionChange="onChangeType" items="{path: '/variablelist',sorter: { path: 'descr' }}" class="sapUiTinyMarginEnd">
+										<core:Item key="{value}" text="{descr}" />
+									</ComboBox>
+									<Button id="addTagObj" text="{i18n&gt;viewMail.template.addtag}" press="addTagObject" icon="sap-icon://blank-tag" class="sapUiTinyMarginEnd" />
+									<Button id="removeTagObj" text="{i18n&gt;viewMail.template.removetag}" press="removeTagObject" icon="sap-icon://blank-tag-2" type="Reject" />
+								</HBox>
+								<Input id="templateObject" width="70%" fieldWidth="100%" change="" />
+							</l:VerticalLayout>
+						</HBox>
+						<HBox width="100%" height="45%" renderType="Bare">
+							<l:VerticalLayout width="100%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewMail.template.body}:" />
+								<HBox width="100%" renderType="Bare">
+									<ComboBox id="comboTag2" selectionChange="onChangeType" items="{path: '/variablelist',sorter: { path: 'descr' }}" class="sapUiTinyMarginEnd">
+										<core:Item key="{value}" text="{descr}" />
+									</ComboBox>
+									<Button id="addTagBody" text="{i18n&gt;viewMail.template.addtag}" press="addTagBody" icon="sap-icon://blank-tag" class="sapUiTinyMarginEnd" />
+									<Button id="removeTagBody" text="{i18n&gt;viewMail.template.removetag}" press="removeTagBody" icon="sap-icon://blank-tag-2" type="Reject" />
+								</HBox>
+								<TextArea id="templateBody" rows="6" cols="160" change="" />
+							</l:VerticalLayout>
+						</HBox>
+					</VBox>
+				</IconTabFilter>
+				
+				<!-- Mail to Phase -->
+				<IconTabFilter icon="sap-icon://addresses" text="{i18n&gt;viewMai.opmail}" key="MOT">
+					<HBox width="100%" height="20%" renderType="Bare">
+						<l:VerticalLayout width="100%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewWRK.label.search}:" />
+							<HBox width="100%" height="100%" renderType="Bare">
+								<Input id="attachInputList" type="Text" value="" placeholder="{i18n&gt;viewMail.attach.selectattach}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelpAtt" class="sapUiSmallMarginBottom sapUiTinyMarginEnd" width="20%" />
+								<Button id="dwnlxeclattach" tooltip="{i18n&gt;viewPhase.download}" icon="sap-icon://excel-attachment" press="dwnlxeclAssign" enabled="true" class="sapUiSmallMarginEnd" />
+								<Button id="newAttach" text="{i18n&gt;viewMail.attach.newattach}" press="newAssignment(true)" icon="sap-icon://addresses" class="sapUiSmallMarginEnd" />	
+								<Button id="closeMailToPhase" text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="newAssignment(false)" icon="sap-icon://reset" class="sapUiMediumMarginEnd"/>	
+								<Button id="saveAttachtbl" text="{i18n&gt;viewMail.attach.savenewassignm}" tooltip="{i18n&gt;viewMail.attach.savenewassignm}" press="saveMailToPhase" icon="sap-icon://save" type="Accept" />
+							</HBox>
+						</l:VerticalLayout>
+					</HBox>
+					<HBox width="100%" height="20%" renderType="Bare">
+						<l:VerticalLayout width="100%" class="sapUiContentPadding">
+							<Label width="100%" text="{i18n&gt;viewMail.attach.nameassignment}:" />
+							<Input id="inputAttach" width="35%" change="checkIfMailToPhaseExist" />
+						</l:VerticalLayout>
+					</HBox>
+					<HBox width="100%" height="60%" renderType="Bare">
+						<l:VerticalLayout class="sapUiContentPadding">
+							<HBox width="100%" height="10%" renderType="Bare">
+								<Button id="addAttach" text="{i18n&gt;viewMail.attach.newattachtbl}" tooltip="{i18n&gt;viewMail.attach.newattachtbl}" press="addAssignment" icon="sap-icon://attachment" />									
+							</HBox>
+							<table:Table id="tableAttach" rows="{path: '/tableAttach'}" width="100%" selectionMode="None" visibleRowCountMode="Fixed" visibleRowCount="6">
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+								</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="25%" hAlign="Center">
+										<Label text="{i18n&gt;viewMail.attach.table.maillist}" />
+										<table:template>
+											<ComboBox selectedKey="{MAILLIST_ID}" items="{path: '/mailistcombo',sorter: { path: 'MailingList' }, templateShareable:true}" width="100%" valueState="None" maxWidth="100%" editable="{= ${EDIT} === true &amp;&amp; ${DEL} === false}" change="getMailListSelect">
+												<core:Item key="{MailingListId}" text="{MailingList}" />
+											</ComboBox>
+										</table:template>
+									</table:Column>
+									<table:Column width="25%" hAlign="Center">
+										<Label text="{i18n&gt;viewMail.attach.table.template}" />
+										<table:template>
+											<ComboBox selectedKey="{TEMPLATE_ID}" items="{path: '/tempistcombo',sorter: { path: 'MessageTemplate' }, templateShareable:true}" width="100%" valueState="None" maxWidth="100%" editable="{= ${EDIT} === true &amp;&amp; ${DEL} === false}" change="getMailListSelect">
+												<core:Item key="{MessageTemplateId}" text="{MessageTemplate}" />
+											</ComboBox>
+										</table:template>
+									</table:Column>
+									<table:Column width="25%" hAlign="Center">
+										<Label text="{i18n&gt;viewMail.attach.table.phase}" />
+										<table:template>
+											<ComboBox selectedKey="{OPERATION_ID}" items="{path: '/attlistcombo',sorter: { path: 'Sequence' }, templateShareable:true}" width="100%" valueState="None" maxWidth="100%" editable="{= ${EDIT} === true &amp;&amp; ${DEL} === false}" change="getMailListSelect">
+												<core:Item key="{OperationId}" text="{Sequence}" />
+											</ComboBox>
+										</table:template>
+									</table:Column>
+									<table:Column width="19%" hAlign="Center">
+										<Label text="{i18n&gt;viewMail.attach.table.actionSend}" />
+										<table:template>
+											<ComboBox selectedKey="{SEND_TRIGGER}" width="100%" valueState="None" maxWidth="100%" editable="{= ${EDIT} === true &amp;&amp; ${DEL} === false}" >
+												<core:Item key="1" text="{i18n&gt;viewMail.attach.table.actionStart}" />
+												<core:Item key="2" text="{i18n&gt;viewMail.attach.table.actionComplete}" />
+											</ComboBox>
+										</table:template>
+									</table:Column>
+									<table:Column width="6%" hAlign="Center">
+										<Label text="{i18n&gt;viewUsr.Table.ruledelete}" />
+										<table:template>
+											<Button press="deleteMailToPhase" tooltip="{i18n&gt;viewUsr.Table.ruledelete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</l:VerticalLayout>
+					</HBox>
+				</IconTabFilter>
+				
+				<!-- Threshold -->
+				<IconTabFilter icon="sap-icon://travel-request" text="{i18n&gt;viewMail.mailThreshold}" key="MTH">									
+					<HBox width="100%" height="100%" renderType="Bare" >						
+							<table:Table id="tableMailThreshold" rows="{path: '/tableMailThreshold'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" class="sapUiContentPadding">
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+								</table:rowSettingsTemplate>
+								<table:extension>
+									<OverflowToolbar>	
+										<Title id="title" text="{i18n&gt;viewMail.attach.thresholdTableTitle}"/>
+										<ToolbarSpacer/>
+										<Button id="newMailThreshold" text="{i18n&gt;viewMail.attach.newMailThreshold}" tooltip="{i18n&gt;viewMail.attach.newMailThreshold}" enabled="false" press="newMailThreshold" icon="sap-icon://create-entry-time" />										
+										<Button id="btnCloseMailThreshold" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" enabled="false" press="refreshThresholdModel" icon="sap-icon://undo" type="Reject" />
+										<Button id="saveMailThreshold" text="{i18n&gt;viewMail.attach.saveMailThreshold}" tooltip="{i18n&gt;viewMail.attach.saveMailThreshold}" enabled="false" press="saveMailThreshold" icon="sap-icon://save" type="Accept" />
+									</OverflowToolbar>
+								</table:extension>	
+								<table:columns>
+									<table:Column width="33%" hAlign="Center">
+										<Label text="{i18n&gt;viewMail.attach.table.lowerThreshold}" />
+										<table:template>
+											<StepInput width="100%" largerStep="1" min="0" value="{LOWER_THRESHOLD}" textAlign="Center" change="changeThreshold"  />
+										</table:template>
+									</table:Column>
+									<table:Column width="33%" hAlign="Center">
+										<Label text="{i18n&gt;viewMail.attach.table.upperThreshold}" />
+										<table:template>
+											<StepInput width="100%" largerStep="1" min="0" value="{UPPER_THRESHOLD}" textAlign="Center" change="changeThreshold"  />
+										</table:template>
+									</table:Column>
+									<table:Column width="34%" hAlign="Center">
+										<Label text="{i18n&gt;viewMail.attach.table.DiscardSendThreshold}" />
+										<table:template>
+											<StepInput width="100%" largerStep="1" min="0" value="{DISCARD_THRESHOLD}" textAlign="Center" change="changeThreshold" />
+										</table:template>
+									</table:Column>									
+								</table:columns>
+							</table:Table>						
+					</HBox>
+				</IconTabFilter>
+			</items>
+		</IconTabBar>
+	</VBox>
+</mvc:View>

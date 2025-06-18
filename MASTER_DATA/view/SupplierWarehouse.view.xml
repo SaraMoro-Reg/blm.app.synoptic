@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" controllerName="master_data.controller.SupplierWarehouse" height="100%" displayBlock="true">
+	<VBox height="100%" renderType="Bare">
+		<IconTabBar id="idIconTabSuppWarehouse" tabDensityMode="Compact" expandable="false" headerBackgroundDesign="Translucent" select="pressSupplierWarehouse" backgroundDesign="Translucent" stretchContentHeight="true" applyContentPadding="false">
+			<items>			
+				<!-- SUPPLIER -->
+				<IconTabFilter key="SUPPLIER" icon="sap-icon://supplier" text="{i18n&gt;viewSupWh.supplier}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Button text="{i18n&gt;viewSupWh.newSupplier}" tooltip="{i18n&gt;viewSupWh.newSupplier}" press="newSupplier" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnCloseSupplier" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getSupplierList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+							<Button id="saveNewSupplier" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveNewSupplier" icon="sap-icon://save" type="Accept" />
+						</HBox>
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabSupplier" rows="{path: '/tabSupplier'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="86%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.supplier}" />
+										<table:template>
+											<Input value="{SUPPLIER}" tooltip="{SUPPLIER}" editable="{=(${EDIT} === 'true') ? true : false}" width="100%" />
+										</table:template>
+									</table:Column>	
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.edit}" />
+										<table:template>
+											<Button press="editSupplier" tooltip="{i18n&gt;viewSupWh.table.edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.delete}" />
+										<table:template>
+											<Button press="deleteSupplier" tooltip="{i18n&gt;viewSupWh.table.delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				
+				<!-- WAREHOUSE -->
+				<IconTabFilter key="WAREHOUSE" icon="sap-icon://product" text="{i18n&gt;viewSupWh.warehouse}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Button text="{i18n&gt;viewSupWh.newWarehouse}" tooltip="{i18n&gt;viewSupWh.newWarehouse}" press="newWarehouse" icon="sap-icon://add" class="sapUiTinyMarginEnd" />
+							<Button id="btnCloseWarehouse" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getWarehouseList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+							<Button id="saveNewWarehouse" text="{i18n&gt;viewSite.save}" enabled="false" press="saveNewWarehouse" icon="sap-icon://save" type="Accept" />
+						</HBox>
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabWarehouse" rows="{path: '/tabWarehouse'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="43%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.warehouse}" />
+										<table:template>
+											<Input value="{WAREHOUSE}" tooltip="{WAREHOUSE}" editable="{=(${EDIT} === 'true') ? true : false}" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="43%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.sapDeposit}" />
+										<table:template>
+											<Input value="{SAP_DEPOSIT}" tooltip="{SAP_DEPOSIT}" change="checkUniqueSAPDeposit" editable="{=(${EDIT} === 'true') ? true : false}" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.edit}" />
+										<table:template>
+											<Button press="editWarehouse" tooltip="{i18n&gt;viewSupWh.table.edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.delete}" />
+										<table:template>
+											<Button press="deleteWarehouse" tooltip="{i18n&gt;viewSupWh.table.delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				
+				<!-- SUPPLIER_WAREHOUSE -->
+				<IconTabFilter key="SUPPLIER_WAREHOUSE" icon="sap-icon://shipping-status" text="{i18n&gt;viewSupWh.SuppWarehouse}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<HBox width="80%" height="100%" renderType="Bare">
+								<MultiComboBox id="filterSupplier" selectionFinish="getSupplierWarehouseList" items="{/filterSupplier}" showSecondaryValues="true" placeholder="{i18n&gt;viewSupWh.supplier}" width="20%" class="sapUiTinyMarginEnd">
+									<core:ListItem key="{SUPPLIER_ID}" text="{SUPPLIER}" tooltip="{SUPPLIER}" />
+								</MultiComboBox>
+								<MultiComboBox id="filterWarehouse" selectionFinish="getSupplierWarehouseList" items="{/filterWharehouse}" showSecondaryValues="true" placeholder="{i18n&gt;viewSupWh.warehouse}" width="20%" class="sapUiTinyMarginEnd">
+									<core:ListItem key="{WAREHOUSE_ID}" text="{WAREHOUSE}" tooltip="{WAREHOUSE}" />
+								</MultiComboBox>
+								<Button tooltip="{i18n&gt;viewSupWh.removeFilters}" press="removeFilters" type="Transparent" icon="sap-icon://clear-filter" iconDensityAware="true" />
+							</HBox>
+							<HBox width="20%" height="100%" renderType="Bare" justifyContent="End" >
+								<Button text="{i18n&gt;viewSupWh.newSuppWarehouse}" tooltip="{i18n&gt;viewSupWh.newSuppWarehouse}" press="newSuppWarehouse" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+								<Button id="btnCloseSuppWarehouse" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getSupplierWarehouseList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+								<Button id="saveNewSuppWarehouse" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" enabled="false" press="saveSuppWarehouse" icon="sap-icon://save" type="Accept" />							
+							</HBox>
+						</HBox>							
+						<HBox width="100%" height="90%" renderType="Bare">
+							<Label id="selTabSuppWarehouseRow" visible="false"/>
+							<table:Table id="idTabSuppWarehouse" rows="{path: '/tabSuppWarehouse'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+							    <table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="30%" hAlign="Center" >
+										<Label text="{i18n&gt;viewSupWh.table.supplier}" />
+										<table:template>
+											<Input value="{SUPPLIER}" tooltip="{SUPPLIER}" editable="{=(${VIS} === 'false')? false : true}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openSupplierHelp" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="41%" hAlign="Center" >
+										<Label text="{i18n&gt;viewSupWh.table.warehouse}" />
+										<table:template>
+											<Input value="{WAREHOUSE}" tooltip="{WAREHOUSE}" editable="{=(${VIS} === 'false')? false : true}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openWarehouseHelp" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="15%" hAlign="Center" >
+										<Label text="{i18n&gt;viewSupWh.table.supplierWarehouse}" />
+										<table:template>
+											<!-- <CheckBox selected="{=(${PICKUP_ON_DEMAND} === '1')? true : false}" editable="{=(${EDIT} === 'true')? true : false}" /> -->
+											<ComboBox selectedKey="{PICKUP_ON_DEMAND}" selectionChange="changePickUpCombo" showSecondaryValues="true" width="100%" editable="{=(${EDIT} === 'true')? true : false}">
+												<core:ListItem key="0" text="{i18n&gt;viewSupWh.warehouse}" />
+												<core:ListItem key="1" text="{i18n&gt;viewSupWh.supplier}" />
+												<core:ListItem key="2" text="{i18n&gt;viewSupWh.adige}" />
+											</ComboBox>
+										</table:template>
+									</table:Column>										
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.edit}" />
+										<table:template>
+											<Button press="editPickupOndemand" tooltip="{i18n&gt;viewSupWh.table.edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>										
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.Delete}" />
+										<table:template>
+											<Button press="deleteSupplierWarehouse" tooltip="{i18n&gt;viewSupWh.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				
+				<!-- SYSTEM -->
+				<IconTabFilter key="SYSTEM" icon="sap-icon://settings" text="{i18n&gt;viewSupWh.system}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<HBox width="80%" height="100%" renderType="Bare">
+								<MultiComboBox id="filterSystem" selectionFinish="getSystemList" items="{/filterSystem}" showSecondaryValues="true" placeholder="{i18n&gt;viewSupWh.table.system}" width="20%" class="sapUiTinyMarginEnd">
+									<core:ListItem key="{SYSTEM}" text="{SYSTEM}" tooltip="{SYSTEM}" />
+								</MultiComboBox>
+								<Button tooltip="{i18n&gt;viewSupWh.removeFilters}" press="removeSystemFilter" type="Transparent" icon="sap-icon://clear-filter" iconDensityAware="true" />
+							</HBox>
+							<HBox width="20%" height="100%" renderType="Bare" justifyContent="End" >
+								<Button text="{i18n&gt;viewSupWh.newSystem}" tooltip="{i18n&gt;viewSupWh.newSystem}" press="newSystem" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+								<Button id="btnCloseSystem" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getSystemList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+								<Button id="saveNewSystem" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" enabled="false" press="saveNewSystem" icon="sap-icon://save" type="Accept" />	
+							</HBox>
+						</HBox>
+						<HBox width="100%" height="90%" renderType="Bare">
+							<Label id="selTabSystemRow" visible="false"/>
+							<table:Table id="tabSystem" rows="{path: '/tabSystem'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="10%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.system}" />
+										<table:template>
+											<Input value="{SYSTEM}" tooltip="{SYSTEM}" editable="{=(${VIS} === 'true') ? true : false}" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="13%" hAlign="Center" >
+										<Label text="{i18n&gt;viewSupWh.table.accessory}" />
+										<table:template>
+											<Input value="{ACCESSORY}" tooltip="{ACCESSORY}" editable="{=(${VIS} === 'false')? false : true}" change="checkSystemAccessory" width="100%" />
+										</table:template>
+									</table:Column>	
+									<table:Column width="20%" hAlign="Center" >
+										<Label text="{i18n&gt;viewSupWh.table.warehouse}" />
+										<table:template>
+											<Input value="{WAREHOUSE}" tooltip="{WAREHOUSE}" editable="{=(${VIS} === 'false')? false : true}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openWarehouseHelpSystem" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="15%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.ForceDepWarehouseUpdate}" wrapping="true" />
+										<table:template>
+											<Switch state="{= ${FORCE_SAP_DEPOSIT_UPDATE} === 'true'}" change="onChangeForceSapDeposit" enabled="{=(${EDIT} === 'true')? true : false}" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="23%" hAlign="Center" >
+										<Label text="{i18n&gt;viewSupWh.table.dateType}" />
+										<table:template>											
+											<ComboBox selectedKey="{DATE_TYPE}" selectionChange="changeDateTypeCombo" showSecondaryValues="true" width="100%" editable="{=(${VIS} === 'true')? true : false}">
+												<core:ListItem key="shipmentDate" text="{i18n&gt;viewSupWh.shipmentDate}" />
+												<core:ListItem key="startDate" text="{i18n&gt;viewSupWh.startDate}" />
+												<core:ListItem key="invalidDate" text="{i18n&gt;viewSupWh.invalidDate}" />
+											</ComboBox>
+										</table:template>
+									</table:Column>	
+									<table:Column width="9%" hAlign="Center" >
+										<Label text="{i18n&gt;viewSupWh.table.delta}" />
+										<table:template>
+											<StepInput value="{DELTA}" textAlign="Center" min="-60" max="60" editable="{=(${VIS} === 'false')? false : true}" change="onChangeDeltaStep" width="100%" />
+										</table:template>
+									</table:Column>										
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.edit}" />
+										<table:template>
+											<Button press="editSystem" tooltip="{i18n&gt;viewSupWh.table.edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.delete}" />
+										<table:template>
+											<Button press="deleteSystem" tooltip="{i18n&gt;viewSupWh.table.delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+			
+		
+				<!-- Archetype Configuration -->
+				<IconTabFilter key="ARCHETYPE" icon="sap-icon://customize" text="{i18n&gt;viewSupWh.archetype}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<HBox width="80%" height="100%" renderType="Bare">
+								<MultiComboBox id="filterArchetypeConfiguration" selectionFinish="getArchetypeConfigurationList" items="{/tabArchetypeConfiguration}" showSecondaryValues="true" placeholder="{i18n&gt;viewSupWh.table.Archetype}" width="20%" class="sapUiTinyMarginEnd">
+									<core:ListItem key="{ARCHETYPE_CONFIG_ID}" text="{ARCHETYPE}" additionalText="{ARCHETYPE_CONFIG}" tooltip="{ARCHETYPE}" />
+								</MultiComboBox>
+								<Button tooltip="{i18n&gt;viewSupWh.removeFilters}" press="removeArchetypeConfigurationListFilters" type="Transparent" icon="sap-icon://clear-filter" iconDensityAware="true" />
+							</HBox>
+							<HBox width="20%" height="100%" renderType="Bare" justifyContent="End">
+								<Button text="{i18n&gt;viewSupWh.newArchetypeConfiguration}" tooltip="{i18n&gt;viewSupWh.newArchetypeConfiguration}" press="newArchetypeConfiguration" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+								<Button id="btnCloseArchetypeConfiguration" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getArchetypeConfigurationList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+								<Button id="saveNewArchetypeConfiguration" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" enabled="false" press="saveArchetypeConfiguration" icon="sap-icon://save" type="Accept" />	
+							</HBox>
+						</HBox>							
+						<HBox width="100%" height="90%" renderType="Bare">
+							<Label id="selTabArchetypeConfigurationRow" visible="false"/>
+							<table:Table id="tabArchetypeConfiguration" rows="{path: '/tabArchetypeConfiguration'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="47%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.Archetype}" />
+										<table:template>
+											<Input value="{ARCHETYPE}" tooltip="{ARCHETYPE}" editable="{= (${VIS} === 'true') &amp;&amp; (${EDIT} === 'true')}" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="46%" hAlign="Center" >
+										<Label text="{i18n&gt;viewSupWh.table.ArchetypeConfiguration}" />
+										<table:template>
+											<Input value="{ARCHETYPE_CONFIG}" tooltip="{ARCHETYPE_CONFIG}" editable="{= (${EDIT} === 'true') &amp;&amp; (${DEL} === 'false')}" width="100%" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.edit}" />
+										<table:template>
+											<Button press="editArchetypeConfiguration" tooltip="{i18n&gt;viewSupWh.table.edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.delete}" />
+										<table:template>
+											<Button press="deleteArchetypeConfiguration" tooltip="{i18n&gt;viewSupWh.table.delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				
+					<!-- Pma Message Template -->
+				<IconTabFilter key="PMA_MGS_TEMPLATE" icon="sap-icon://comment" text="{i18n&gt;viewMail.template}">
+					<VBox width="100%" height="100%" renderType="Bare">						
+						<HBox width="100%" height="15%" renderType="Bare" >
+							<l:VerticalLayout width="100%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewWRK.label.search}:" class="sapUiContentPadding" />
+								<HBox width="100%" height="100%" renderType="Bare">
+									<HBox width="25%" height="100%" renderType="Bare" class="sapUiTinyMarginEnd">
+										<Label id="pmaMessageTemplateId" text="" visible="false" />
+										<Input id="inputPmaTemplateMessage" type="Text" value="" placeholder="{i18n&gt;viewMail.template.selecttemplate}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="getPmaMessageTemplate" class="sapUiSmallMarginBottom" width="100%" />										
+									</HBox>									
+									<HBox width="74%" height="100%" renderType="Bare">
+										<Button id="newPmaMessageTemplate" text="{i18n&gt;viewMail.template.newtemplate}" tooltip="{i18n&gt;viewMail.template.newtemplate}" press="newPmaTemplate" icon="sap-icon://letter" class="sapUiTinyMarginEnd" visible="{/VisibleAdmin/VISIBLE}" />
+										<Button id="resetPmaMessageTemplate" text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="closePmaTemplate" icon="sap-icon://reset" type="Reject" class="sapUiSmallMarginEnd" />
+										<Button id="savePmaMessageTemplate" text="{i18n&gt;viewUsr.save}" tooltip="{i18n&gt;viewUsr.save}" press="savePmaTemplate" icon="sap-icon://save" type="Accept" class="sapUiTinyMarginEnd" />
+										<Button id="delPmaMessageTemplate" text="{i18n&gt;viewUsr.delete}" tooltip="{i18n&gt;viewUsr.delete}" press="deletePmaTemplate" icon="sap-icon://delete" type="Reject" visible="{/VisibleAdmin/VISIBLE}" />										
+									</HBox>
+								</HBox>
+							</l:VerticalLayout>
+						</HBox>
+						<HBox width="100%" height="15%" renderType="Bare">
+							<l:VerticalLayout width="25%" class="sapUiContentPadding" visible="{/VisibleAdmin/VISIBLE}">
+								<Label text="{i18n&gt;viewMail.template.name}:" />
+								<Input id="messagePmaTemplateName" width="100%" change="checkIfExistPmaMessageTemplate" enabled="false" />
+							</l:VerticalLayout>							
+							<l:VerticalLayout width="25%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewLogistic.template.description}:" />
+								<Input id="messagePmaTemplateDescription" width="100%" enabled="false" />
+							</l:VerticalLayout>
+							<l:VerticalLayout width="25%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewLogistic.template.status}:" />
+								<ComboBox id="comboPmaTemplateStatus" items="{path: '/pmaMessageStatusList', sorter: { path: 'ORDER',	descending: false}}" enabled="false" >
+									<core:Item key="{STATUS}" text="{STATUS_DESCRIPTION}" />
+								</ComboBox>
+							</l:VerticalLayout>
+							<HBox width="25%" height="100%" renderType="Bare" />
+						</HBox>
+						<HBox width="100%" height="25%" renderType="Bare">
+							<l:VerticalLayout width="100%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewMail.template.object}:" />
+								<HBox width="100%" renderType="Bare">
+									<ComboBox id="comboPmaTagObject" selectionChange="onPmaChangeTag" items="{path: '/pmaTagList',sorter: { path: 'descr' }}" class="sapUiTinyMarginEnd" >
+										<core:Item key="{value}" text="{descr}" />
+									</ComboBox>
+									<Button text="{i18n&gt;viewMail.template.addtag}" press="addPmaTagObject" icon="sap-icon://blank-tag" class="sapUiTinyMarginEnd" />
+									<Button text="{i18n&gt;viewMail.template.removetag}" press="removePmaTagObject" icon="sap-icon://blank-tag-2" type="Reject" />
+								</HBox>
+								<Input id="templatePmaMessageObject" width="70%" fieldWidth="100%" change="" />
+							</l:VerticalLayout>
+						</HBox>
+						<HBox width="100%" height="45%" renderType="Bare">
+							<l:VerticalLayout width="100%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewMail.template.body}:" />
+								<HBox width="100%" renderType="Bare">
+									<ComboBox id="comboPmaTagMessageBody" selectionChange="onPmaChangeTag" items="{path: '/pmaTagList',sorter: { path: 'descr' }}" class="sapUiTinyMarginEnd" >
+										<core:Item key="{value}" text="{descr}" />
+									</ComboBox>
+									<Button text="{i18n&gt;viewMail.template.addtag}" press="addPmaTagBody" icon="sap-icon://blank-tag" class="sapUiTinyMarginEnd" />
+									<Button text="{i18n&gt;viewMail.template.removetag}" press="removePmaTagBody" icon="sap-icon://blank-tag-2" type="Reject" />
+								</HBox>
+								<TextArea id="templatePmaMessageBody" rows="6" cols="160" />
+							</l:VerticalLayout>
+						</HBox>
+					</VBox>
+				</IconTabFilter>					
+			</items>
+		</IconTabBar>
+	</VBox>
+</mvc:View>

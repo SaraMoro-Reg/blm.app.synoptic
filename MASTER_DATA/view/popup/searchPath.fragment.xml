@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:table="sap.ui.table" controllerName="master_data.controller.Attached">
+	<Dialog id="sendMailTestpopup" title="{i18n&gt;viewAtt.attechedchklist.table.searchPop}" contentHeight="140rem" contentWidth="70rem" horizontalScrolling="false" afterClose="closePopup">
+		<content>
+			<VBox width="100%" height="37rem" renderType="Bare">
+				<HBox width="100%" height="5%" alignItems="Center" renderType="Bare">
+					<HBox width="5%" renderType="Bare" />				
+					<HBox width="10%" renderType="Bare">
+						<Label width="100%" text="{i18n&gt;viewAtt.attached.root}:" />
+					</HBox>
+					<HBox width="75%" renderType="Bare">
+						<ComboBox  id="root" selectionChange="createroot"  items="{path: '/pathList',sorter: { path: 'path' }}" width="100%" valueState="None" maxWidth="100%" editable="{EDIT}">
+							<core:Item key="{path}" text="{path}" />
+						</ComboBox>
+					</HBox>
+					<HBox width="5%" renderType="Bare" />
+				   </HBox>
+				<HBox width="100%" height="5%" alignItems="Center" renderType="Bare">
+					<HBox width="5%" renderType="Bare" />				
+					<HBox width="10%" renderType="Bare">
+						<Label width="100%" text="{i18n&gt;viewAtt.attached.path}:" />
+					</HBox>
+					<HBox width="75%" renderType="Bare">
+						<Button id="navBack" icon="sap-icon://nav-back" width="5%" press="navBack" enabled="true" />	
+					         <Input id="path" type="Text"  placeholder="{i18n&gt;viewMail.template.test.text.fase}" width="90%"  editable="false" />
+					        <Button id="copy" icon="sap-icon://copy" width="5%" press="copyValue" enabled="true" />	
+					</HBox>
+					<HBox width="10%" renderType="Bare" />
+				   </HBox>
+				<HBox width="100%" height="90%" alignItems="Center" renderType="Bare">
+					<table:Table id="pathDoc" rows="{path: '/pathDoc'}" width="100%" selectionMode="None" selectionBehavior="RowOnly" visibleRowCountMode="Fixed" visibleRowCount="13">
+						<table:columns>
+							<table:Column width="10%" hAlign="Center">
+								<Label text="{i18n&gt;viewAtt.checklist.listfolder.type}" />
+								<table:template>
+									<core:Icon src="{ICON}" color="{COLOR}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="80%" hAlign="Center" showSortMenuEntry="true" sortProperty="NAME" filterProperty="NAME" id="NAME" >
+								<Label text="{i18n&gt;viewAtt.checklist.listfolder.name}" />
+								<table:template>
+									<Button text="{NAME}" press="selectAttach" type="Transparent"  enabled="{ENABLE}" iconDensityAware="false" />
+								</table:template>
+							</table:Column>
+							<table:Column width="10%" hAlign="Center">
+								<Label text="{i18n&gt;viewAtt.checklist.listfolder.prw}" />
+								<table:template>
+									<Button  icon="sap-icon://detail-view" press="previewFile" type="Transparent"  iconDensityAware="false" enabled="{PREVIEW}" />
+								</table:template>
+							</table:Column>
+						</table:columns>
+					</table:Table>
+				   </HBox>
+			</VBox>
+		</content>
+		<buttons>
+			<Button icon="sap-icon://undo" press="handleValueHelpChkListAttClose" class="fullSizeButton buttonRed" />
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

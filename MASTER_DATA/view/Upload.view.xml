@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:sample="sap.uxap.sample.ObjectPageSubSectionSized.controller.blocks" xmlns:table="sap.ui.table" xmlns:u="sap.uxap" controllerName="master_data.controller.Upload" height="100%" displayBlock="true">
+	<u:ObjectPageLayout id="phaseObjectPage" enableLazyLoading="true" navigate="pressTabBar" showTitleInHeaderContent="false" upperCaseAnchorBar="false" useIconTabBar="true" backgroundDesignAnchorBar="Transparent" showHeaderContent="false" height="100%" class="sapUiNoContentPadding" showFooter="true">
+		<!-- Checklist -->
+		<u:ObjectPageSection id="CHECKLIST" title="{i18n&gt;viewUplod.checklist}">
+			<u:ObjectPageSubSection>
+				<HBox width="100%" height="90%" renderType="Bare">
+					<table:Table id="tabChecklist" rows="{path: '/tabCheckList'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+						<table:columns>
+							<table:Column width="8%" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.Lang}" wrapping="true"/>
+								<table:template>
+									<Label text="{LINGUA}" tooltip="{LINGUA}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="10%" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.kmat}" wrapping="true"/>
+								<table:template>
+									<Label text="{KMAT}" tooltip="{KMAT}" />
+								</table:template>
+							</table:Column>	
+							<table:Column width="15%" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.machineId}" wrapping="true"/>
+								<table:template>
+									<Label text="{MATRICOLA_MACCHINA}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="auto" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.Odv}" wrapping="true"/>
+								<table:template>
+									<Label text="{ODV}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="8%" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.wkc}" wrapping="true"/>
+								<table:template>
+									<Label text="{PIAZZOLA_PARTENZA}" tooltip="{PIAZZOLA_PARTENZA}" />
+								</table:template>
+							</table:Column>							
+							<table:Column width="10%" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.dateShip}" wrapping="true"/>
+								<table:template>
+									<Label text="{DATA_SPEDIZIONE}" tooltip="{DATA_SPEDIZIONE}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="10%" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.NotWorkingDate}" wrapping="true"/>
+								<table:template>
+									<Label text="{DATE_NON_LAVORATIVE}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="8%" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.CorrectionFactor}" wrapping="true"/>
+								<table:template>
+									<Label text="{FATTORE_CORREZIONE}" />
+								</table:template>
+							</table:Column>	
+							<table:Column width="8%" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.DocName}" wrapping="true"/>
+								<table:template>
+									<Label text="{NOME_DOC}" />
+								</table:template>
+							</table:Column>	
+							<table:Column width="8%" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.DocRevision}" wrapping="true"/>
+								<table:template>
+									<Label text="{REV_DOC}" />
+								</table:template>
+							</table:Column>									
+						</table:columns>
+					</table:Table>
+				</HBox>
+			</u:ObjectPageSubSection>
+		</u:ObjectPageSection>	
+		<!-- Dettaglio Fase -->
+		<u:ObjectPageSection id="PHASE_DETAILS" title="{i18n&gt;viewUplod.faseDetail}">
+			<u:ObjectPageSubSection>
+				<HBox width="100%" height="90%" renderType="Bare">
+					<table:Table id="tabFaseDetails" rows="{path: '/tabFaseDetails'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+						<table:columns>
+							<table:Column width="6.5rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.sequence}" wrapping="true" />
+								<table:template>
+									<Label text="{SEQUENZA}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="8rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.fase}" wrapping="true"/>
+								<table:template>
+									<Label text="{FASE}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="25rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.faseDescr}" wrapping="true"/>
+								<table:template>
+									<ExpandableText overflowMode="Popover" text="{DESCRIZIONE_FASE}" maxCharacters="40" />
+								</table:template>
+							</table:Column>
+							<table:Column width="6rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.faseCod}" wrapping="true"/>
+								<table:template>
+									<Label text="{CODICE}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="8rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.macrofase}" wrapping="true"/>
+								<table:template>
+									<Label text="{MACROFASE}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="6rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.paralel}" wrapping="true"/>
+								<table:template>
+									<Label text="{PARALLELO}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="6rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.faseType}" wrapping="true"/>
+								<table:template>
+									<Label text="{TIPO_FASE}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="8rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.codList}" wrapping="true"/>
+								<table:template>
+									<Label text="{CODICE_LISTINO}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="8rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.stdTime}" wrapping="true"/>
+								<table:template>
+									<Label text="{STD_TIME}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="8rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.CorrectionFactor}" wrapping="true"/>
+								<table:template>
+									<Label text="{FATTORE_CORREZIONE}" />
+								</table:template>
+							</table:Column>	
+							<table:Column width="8rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.TimeRil}" wrapping="true"/>
+								<table:template>
+									<Label text="{RILEVANTE_PER_TEMPI}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="8rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.StdOp}" wrapping="true"/>
+								<table:template>
+									<Label text="{STD_OPERATORS}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="8rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.DcType}" wrapping="true"/>
+								<table:template>
+									<Label text="{TIPO_RACCOLTA_DATI}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="8rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.Param}" wrapping="true"/>
+								<table:template>
+									<Label text="{PARAMETRO}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="25rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.paramDesc}" wrapping="true"/>
+								<table:template>
+									<ExpandableText overflowMode="Popover" text="{DESCRIZIONE_PARAMETRO}" maxCharacters="40" />
+								</table:template>
+							</table:Column>
+							<table:Column width="6rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.Um}" wrapping="true"/>
+								<table:template>
+									<Label text="{UM}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="7rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.Min}" wrapping="true"/>
+								<table:template>
+									<Label text="{MINIMO}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="7rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.Max}" wrapping="true"/>
+								<table:template>
+									<Label text="{MASSIMO}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="8rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.StdVal}" wrapping="true"/>
+								<table:template>
+									<Label text="{VALORE_STANDARD}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="7rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.OrdVisPar}" wrapping="true"/>
+								<table:template>
+									<Label text="{ORDINAMENTO_PARAMETRI}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="8rem" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.raggrParam}" wrapping="true"/>
+								<table:template>
+									<ExpandableText overflowMode="Popover" maxCharacters="40" />
+								</table:template>
+							</table:Column>
+						</table:columns>
+					</table:Table>
+				</HBox>
+			</u:ObjectPageSubSection>
+		</u:ObjectPageSection>	
+		<!-- Allegati Checklist -->
+		<u:ObjectPageSection id="CHECKLIST_ATT" title="{i18n&gt;viewUplod.ChecklistAttachment}">
+			<u:ObjectPageSubSection>
+				<HBox width="100%" height="90%" renderType="Bare">
+					<table:Table id="tabChecklistAttachment" rows="{path: '/tabChecklistAttachment'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+						<table:columns>
+							<table:Column width="20%" hAlign="Begin">
+								<Label text="{i18n&gt;viewUplod.AttachName}" wrapping="true"/>
+								<table:template>
+									<Label text="{NOME_ALLEGATO}" tooltip="{NOME_ALLEGATO}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="80%" hAlign="Begin">
+								<Label text="{i18n&gt;viewUplod.Url}" wrapping="true"/>
+								<table:template>
+									<Label text="{URL}" tooltip="{URL}" />
+								</table:template>
+							</table:Column>								
+						</table:columns>
+					</table:Table>
+				</HBox>
+			</u:ObjectPageSubSection>
+		</u:ObjectPageSection>
+		<!-- Allegati Fase -->
+		<u:ObjectPageSection id="PHASE_ATT" title="{i18n&gt;viewUplod.PhaseAttachment}">
+			<u:ObjectPageSubSection>
+				<HBox width="100%" height="90%" renderType="Bare">
+					<table:Table id="tabPhaseAttachment" rows="{path: '/tabPhaseAttachment'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+						<table:columns>
+							<table:Column width="8%" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.fase}" wrapping="true"/>
+								<table:template>
+									<Label text="{ID_FASE}" tooltip="{ID_FASE}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="20%" hAlign="Begin">
+								<Label text="{i18n&gt;viewUplod.AttachName}" wrapping="true"/>
+								<table:template>
+									<Label text="{NOME_ALLEGATO}" tooltip="{NOME_ALLEGATO}" />
+								</table:template>
+							</table:Column>
+							<table:Column width="72%" hAlign="Begin">
+								<Label text="{i18n&gt;viewUplod.Url}" wrapping="true"/>
+								<table:template>
+									<Label text="{URL}" tooltip="{URL}" />
+								</table:template>
+							</table:Column>								
+						</table:columns>
+					</table:Table>
+				</HBox>
+			</u:ObjectPageSubSection>
+		</u:ObjectPageSection>
+		<u:footer>
+			<Toolbar style="Clear" design="Transparent">
+				<!-- footer ObjectPageSection id="CHECKLIST"-->
+				<HBox width="25%" height="15%" renderType="Bare">
+					<HBox id="HBoxUpload" width="100%" height="100%" renderType="Bare" alignItems="Center" />							
+				</HBox>
+				<Button text="{i18n&gt;viewUplod.download}" tooltip="{i18n&gt;viewUplod.download}" icon="sap-icon://excel-attachment" type="Transparent" press="downloadModel"/>
+				<ToolbarSpacer />
+				<Button id="btnCloseUpload" enabled="false" text="{i18n&gt;viewUplod.resetBtn}" tooltip="{i18n&gt;viewUplod.resetBtn}" icon="sap-icon://undo" press="clearupload" type="Reject" /> 							
+				<Button id="btnSaveUpload" enabled="false" text="{i18n&gt;viewUplod.saveBtn}" tooltip="{i18n&gt;viewUplod.saveBtn}" icon="sap-icon://save" press="uploadSave" type="Accept"/>
+			</Toolbar>
+		</u:footer>
+	</u:ObjectPageLayout>
+</mvc:View>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:table="sap.ui.table" controllerName="master_data.controller.Site">
+	<Dialog id="EditPhaseDescrPopup" title="{i18n&gt;viewPhase.phaseDescr}" stretch="true" contentHeight="20rem" contentWidth="70rem" horizontalScrolling="false">
+		<content>
+			<VBox width="100%" height="19rem" renderType="Bare">
+				<HBox width="100%" height="75%" renderType="Bare">
+					<HBox width="2%" height="100%" renderType="Bare" />
+					<table:Table id="phaseDescrList" rows="{path: '/desrclist'}" width="100%" selectionMode="None" selectionBehavior="RowOnly" visibleRowCountMode="Fixed" visibleRowCount="2" rowHeight="80" columnHeaderHeight="10" class="sapUiPadding">
+						<table:extension>
+							<OverflowToolbar class="sapUiTinyMarginTopBottom" style="Clear">
+								<ToolbarSpacer />
+								<Button id="addDescr" text="{i18n&gt;viewPhase.adddescr}" tooltip="{i18n&gt;viewPhase.adddescr}" press="addDescr" icon="sap-icon://add" type="Transparent" />
+							</OverflowToolbar>
+						</table:extension>
+						<table:rowSettingsTemplate>
+							<table:RowSettings highlight="{= ${DEL} === false ? ${EDIT} ? 'Warning' : 'None' : 'Error'}" />
+						</table:rowSettingsTemplate>
+						<table:columns>
+							<table:Column width="15%" hAlign="Center">
+								<Label text="{i18n&gt;viewSite.Lang}" />
+								<table:template>
+									<ComboBox selectedKey="{LANGUAGE}" width="100%" valueState="None" maxWidth="100%" editable="{=(${DEL} === false)? true : false}">
+										<items>
+											<core:Item key="IT" text="{i18n&gt;viewSite.it}" />
+											<core:Item key="EN" text="{i18n&gt;viewSite.en}" />
+										</items>
+									</ComboBox>
+								</table:template>
+							</table:Column>
+							<table:Column width="auto" hAlign="Center">
+								<Label text="{i18n&gt;viewUsr.Table.ruledescr}" />
+								<table:template>
+									<TextArea value="{OPERATIONDESCR}" liveChange="onChangeDescription" width="100%" editable="{=(${DEL} === false)? true : false}" maxLength="4000" />
+								</table:template>
+							</table:Column>
+							<table:Column width="8%" hAlign="Center">
+								<Label text="{i18n&gt;viewUsr.Table.ruledelete}" />
+								<table:template>
+									<Button press="deleteDescr" type="Reject" icon="sap-icon://delete" iconDensityAware="false" />
+								</table:template>
+							</table:Column>
+						</table:columns>
+					</table:Table>
+					<HBox width="2%" height="100%" renderType="Bare" />
+				</HBox>
+			</VBox>
+		</content>
+		<buttons width="100%" height="10%" renderType="Bare" justifyContent="End">
+			<Button id="savePhaseDescr" width="10%" text="{i18n&gt;viewPhase.savenewdescr}" tooltip="{i18n&gt;viewPhase.savenewdescr}" press="updateDescr" type="Accept" />
+			<Button width="10%" text="{i18n&gt;viewUplod.resetBtn}" press="onClosePhaseDescrDialog" type="Reject" />
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

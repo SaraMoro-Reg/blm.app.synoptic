@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<TableSelectDialog contentWidth="30rem" contentHeight="40rem" title="{i18n&gt;viewLogistic.allStatesListPopup}" liveChange=".searchAllStates" confirm="onConfirmState" cancel="onClosePopup" items="{/listAllStates}">
+		<columns>
+			<Column visible="false">
+				<header>
+					<Label id="sRowPath" visible="false" />
+				</header>
+			</Column>
+			<Column width="20%">
+				<header>
+					<Text text="{i18n&gt;viewLogistic.State}" />
+				</header>
+			</Column>
+			<Column width="60%">
+				<header>
+					<Text text="{i18n&gt;viewLogistic.StateDescription}" />
+				</header>
+			</Column>
+			<Column width="20%">
+				<header>
+					<Text text="{i18n&gt;viewLogistic.Country}" />
+				</header>
+			</Column>
+		</columns>
+		<ColumnListItem selected="">
+			<cells>
+				<Text text="" />
+				<Text text="{STATE}" />
+				<Text text="{STATE_DESCRIPTION}" />
+				<Text text="{COUNTRY_ID}" />
+			</cells>
+		</ColumnListItem>
+	</TableSelectDialog>
+</core:FragmentDefinition>

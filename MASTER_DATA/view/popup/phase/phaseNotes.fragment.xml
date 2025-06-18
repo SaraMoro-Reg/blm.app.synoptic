@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" controllerName="master_data.controller.Phase">
+	<Dialog id="PhaseNotesDialog" title="{i18n&gt;viewPhase.notes}" stretch="true" horizontalScrolling="false" class="sapUiContentPadding">
+		<content>
+			<TextArea value="{/noteslist/0/NOTES}" maxLength="5000" rows="30 " cols="208" />
+		</content>
+		<buttons>
+			<Button text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="onSaveNotes" icon="sap-icon://save" type="Accept" />
+			<Button text="{i18n&gt;viewUplod.resetBtn}" tooltip="{i18n&gt;viewUplod.resetBtn}" press="onCloseNotesDialog" type="Emphasized" />
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

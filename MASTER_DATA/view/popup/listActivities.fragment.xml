@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" >
+	<SelectDialog contentWidth ="28rem" contentHeight="60rem"  title="{i18n&gt;viewUsr.activityList}" liveChange="handleSearchActivity" cancel="closeDialog" confirm="valueHelpActivityConfirm" items="{path : '/tabActivityList',sorter : {path : 'ACTIVITY', descending : false}}">
+		<StandardListItem title="{ACTIVITY}" description="{DESCR}" highlightText="{ACTIVITY_ID}" type="Active" />
+	</SelectDialog>
+</core:FragmentDefinition>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<SelectDialog 
+		noDataText="No Phase Found" 
+		contentWidth="60rem" 
+		title="{i18n&gt;viewPhase.phaselistempty}" 
+		liveChange="handleSearch" 
+		confirm="handleValueHelpClose" 
+		cancel="handleValueHelpClose"		 
+		items="{    path : '/phaselist',    
+				sorter : {     path : 'SEQUENCE',     
+						descending : false    }   
+			}">
+		<StandardListItem 
+				selected="" 
+				title="{SEQUENCE}" 
+				description="{OPERATIONDESCR}" 
+				icon="sap-icon://{ICON}" type="Active" wrapping="true" />
+	</SelectDialog>
+</core:FragmentDefinition>

@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" controllerName="master_data.controller.Bgusa" height="100%" displayBlock="true">
+	<VBox height="100%" renderType="Bare">
+		<IconTabBar id="bgusaITB" expandable="false" tabDensityMode="Compact" headerBackgroundDesign="Translucent" select="pressBgusaTabBar" backgroundDesign="Translucent" stretchContentHeight="true" applyContentPadding="false">
+			<items>
+				<!-- Kmat -->
+				<IconTabFilter key="KAT" icon="sap-icon://tree" text="{i18n&gt;viewBgusa.Kmat}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Button text="{i18n&gt;viewBgusa.newKmat}" tooltip="{i18n&gt;viewBgusa.newKmat}" press="newKmat" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnCloseKmat" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getKmat" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />	
+							<Button id="btnSaveKmat" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveNewKmat" icon="sap-icon://save" type="Accept" />								
+						</HBox>
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabKmat" rows="{path: '/tabKmat'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="23%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.Kmat}" />
+										<table:template>
+											<Input value="{KMAT}" tooltip="{KMAT}" editable="{=(${EDIT} === 'true')}" width="100%" />
+										</table:template>
+									</table:Column>	
+									<table:Column width="23%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.Delta}" />
+										<table:template>
+											<StepInput value="{DELTA}" min="0" change="onChangeDelta" editable="{=(${EDIT} === 'true' || ${LIMITED_EDITING} === 'true')}" textAlign="Center" width="100%" />
+										</table:template>
+									</table:Column>	
+									<table:Column width="23%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.warehouse}" />
+										<table:template>
+											<Input value="{WAREHOUSE}" tooltip="{WAREHOUSE}" editable="{=(${EDIT} === 'true' || ${LIMITED_EDITING} === 'true')}" width="100%" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openPopupBgusaWarehouse" />
+										</table:template>
+									</table:Column>	
+									<table:Column width="10%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.dashboardUsa}" />
+										<table:template>
+											<Switch id="dashboardUsa" state="{= ${DASHBOARD_USA} === '1'}" enabled="{=(${EDIT} === 'true')}" change="onDashboardUsaValue" customTextOn="{i18n>viewBgusa.table.dashboardUsa.yes}" customTextOff="{i18n>viewBgusa.table.dashboardUsa.no}" />  <!-- enabled="{/enabledDashboardUsaField}" -->
+										</table:template>
+									</table:Column>
+									<table:Column width="10%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.status}" />
+										<table:template>
+											<Switch id="statusBgusa" state="{= ${STATUS} === '1'}" change="onStatusValue" enabled="{=(${EDIT} === 'true')}"  />
+										</table:template>
+									</table:Column>								
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Edit}" />
+										<table:template>
+											<Button press="editKmat" tooltip="{i18n&gt;viewLogistic.table.Edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Delete}" />
+										<table:template>
+											<Button press="deleteKmat" tooltip="{i18n&gt;viewLogistic.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>	
+				</IconTabFilter>
+				
+				<!-- Magazzino -->
+				<IconTabFilter key="WAREHOUSE" icon="sap-icon://product" text="{i18n&gt;viewBgusa.warehouse}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Button text="{i18n&gt;viewBgusa.newWarehouse}" tooltip="{i18n&gt;viewBgusa.newWarehouse}" press="newBgusaWarehouse" icon="sap-icon://add" class="sapUiTinyMarginEnd" />
+							<Button id="btnCloseBgusaWarehouse" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getBgusaWarehouseList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+							<Button id="saveNewBgusaWarehouse" text="{i18n&gt;viewSite.save}" enabled="false" press="saveNewBgusaWarehouse" icon="sap-icon://save" type="Accept" />
+						</HBox>
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabBgusaWarehouse" rows="{path: '/tabBgusaWarehouse'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="43%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.warehouse}" />
+										<table:template>
+											<Input value="{WAREHOUSE}" tooltip="{WAREHOUSE}" editable="{=(${EDIT} === 'true') ? true : false}" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="43%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.sapDeposit}" />
+										<table:template>
+											<Input value="{SAP_DEPOSIT}" tooltip="{SAP_DEPOSIT}" change="checkUniqueBgusaSAPDeposit" editable="{=(${EDIT} === 'true') ? true : false}" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.edit}" />
+										<table:template>
+											<Button press="editBgusaWarehouse" tooltip="{i18n&gt;viewSupWh.table.edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewSupWh.table.delete}" />
+										<table:template>
+											<Button press="deleteBgusaWarehouse" tooltip="{i18n&gt;viewSupWh.table.delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				
+				<!-- Trasportatori -->
+				<IconTabFilter key="CARRIER" icon="sap-icon://shipping-status" text="{i18n&gt;viewBgusa.Carrier}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Button text="{i18n&gt;viewBgusa.newCarrier}" tooltip="{i18n&gt;viewBgusa.newCarrier}" press="newCarrier" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnCloseCarrier" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getCarrier" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />	
+							<Button id="btnSaveCarrier" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveCarrier" icon="sap-icon://save" type="Accept" />								
+						</HBox>
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabCarrier" rows="{path: '/tabCarrier'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="90%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.Carrier}" />
+										<table:template>
+											<Input value="{CARRIER}" tooltip="{CARRIER}" editable="{=(${EDIT} === 'true')}" width="100%" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Edit}" />
+										<table:template>
+											<Button press="editCarrier" tooltip="{i18n&gt;viewLogistic.table.Edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Delete}" />
+										<table:template>
+											<Button press="deleteCarrier" tooltip="{i18n&gt;viewLogistic.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>	
+				</IconTabFilter>
+				
+				<!-- Port -->
+				<IconTabFilter key="PORT" icon="sap-icon://explorer" text="{i18n&gt;viewBgusa.Port}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Button text="{i18n&gt;viewBgusa.newPort}" tooltip="{i18n&gt;viewBgusa.newPort}" press="newPort" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnClosePort" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getPort" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />	
+							<Button id="btnSavePort" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveNewPort" icon="sap-icon://save" type="Accept" />								
+						</HBox>
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabPort" rows="{path: '/tabPort'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="45%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.Port}" />
+										<table:template>
+											<Input value="{PORT}" tooltip="{PORT}" editable="{=(${EDIT} === 'true')}" width="100%" />
+										</table:template>
+									</table:Column>		
+									<table:Column width="45%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.Province}" />
+										<table:template>
+											<Input value="{PROVINCE} {=${PROVINCE} === '' ? '' : '-'} {PROVINCE_DESCRIPTION}" tooltip="{PROVINCE}  {=${PROVINCE} === '' ? '' : '-'} {PROVINCE_DESCRIPTION}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openPopupProvince" editable="{=(${EDIT} === 'true')}" width="100%" />
+										</table:template>
+									</table:Column>										
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Edit}" />
+										<table:template>
+											<Button press="editPort" tooltip="{i18n&gt;viewLogistic.table.Edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Delete}" />
+										<table:template>
+											<Button press="deletePort" tooltip="{i18n&gt;viewLogistic.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>	
+				</IconTabFilter>
+				
+				<!-- Crates -->
+				<IconTabFilter key="CRATES" icon="sap-icon://database" text="{i18n&gt;viewBgusa.Crates}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<HBox width="80%" height="100%" renderType="Bare">
+								<MultiComboBox id="filterBgusaWarehouse" selectionFinish="getCrates" items="{/filterBgusaWarehouse}" showSecondaryValues="true" placeholder="{i18n&gt;viewBgusa.table.warehouse}" width="20%" class="sapUiTinyMarginEnd">
+									<core:ListItem key="{WAREHOUSE_ID}" text="{WAREHOUSE}" tooltip="{WAREHOUSE}" />
+								</MultiComboBox>
+								<Button id="btnRemoveFilterBgusaWarehouse" tooltip="{i18n&gt;viewSupWh.removeFilters}" press="removeBgusaWarehouseListFilters" type="Transparent" icon="sap-icon://clear-filter" iconDensityAware="true" />
+							</HBox>
+							<HBox width="20%" height="100%" renderType="Bare" justifyContent="End" >
+								<Button id="btnNewCrates" text="{i18n&gt;viewBgusa.newCrates}" tooltip="{i18n&gt;viewBgusa.newCrates}" press="newCrates" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+								<Button id="btnCloneCrates" text="{i18n&gt;viewPhase.clone}" tooltip="{i18n&gt;viewPhase.clone}" press="cloneCrates" icon="sap-icon://copy" class="sapUiSmallMarginEnd" />
+								<Button id="btnCloseCrates" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getCrates" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />	
+								<Button id="btnSaveCrates" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveCrates" icon="sap-icon://save" type="Accept" />								
+							</HBox>
+						</HBox>
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabCrates" rows="{path: '/tabCrates'}" width="100%" selectionMode="None" rowSelectionChange="tabCratesRowSelectionChange" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="18%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.Crates}" />
+										<table:template>
+											<Input value="{CRATE}" tooltip="{CRATE}" editable="{=(${NEW_CRATES} === 'true')}" width="100%" />
+										</table:template>
+									</table:Column>		
+									<table:Column width="18%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.CratesDescription}" />
+										<table:template>
+											<Input value="{CRATE_DESCRIPTION}" tooltip="{CRATE_DESCRIPTION}" showValueHelp="{=(${NEW_CRATES} === 'false')}" valueHelpOnly="{=(${NEW_CRATES} === 'false')}"  valueHelpRequest="openPopupCratesDescription" editable="{= (${EDIT} === 'true' || ${LIMITED_EDITING} === 'true')}" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="18%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.Dimension}" />
+										<table:template>
+											<Input value="{DIMENSION}" tooltip="{DIMENSION}" editable="{=(${EDIT} === 'true' &amp;&amp; ${LIMITED_EDITING} === 'false')}" width="100%" />
+										</table:template>
+									</table:Column>	
+									<table:Column width="18%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.UoM}" />
+										<table:template>
+											<Input value="{UOM}" tooltip="{UOM}" showValueHelp="true" valueHelpOnly="true"  valueHelpRequest="openPopupUoM" editable="{=(${EDIT} === 'true' &amp;&amp; ${LIMITED_EDITING} === 'false')}" width="100%" />
+										</table:template>
+									</table:Column>	
+									<table:Column width="18%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.warehouse}" />
+										<table:template>
+											<Input value="{WAREHOUSE}" tooltip="{WAREHOUSE}" editable="{=(${EDIT} === 'true' || ${LIMITED_EDITING} === 'true')}" width="100%" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openPopupBgusaWarehouse" />
+										</table:template>
+									</table:Column>										
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Edit}" />
+										<table:template>
+											<Button press="editCrates" tooltip="{i18n&gt;viewLogistic.table.Edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Delete}" />
+										<table:template>
+											<Button press="deleteCrates" tooltip="{i18n&gt;viewLogistic.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>	
+				</IconTabFilter>
+				
+				<!-- Machine Caratteristics -->
+				<IconTabFilter key="CARATTERISTICS" icon="sap-icon://provision" text="{i18n&gt;viewBgusa.Caratteristics}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<HBox width="80%" height="100%" renderType="Bare">
+								<MultiComboBox id="filterKmat" selectionFinish="getCaratteristics" items="{/filterKmat}" showSecondaryValues="true" placeholder="{i18n&gt;viewBgusa.table.Kmat}" width="20%" class="sapUiTinyMarginEnd">
+									<core:ListItem key="{KMAT_ID}" text="{KMAT}" tooltip="{KMAT}" />
+								</MultiComboBox>
+								<Button tooltip="{i18n&gt;viewSupWh.removeFilters}" press="removeKmatListFilters" type="Transparent" icon="sap-icon://clear-filter" iconDensityAware="true" />
+							</HBox>
+							<HBox width="20%" height="100%" renderType="Bare" justifyContent="End" >
+								<Button text="{i18n&gt;viewBgusa.newCaratteristics}" tooltip="{i18n&gt;viewBgusa.newCaratteristics}" press="newCaratteristics" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+								<Button id="btnCloseCaratteristics" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getCaratteristics" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />	
+								<Button id="btnSaveCaratteristics" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveCaratteristics" icon="sap-icon://save" type="Accept" />								
+							</HBox>
+						</HBox>
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabCaratteristics" rows="{path: '/tabCaratteristics'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="20%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.Caratteristics}" />
+										<table:template>
+											<Input value="{MACHINE_CARATTERISTICS}" tooltip="{MACHINE_CARATTERISTICS}" editable="{=(${NEW_MACHINE_CARATTERISTICS} === 'true')}" width="100%" />
+										</table:template>
+									</table:Column>		
+									<table:Column width="20%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.CaratteristicsDescription}" />
+										<table:template>
+											<Input value="{MACHINE_CARATTERISTICS_DESCRIPTION}" tooltip="{MACHINE_CARATTERISTICS_DESCRIPTION}" showValueHelp="{=(${NEW_MACHINE_CARATTERISTICS} === 'false')}" valueHelpOnly="{=(${NEW_MACHINE_CARATTERISTICS} === 'false')}"  valueHelpRequest="openPopupCaratteristicsDescription" editable="{= ${EDIT} === 'true' || ${LIMITED_EDITING} === 'true'}" width="100%" />
+										</table:template>
+									</table:Column>									 
+									<table:Column width="10%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.Kmat}" />
+										<table:template>
+											<Input value="{KMAT}" tooltip="{KMAT}" showValueHelp="true" valueHelpOnly="true"  valueHelpRequest="openPopupKmat" editable="{=(${EDIT} === 'true' &amp;&amp; ${LIMITED_EDITING} === 'false')}" width="100%" />
+										</table:template>
+									</table:Column>	
+									<table:Column width="15%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.DeltaWeek}" />
+										<table:template>
+											<StepInput value="{DELTA}" min="0" max="40" change="onChangeDeltaWeek" editable="{=(${EDIT} === 'true' || ${LIMITED_EDITING} === 'true')}" textAlign="Center" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="12.5%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.OrderValue}" />
+										<table:template>
+											<StepInput value="{ORDER_VALUE}" min="0" max="999" change="onChangeOrderValue" editable="{=(${EDIT} === 'true' || ${LIMITED_EDITING} === 'true')}" textAlign="Center" width="100%" />
+										</table:template>
+									</table:Column>	
+									<table:Column width="12.5%" hAlign="Center">
+										<Label text="{i18n&gt;viewBgusa.table.IsActive}" />
+										<table:template>
+											<CheckBox selected="{= ${IS_ACTIVE} === '1'}" select="onIsActiveChange" enabled="{=(${EDIT} === 'true' || ${LIMITED_EDITING} === 'true')}" />
+										</table:template>
+									</table:Column>		
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Edit}" />
+										<table:template>
+											<Button press="editCaratteristics" tooltip="{i18n&gt;viewLogistic.table.Edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+									<table:Column width="5%" hAlign="Center">
+										<Label text="{i18n&gt;viewLogistic.table.Delete}" />
+										<table:template>
+											<Button press="deleteCaratteristics" tooltip="{i18n&gt;viewLogistic.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>	
+				</IconTabFilter>
+					<!-- Message Template -->
+				<IconTabFilter key="MSGTEMP" icon="sap-icon://comment" text="{i18n&gt;viewMail.template}">
+					<VBox width="100%" height="100%" renderType="Bare">						
+						<HBox width="100%" height="15%" renderType="Bare" >
+							<l:VerticalLayout width="100%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewWRK.label.search}:" class="sapUiContentPadding" />
+								<HBox width="100%" height="100%" renderType="Bare">
+									<HBox width="25%" height="100%" renderType="Bare" class="sapUiTinyMarginEnd">
+										<Label id="BgusaMessageTemplateId" text="" visible="false" />
+										<Input id="inputBgusaTemplateMessage" type="Text" value="" placeholder="{i18n&gt;viewMail.template.selecttemplate}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="getBgusaMessageTemplate" class="sapUiSmallMarginBottom" width="100%" />										
+									</HBox>									
+									<HBox width="74%" height="100%" renderType="Bare">
+										<Button id="newBgusaMessageTemplate" text="{i18n&gt;viewMail.template.newtemplate}" tooltip="{i18n&gt;viewMail.template.newtemplate}" press="newBgusaTemplate" icon="sap-icon://letter" class="sapUiTinyMarginEnd" />
+										<Button id="resetBgusaMessageTemplate" text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="closeBgusaTemplate" icon="sap-icon://reset" type="Reject" class="sapUiSmallMarginEnd" />
+										<Button id="saveBgusaMessageTemplate" text="{i18n&gt;viewUsr.save}" tooltip="{i18n&gt;viewUsr.save}" press="saveBgusaTemplate" icon="sap-icon://save" type="Accept" class="sapUiTinyMarginEnd" />
+										<Button id="delBgusaMessageTemplate" text="{i18n&gt;viewUsr.delete}" tooltip="{i18n&gt;viewUsr.delete}" press="deleteBgusaTemplate" icon="sap-icon://delete" type="Reject" />										
+									</HBox>
+								</HBox>
+							</l:VerticalLayout>
+						</HBox>
+						<HBox width="100%" height="15%" renderType="Bare">
+							<l:VerticalLayout width="25%" class="sapUiContentPadding" >
+								<Label text="{i18n&gt;viewMail.template.name}:" />
+								<Input id="BgusaMessageTemplateName" width="100%" change="checkIfExistBgusaMessageTemplate" enabled="false" />
+							</l:VerticalLayout>							
+							<l:VerticalLayout width="25%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewLogistic.template.description}:" />
+								<Input id="BgusaMessageTemplateDescription" width="100%" enabled="false" />
+							</l:VerticalLayout>
+							<HBox width="50%" height="100%" renderType="Bare" />
+						</HBox>
+						<HBox width="100%" height="25%" renderType="Bare">
+							<l:VerticalLayout width="100%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewMail.template.object}:" />
+								<HBox width="100%" renderType="Bare">
+									<ComboBox id="comboBgusaTagObject" selectionChange="onChangeBgusaTag" items="{path: '/tagList',sorter: { path: 'descr' }}" class="sapUiTinyMarginEnd" >
+										<core:Item key="{value}" text="{descr}" />
+									</ComboBox>
+									<Button text="{i18n&gt;viewMail.template.addtag}" press="addTagObject" icon="sap-icon://blank-tag" class="sapUiTinyMarginEnd" />
+									<Button text="{i18n&gt;viewMail.template.removetag}" press="removeTagObject" icon="sap-icon://blank-tag-2" type="Reject" />
+								</HBox>
+								<Input id="templateBgusaMessageObject" width="70%" fieldWidth="100%" change="" />
+							</l:VerticalLayout>
+						</HBox>
+						<HBox width="100%" height="45%" renderType="Bare">
+							<l:VerticalLayout width="100%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewMail.template.body}:" />
+								<HBox width="100%" renderType="Bare">
+									<ComboBox id="comboTagBgusaMessageBody" selectionChange="onChangeBgusaTag" items="{path: '/tagList',sorter: { path: 'descr' }}" class="sapUiTinyMarginEnd" >
+										<core:Item key="{value}" text="{descr}" />
+									</ComboBox>
+									<Button text="{i18n&gt;viewMail.template.addtag}" press="addTagBody" icon="sap-icon://blank-tag" class="sapUiTinyMarginEnd" />
+									<Button text="{i18n&gt;viewMail.template.removetag}" press="removeBgusaTagBody" icon="sap-icon://blank-tag-2" type="Reject" />
+								</HBox>
+								<TextArea id="templateBgusaMessageBody" rows="6" cols="160" />
+							</l:VerticalLayout>
+						</HBox>
+					</VBox>
+				</IconTabFilter>			
+			</items>
+		</IconTabBar>
+	</VBox>
+</mvc:View>

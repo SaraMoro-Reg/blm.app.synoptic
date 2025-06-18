@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" controllerName="master_data.controller.User" height="100%" displayBlock="true">
+	<VBox height="100%" width="100%" renderType="Bare">
+		<IconTabBar expandable="false" tabDensityMode="Compact" headerBackgroundDesign="Translucent" select="pressUserTabBar" backgroundDesign="Translucent" stretchContentHeight="true" applyContentPadding="false">
+			<items>
+				<IconTabFilter icon="sap-icon://collaborate" text="{i18n&gt;viewUser.UsrGrp}" key="USR_GRP" >
+					<HBox width="100%" height="20%" renderType="Bare">
+						<l:VerticalLayout width="100%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewWRK.label.search}:" />
+							<HBox width="100%" height="100%" renderType="Bare">
+								<HBox width="25%" height="100%" renderType="Bare">
+									<Input id="usrGrpInputList" type="Text" placeholder="{i18n&gt;viewUsr.UsrGrpSel}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="usrGrpValueHelp" class="sapUiTinyMarginEnd" />
+								    <Button icon="sap-icon://excel-attachment" visible="false" press="downloadModelUsrGrp" enabled="{= ${/tabUsrUserGrp}.length &gt; 0}"/>
+									<Label id="usrGrpId" visible="false" />
+								</HBox>
+								<HBox width="1%" height="100%" renderType="Bare" />
+								<HBox width="74%" height="100%" renderType="Bare">
+									<Button id="addUsrGrp" text="{i18n&gt;viewUsr.buttonNewUsrGrp}" tooltip="{i18n&gt;viewUsr.buttonNewUsrGrp}" press="newUsrGrp(true)" icon="sap-icon://add-employee" class="sapUiSmallMarginStart sapUiTinyMarginEnd" />
+									<Button id="closeUsrGrp" enabled="false" text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="newUsrGrp(false)" icon="sap-icon://reset" class="sapUiMediumMarginEnd"/>
+									<Button id="saveUsrGrp" enabled="false" text="{i18n&gt;viewUsr.save}" tooltip="{i18n&gt;viewUsr.save}" press="saveUsrGrp" icon="sap-icon://save" type="Accept" class="sapUiTinyMarginEnd"/>								
+									<Button id="deleteUsrGrp" enabled="false" text="{i18n&gt;viewUsr.delete}" tooltip="{i18n&gt;viewUsr.delete}" press="deleteUsrGrp" icon="sap-icon://delete" type="Reject" />
+								</HBox>								
+							</HBox>
+						</l:VerticalLayout>
+					</HBox>
+					<HBox width="100%" height="20%" renderType="Bare">
+						<l:VerticalLayout width="25%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewUsr.usrGrp}:" />
+							<Input id="inputUsrGrp" editable="false" width="100%" fieldWidth="100%" />
+						</l:VerticalLayout>
+						<l:VerticalLayout width="35%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewUsr.usrGrpDescr}:" />
+							<Input id="inputUsrGrpDescr" editable="false" width="100%" fieldWidth="100%" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="popUsrGrpDescr"/>
+						</l:VerticalLayout>						
+						<HBox width="40%" renderType="Bare" />
+					</HBox>
+					<HBox width="100%" height="60%" renderType="Bare">
+						<l:VerticalLayout class="sapUiContentPadding">
+							<HBox width="100%" height="10%" renderType="Bare">
+								<HBox width="100%" height="10%" renderType="Bare">
+									<Button id="addUser" enabled="false" text="{i18n&gt;viewUsr.addUsrToUsrGrp}" tooltip="{i18n&gt;viewUsr.addUsrToUsrGrp}" press="addUsrUsrGrp" icon="sap-icon://add-employee" class="sapUiTinyMarginEnd" />
+									<Button id="saveUsrUsrGrp" enabled="false" text="{i18n&gt;viewUsr.saveUsrUsrGrp}" tooltip="{i18n&gt;viewUsr.saveUsrUsrGrp}" press="saveUserUserGrp" type="Accept" icon="sap-icon://save" />
+								</HBox>
+							</HBox>
+							<table:Table id="tabUsrUsrGrp" rows="{path: '/tabUsrUserGrp'}" width="100%" selectionMode="None" visibleRowCountMode="Fixed" visibleRowCount="5">
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+								</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="20%" hAlign="Center">
+										<Label text="{i18n&gt;viewUsr.table.usr}" />
+										<table:template>
+											<Input type="Text" value="{USR}" tooltip="{USR}" editable="{=(${EDITABLE} === 'true') ? true : false}" placeholder="{i18n&gt;viewUsr.table.usrHelp}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="valueHelpUsr" width="100%" textAlign="Center" />
+										</table:template>
+									</table:Column>
+									<table:Column width="73%" hAlign="Center">
+										<Label text="{i18n&gt;viewUsr.table.Name}" />
+										<table:template>
+											<Label text="{NAME}" tooltip="{NAME}" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewUsr.table.usrUsrGrpDelete}" />
+										<table:template>
+											<Button press="deleteUsrUsrGrp" tooltip="{i18n&gt;viewUsr.table.usrUsrGrpDelete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</l:VerticalLayout>
+					</HBox>
+				</IconTabFilter>
+				<IconTabFilter icon="sap-icon://employee" text="{i18n&gt;viewUser.listUSer}" key="USER">
+					<HBox width="100%" height="20%" renderType="Bare">
+						<l:VerticalLayout width="100%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewWRK.label.search}:" />
+							<HBox width="100%" height="100%" renderType="Bare">
+								<Input id="userInputList" width="20%" type="Text" placeholder="{i18n&gt;viewUsr.ListUsr}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" class="sapUiSmallMarginBottom sapUiSmallMarginStart sapUiTinyMarginEnd"  />
+								<Button id="dwnlxecl" icon="sap-icon://excel-attachment" tooltip="{i18n&gt;viewPhase.download}"  press="downloadModel" class="sapUiMediumMarginEnd" />								
+								<Button id="newUser" text="{i18n&gt;viewUsr.butttonnew}" tooltip="{i18n&gt;viewUsr.butttonnew}" press="cleanNewUsr(true)" icon="sap-icon://add-employee" class="sapUiTinyMarginEnd"/>
+								<Button id="closeUsr" text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="cleanNewUsr(false)" icon="sap-icon://reset" class="sapUiMediumMarginEnd"/>								
+								<Button id="saveUser" text="{i18n&gt;viewUsr.save}" tooltip="{i18n&gt;viewUsr.save}" press="addNewUsr" icon="sap-icon://save" type="Accept" class="sapUiTinyMarginEnd" />								
+								<Button id="delUser" text="{i18n&gt;viewUsr.delete}" tooltip="{i18n&gt;viewUsr.delete}" press="deleteUsr" icon="sap-icon://delete" type="Reject" />
+							</HBox>
+						</l:VerticalLayout>
+					</HBox>
+					<HBox width="100%" height="20%" renderType="Bare">
+						<l:VerticalLayout width="10%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewUsr.user}:" />
+							<Input id="inputUSR" width="100%" fieldWidth="100%" />
+						</l:VerticalLayout>
+						<l:VerticalLayout width="20%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewUsr.name}:" />
+							<Input id="nameUSR" width="100%" fieldWidth="100%" />
+						</l:VerticalLayout>
+						<l:VerticalLayout width="20%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewUsr.surname}:" />
+							<Input id="surnameUSR" width="100%" fieldWidth="100%" />
+						</l:VerticalLayout>
+						<l:VerticalLayout width="20%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewUsr.mail}:" />
+							<Input id="mailUSR" width="100%" fieldWidth="100%" change="checkmail" type="Email"/>
+						</l:VerticalLayout>
+						<l:VerticalLayout width="15%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewUsr.language}:" />
+							<ComboBox id="languageUSR" selectedKey="" selectionChange="onChangeStatus" width="100%" valueState="None" maxWidth="90%" >
+								<items>
+									<core:Item key="IT" text="{i18n&gt;viewSite.it}" />
+									<core:Item key="EN" text="{i18n&gt;viewSite.en}" />
+								</items>
+							</ComboBox>
+						</l:VerticalLayout>
+						<l:VerticalLayout width="15%" class="sapUiContentPadding">
+							<Label id="lblSupp" text="{i18n&gt;viewUsr.supplier}:" visible="false" />
+							<ComboBox id="supplierUSR" selectionChange="saveUsrSupp" items="{path: '/supplierlist',sorter: { path: 'Supplier' }}" width="100%" valueState="None" maxWidth="90%" editable="true" visible="false">
+								<core:Item key="{SupplierId}" text="{Supplier}" />
+							</ComboBox>
+						</l:VerticalLayout>
+						<!--<HBox width="25%" height="20%" renderType="Bare" />-->
+					</HBox>
+					<HBox width="100%" height="60%" renderType="Bare">
+						<l:VerticalLayout class="sapUiContentPadding">
+							<HBox width="100%" height="10%" renderType="Bare">
+								<Button id="addRule" text="{i18n&gt;viewUsr.addrue}" tooltip="{i18n&gt;viewUsr.addrue}" press="addRule" icon="sap-icon://role" class="sapUiTinyMarginEnd" />
+								<Button id="saveRule" text="{i18n&gt;viewUsr.saveRule}" tooltip="{i18n&gt;viewUsr.saveRule}" press="updateRules" icon="sap-icon://save" type="Accept" />
+							</HBox>
+							<table:Table id="tabUsrRules" rows="{path: '/tabUsrRules'}" width="100%" selectionMode="None" visibleRowCountMode="Fixed" visibleRowCount="5" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+								</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="20%" hAlign="Center">
+										<Label text="{i18n&gt;viewUsr.Table.rule}" />
+										<table:template>
+											<Input id="rlName" type="Text" value="{ROLE}" tooltip="{ROLE}" placeholder="{i18n&gt;viewUsr.list.rues}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelpRuleUsr" width="100%" textAlign="Center" editable="{=(${EDIT} === 'true') ? true:false}" />
+										</table:template>
+									</table:Column>
+									<table:Column width="73%" hAlign="Center">
+										<Label text="{i18n&gt;viewUsr.Table.ruledescr}" />
+										<table:template>
+											<Label text="{DESCRIPTION}" tooltip="{DESCRIPTION}" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewUsr.Table.ruledelete}" />
+										<table:template>
+											<Button press="deleteRulefromlist" tooltip="{i18n&gt;viewUsr.Table.ruledelete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</l:VerticalLayout>
+					</HBox>
+				</IconTabFilter>
+				<IconTabFilter icon="sap-icon://role" text="{i18n&gt;viewUser.Roles}" key="RULE" >
+					<HBox width="100%" height="20%" renderType="Bare">
+						<l:VerticalLayout width="100%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewWRK.label.search}:" />
+							<HBox width="100%" height="100%" renderType="Bare">
+								<Label id="ruleId" visible="false" />
+								<Input id="ruleInputList" type="Text" placeholder="{i18n&gt;viewUsr.ListRule}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="ruleValueHelp" width="20%" class="sapUiSmallMarginBottom sapUiSmallMarginStart sapUiTinyMarginEnd" />
+								<Button id="dwnlxecl2" icon="sap-icon://excel-attachment" tooltip="{i18n&gt;viewPhase.download}" press="downloadModelRules" class="sapUiMediumMarginEnd" />
+								<Button id="btnNewRule" text="{i18n&gt;viewUsr.buttonNewRule}" tooltip="{i18n&gt;viewUsr.buttonNewRule}" press="cleanNewRule(true)" icon="sap-icon://role" class="sapUiTinyMarginEnd" />
+								<Button id="closeRule" text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="cleanNewRule(false)" icon="sap-icon://reset" class="sapUiMediumMarginEnd" />								
+								<Button id="btnSaveRule" text="{i18n&gt;viewUsr.save}" tooltip="{i18n&gt;viewUsr.save}" press="saveNewRule" icon="sap-icon://save" type="Accept" class="sapUiTinyMarginEnd" />
+								<Button id="btnDelRule" text="{i18n&gt;viewUsr.delete}" tooltip="{i18n&gt;viewUsr.delete}" press="deleteRule" icon="sap-icon://delete" type="Reject" class="sapUiTinyMarginEnd" />
+							</HBox>
+						</l:VerticalLayout>
+					</HBox>
+					<HBox width="100%" height="20%" renderType="Bare">
+						<l:VerticalLayout width="15%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewUsr.Rule}:" />
+							<Input id="inputRule" width="100%" fieldWidth="100%" />
+						</l:VerticalLayout>
+						<l:VerticalLayout width="25%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewUsr.RuleDescr}:" />
+							<Input id="inputRuleDescr" width="100%" fieldWidth="100%" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="popRuleDescr"/>
+						</l:VerticalLayout>						
+						<HBox width="60%" height="20%" renderType="Bare" />
+					</HBox>
+					<HBox width="100%" height="60%" renderType="Bare">
+						<l:VerticalLayout class="sapUiContentPadding">
+							<HBox width="100%" height="10%" renderType="Bare">
+								<HBox width="100%" height="10%" renderType="Bare">
+									<Button id="addActivityRule" text="{i18n&gt;viewUsr.addActivityRole}" tooltip="{i18n&gt;viewUsr.addActivityRole}" press="addActivityRule" icon="sap-icon://activity-individual" class="sapUiTinyMarginEnd" />
+									<Button id="saveRuleActivity" text="{i18n&gt;viewUsr.saveRuleActivity}" tooltip="{i18n&gt;viewUsr.saveRuleActivity}" press="updateRulesActivity" icon="sap-icon://save" type="Accept" />
+								</HBox>
+							</HBox>
+							<table:Table id="tabActivityRules" rows="{path: '/tabActivityRules'}" width="100%" selectionMode="None" visibleRowCountMode="Fixed" visibleRowCount="5" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+								</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="20%" hAlign="Center">
+										<Label text="{i18n&gt;viewUsr.table.activity}" />
+										<table:template>
+											<Input type="Text" value="{ACTIVITY}" tooltip="{ACTIVITY}" editable="{=(${EDITABLE} === 'true') ? true : false}" placeholder="{i18n&gt;viewUsr.table.activityHelp}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="valueHelpActivityRule" width="100%" textAlign="Center" />
+										</table:template>
+									</table:Column>
+									<table:Column width="73%" hAlign="Center">
+										<Label text="{i18n&gt;viewUsr.table.activityDescr}" />
+										<table:template>
+											<Label text="{DESCRIPTION}" tooltip="{DESCRIPTION}" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewUsr.table.activityRuleDelete}" />
+										<table:template>
+											<Button press="deleteActivityRule" tooltip="{i18n&gt;viewUsr.table.activityRuleDelete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</l:VerticalLayout>
+					</HBox>
+				</IconTabFilter>
+				<IconTabFilter id="Activity" icon="sap-icon://employee-pane" visible="{/VisibleAdmin/VISIBLE}" text="{i18n&gt;viewUser.Activity}" key="ACTIVITY" >
+					<HBox width="100%" height="20%" renderType="Bare">
+						<l:VerticalLayout width="100%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewWRK.label.search}:" />
+							<HBox width="100%" height="100%" renderType="Bare">
+								<Label id="activityId" visible="false" />
+								<Input id="actuvityInputList" tooltip="{i18n&gt;viewUsr.listActivity}" type="Text" placeholder="{i18n&gt;viewUsr.listActivity}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="activityValueHelp" width="20%" class="sapUiSmallMarginBottom sapUiSmallMarginStart sapUiTinyMarginEnd" />
+								<Button icon="sap-icon://excel-attachment" tooltip="{i18n&gt;viewPhase.download}" press="downloadModelActivities" class="sapUiMediumMarginEnd" />
+								<Button id="btnNewActivity" text="{i18n&gt;viewUsr.buttonNewActivity}" tooltip="{i18n&gt;viewUsr.buttonNewActivity}" press="cleanNewActivity(true)" icon="sap-icon://employee-pane" class="sapUiTinyMarginEnd" />
+								<Button id="btnCloseActivity" text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="cleanNewActivity(false)" icon="sap-icon://reset" class="sapUiMediumMarginEnd" />
+								<Button id="saveNewActivity" text="{i18n&gt;viewUsr.save}" tooltip="{i18n&gt;viewUsr.save}" press="saveNewActivity" icon="sap-icon://save" type="Accept" class="sapUiTinyMarginEnd" />
+								<Button id="btnDelActivity" text="{i18n&gt;viewUsr.delete}" tooltip="" press="deleteActivity" icon="sap-icon://delete" type="Reject" />
+							</HBox>
+						</l:VerticalLayout>
+					</HBox>
+					<HBox width="100%" height="20%" renderType="Bare">
+						<l:VerticalLayout width="15%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewUsr.Activity}:" />
+							<Input id="inputActivity" width="100%" fieldWidth="100%" />
+						</l:VerticalLayout>
+						<l:VerticalLayout width="25%" class="sapUiContentPadding">
+							<Label text="{i18n&gt;viewUsr.RuleDescr}:" />
+							<Input id="inputActivityDescr" width="100%" fieldWidth="100%" />
+						</l:VerticalLayout>													
+						<HBox width="60%" height="20%" renderType="Bare" />
+					</HBox>
+					<HBox width="100%" height="60%" renderType="Bare">
+						<l:VerticalLayout class="sapUiContentPadding">
+							<HBox width="100%" height="10%" renderType="Bare">
+								<HBox width="100%" height="10%" renderType="Bare">
+									<Button id="btnAddDescr" text="{i18n&gt;viewWRK.label.adddescr}" tooltip="{i18n&gt;viewWRK.label.adddescr}" press="addActivityDescription" icon="sap-icon://activity-individual" class="sapUiTinyMarginEnd" />
+									<Button id="btnSaveDescr" text="{i18n&gt;viewPhase.savenewdescr}" tooltip="{i18n&gt;viewPhase.savenewdescr}" press="saveActivityDescr" icon="sap-icon://save" type="Accept" />
+								</HBox>
+							</HBox>
+							<table:Table id="tabActivityDesc" rows="{path: '/tabActivityDesc'}" width="100%" selectionMode="None" visibleRowCountMode="Fixed" visibleRowCount="5" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+								</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="15%" hAlign="Center">
+										<Label text="{i18n&gt;viewSite.Lang}" />
+										<table:template>
+											<ComboBox selectedKey="{LANGUAGE}" width="100%" valueState="None" maxWidth="100%" editable="{=(${EDITABLE} === 'true') ? true : false}" >
+												<items>
+													<core:Item key="IT" text="{i18n&gt;viewSite.it}" />
+													<core:Item key="EN" text="{i18n&gt;viewSite.en}" />
+												</items>
+											</ComboBox>
+										</table:template>
+									</table:Column>
+									<table:Column width="auto" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.wrktypedescr}" />
+										<table:template>
+											<Input value="{ACTIVITY_DESC}" tooltip="{ACTIVITY_DESC}" width="100%" liveChange="setActivityDescriptioEditable" editable="{=(${EDITABLE} === 'true') ? true : false}" />
+										</table:template>
+									</table:Column>
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewSite.Delete}" />
+										<table:template>
+											<Button press="deleteActivityDescr" tooltip="{i18n&gt;viewSite.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</l:VerticalLayout>
+					</HBox>
+				</IconTabFilter>
+			</items>
+		</IconTabBar>
+	</VBox>
+</mvc:View>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" >
+	<SelectDialog contentWidth ="28rem" contentHeight="60rem"  title="{i18n&gt;viewSupWh.list.Warehouse}" liveChange="handleSearchWarehouse" confirm="handleValueHelpSystemWarehouseClose" cancel="closeDialog" items="{path : '/tabWarehouseList',sorter : {path : 'WAREHOUSE', descending : false}}">
+		<StandardListItem highlightText="{WAREHOUSE_ID}" title="{WAREHOUSE}" type="Active" />
+	</SelectDialog>	
+</core:FragmentDefinition>

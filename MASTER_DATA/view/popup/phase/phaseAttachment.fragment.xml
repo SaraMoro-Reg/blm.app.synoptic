@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" xmlns:u="sap.uxap" >
+    <u:ObjectPageSubSection title="{i18n&gt;viewUplod.Attachment}" class="sapUxAPObjectPageSubSectionFitContainer">
+		<table:Table rows="{path: '/PhaseAttachments'}" width="100%" selectionMode="None" visibleRowCountMode="Fixed" visibleRowCount="9">
+			<table:extension>
+				<Toolbar style="Clear">
+					<content>
+						<ToolbarSpacer />
+						<Button icon="sap-icon://add" text="{i18n&gt;viewAtt.cheklist.newattached}" tooltip="{i18n&gt;viewAtt.cheklist.newattached}" press="onAddAttachment" type="Transparent" enabled="{/PhaseAttachmentsButtons/btnNewAttachmentEnabled}" />
+					</content>
+				</Toolbar>
+			</table:extension>
+			<table:rowSettingsTemplate>
+				<table:RowSettings highlight="{= ${DEL} === false ? ${EDIT} ? 'Warning' : 'None' : 'Error'}" />
+			</table:rowSettingsTemplate>
+			<table:columns>
+				<table:Column width="70%" hAlign="Center">
+					<Label text="{i18n&gt;viewAtt.attached.path}" />
+					<table:template>
+						<Input value="{URI}" type="Text" placeholder="{i18n&gt;viewAtt.attechedchklist.table.search}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleAttachmentPathValueHelp" width="100%" fieldWidth="100%" editable="{= ${EDIT} &amp;&amp; ${DEL} === false}" />
+					</table:template>
+				</table:Column>
+				<table:Column width="23%" hAlign="Center">
+					<Label text="{i18n&gt;viewWRK.table.wrktypedescr}" />
+					<table:template>
+						<Input value="{URI_DESCR}" tooltip="{URI_DESCR}" width="100%" fieldWidth="100%" editable="{= ${EDIT} &amp;&amp; ${DEL} === false}" />
+					</table:template>
+				</table:Column>
+				<table:Column width="7%" hAlign="Center">
+					<Label text="{i18n&gt;viewSite.Delete}" />
+					<table:template>
+						<Button press="onDeleteAttachment" tooltip="{i18n&gt;viewSite.Delete}" type="Reject" icon="sap-icon://delete" enabled="{= !${DEL}}" />
+					</table:template>
+				</table:Column>
+			</table:columns>
+		</table:Table>
+	</u:ObjectPageSubSection>
+</core:FragmentDefinition>

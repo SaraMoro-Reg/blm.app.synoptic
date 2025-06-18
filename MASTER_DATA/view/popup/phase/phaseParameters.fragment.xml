@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" xmlns:u="sap.uxap" >
+    <u:ObjectPageSubSection title="{i18n&gt;viewPhase.parameters}" class="sapUxAPObjectPageSubSectionFitContainer">
+		<VBox width="100%" height="auto" renderType="Bare">
+			<table:Table rows="{path: '/PhaseParameters'}" width="100%" selectionMode="None" visibleRowCountMode="Fixed" visibleRowCount="9">
+				<table:extension>
+					<OverflowToolbar class="sapUiTinyMarginTopBottom" style="Clear">
+						<ToolbarSpacer />
+						<Button text="{i18n&gt;viewDC.addparam}" tooltip="{i18n&gt;viewDC.addparam}" press="addNewParam" enabled="{/parametersButtons/btnNewParameterEnabled}" icon="sap-icon://add" type="Transparent" />
+					</OverflowToolbar>
+				</table:extension>
+				<table:rowSettingsTemplate>
+					<table:RowSettings highlight="{= ${DEL} === false ? ${EDIT} ? 'Warning' : 'None' : 'Error'}" />
+				</table:rowSettingsTemplate>
+				<table:columns>
+					<!-- Parametro -->
+					<table:Column width="18%" hAlign="Begin">
+						<Label text="{i18n&gt;viewDC.labelparam}" wrapping="true" />
+						<table:template>
+							<Input value="{PARAMNAME}" type="Text" width="100%" placeholder="{i18n&gt;viewDC.listparam}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onSearchParam" editable="{= ${EDIT} &amp;&amp; ${DEL} === false}" />
+						</table:template>
+					</table:Column>
+					<!-- Descrizione Parametro -->
+					<table:Column width="auto" hAlign="Begin">
+						<Label text="{i18n&gt;viewWRK.label.description}" wrapping="true" />
+						<table:template>
+							<ExpandableText text="{PARAMDESC}" maxCharacters="20" overflowMode="Popover" />
+						</table:template>
+					</table:Column>
+					<!-- Tipo Parametro -->
+					<table:Column width="12%" hAlign="Begin">
+						<Label text="{i18n&gt;viewWRK.label.type}" wrapping="true" />
+						<table:template>
+							<Label text="{DC_TYPE} - {DC_TYPE_DESCR}" />
+						</table:template>
+					</table:Column>
+					<!-- UdM -->
+					<table:Column width="7%" hAlign="Center">
+						<Label text="{i18n&gt;viewDC.labeluom}" wrapping="true" />
+						<table:template>
+							<Label text="{UOM}" />
+						</table:template>
+					</table:Column>
+					<!-- Minimo -->
+					<table:Column width="7%" hAlign="Center">
+						<Label text="{i18n&gt;viewDC.labelMin}" wrapping="true" />
+						<table:template>
+							<Label text="{PARAM_MIN}" />
+						</table:template>
+					</table:Column>
+					<!-- Atteso -->
+					<table:Column width="9%" hAlign="Center">
+						<Label text="{i18n&gt;viewDC.labelStd}" wrapping="true" />
+						<table:template>
+							<Label text="{PARAM_STD}" />
+						</table:template>
+					</table:Column>
+					<!-- Massimo -->
+					<table:Column width="7%" hAlign="Center">
+						<Label text="{i18n&gt;viewDC.labelMax}" wrapping="true" />
+						<table:template>
+							<Label text="{PARAM_MAX}" />
+						</table:template>
+					</table:Column>
+					<!-- Url -->
+					<!-- <table:Column width="12%" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.Url}" wrapping="true" />
+								<table:template>
+									<Label text="{PARAM_URI}" />
+								</table:template>
+							</table:Column> -->
+					<!-- Ordinamento Parametri -->
+					<table:Column width="19%" hAlign="Center">
+						<Label text="{i18n&gt;viewUplod.OrdParam}" wrapping="true" />
+						<table:template>
+							<StepInput value="{PARAM_ORD}" min="0" width="100%" textAlign="Center" editable="{= !${DEL}}" change="onChangeParameterOrderValue" />
+						</table:template>
+					</table:Column>
+					<!-- Elimina -->
+					<table:Column width="5%" hAlign="Center">
+						<Label text="{i18n&gt;viewWRK.delete}" wrapping="true" />
+						<table:template>
+							<Button press="deleteParam" tooltip="{i18n&gt;viewSite.Delete}" type="Reject" icon="sap-icon://delete" enabled="{= !${DEL}}" />
+						</table:template>
+					</table:Column>
+				</table:columns>
+			</table:Table>
+		</VBox>
+	</u:ObjectPageSubSection>
+</core:FragmentDefinition>

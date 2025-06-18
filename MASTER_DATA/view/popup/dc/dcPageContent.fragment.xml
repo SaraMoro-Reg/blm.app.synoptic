@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" xmlns:u="sap.uxap" >
+	<u:ObjectPageLayout id="phaseObjectPage" enableLazyLoading="true" navigate="pressTabBar" showTitleInHeaderContent="false" upperCaseAnchorBar="false" useIconTabBar="true" backgroundDesignAnchorBar="Transparent" showHeaderContent="false" height="100%" class="sapUiNoContentPadding" showFooter="true">
+		<u:ObjectPageSection id="PARAM" title="{i18n&gt;viewDC.table.paramname}">
+			<u:ObjectPageSubSection>
+				<HBox justifyContent="SpaceBetween">
+					<VBox width="33%" class="sapUiContentPadding">
+						<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom" visible="{/viewParamElements/visInputParam}">
+							<Label text="{i18n&gt;viewDC.labelparam}" required="{= !!${/viewParamElements/editMode}}"/>
+							<Input value="{/paramDetails/PARAM}" enabled="{/viewParamElements/enabledInputParam}" />
+						</l:VerticalLayout>
+						<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom" visible="{/viewParamElements/visParamType}">
+							<Label text="{i18n&gt;viewWRK.label.type}" required="{= !!${/viewParamElements/editMode}}" />
+							<ComboBox selectedKey="{/paramDetails/PARAM_TYPE_ID}" width="50%" editable="{/viewParamElements/enabledParamType}" selectionChange="onChangeType" items="{/paramtype}">
+								<core:Item key="{PARAM_TYPE_ID}" text="{PARAM_TYPE_DESCR}" />
+							</ComboBox>
+						</l:VerticalLayout>
+					</VBox>
+					<VBox width="33%" class="sapUiContentPadding">
+						<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom" visible="{/viewParamElements/visDescriptionParam}">
+							<Label text="{i18n&gt;viewWRK.label.description}" required="{= !!${/viewParamElements/editMode}}" />
+							<Input value="{/paramDetails/PARAM_DESCR}" enabled="{/viewParamElements/enabledDescriptionParam}" width="100%" placeholder="{i18n&gt;viewDC.input.paramDesc}" showValueHelp="{= ${/viewParamElements/editMode} &amp;&amp; ${/paramDetails/PARAM_ID} !== '0'}" valueHelpOnly="{= ${/viewParamElements/editMode} &amp;&amp; ${/paramDetails/PARAM_ID} !== '0'}" valueHelpRequest="handleValueHelpParamDesc" valueHelpIconSrc="sap-icon://globe" />
+						</l:VerticalLayout>
+						<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom" visible="{/viewParamElements/visUdM}">
+							<Label text="{i18n&gt;viewDC.labeluom}" />
+							<Input value="{/paramDetails/UOM}" enabled="{/viewParamElements/enabledUdM}" width="100%" placeholder="{i18n&gt;viewDC.input.uom}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelpParamUom" />
+						</l:VerticalLayout>
+						<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom" visible="{/viewParamElements/visInputMin}">
+							<Label text="{i18n&gt;viewDC.labelMin}" />
+							<Input value="{/paramDetails/PARAM_MIN}" enabled="{/viewParamElements/enabledInputMin}" width="100%" type="Number" />
+						</l:VerticalLayout>
+						<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom" visible="{/viewParamElements/visInputUri}">
+							<Label text="{i18n&gt;viewUplod.Url}" required="{= !!${/viewParamElements/editMode}}" />
+							<Input value="{/paramDetails/PARAM_URI}" enabled="{/viewParamElements/enabledInputUri}" width="100%" />
+						</l:VerticalLayout>
+					</VBox>
+					<VBox width="33%" class="sapUiContentPadding">
+						<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom" visible="{/viewParamElements/visGroupParam}">
+							<Label text="{i18n&gt;viewDC.table.paramType}" required="{= !!${/viewParamElements/editMode}}" />
+							<Input value="{/paramDetails/PARAM_GROUP}" enabled="{/viewParamElements/enabledGroupParam}" type="Text" placeholder="{i18n&gt;viewDC.table.paramType}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onOpenValueHelpGrp" class="sapUiTinyMarginEnd" />
+						</l:VerticalLayout>
+						<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom" visible="{/viewParamElements/visInputStd}">
+							<Label text="{i18n&gt;viewDC.labelStd}" />
+							<Input value="{/paramDetails/PARAM_STD}" enabled="{/viewParamElements/enabledInputStd}" width="100%" type="Number" />
+						</l:VerticalLayout>
+						<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom" visible="{/viewParamElements/visInputMax}">
+							<Label text="{i18n&gt;viewDC.labelMax}" />
+							<Input value="{/paramDetails/PARAM_MAX}" enabled="{/viewParamElements/enabledInputMax}" width="100%" type="Number" />
+						</l:VerticalLayout>
+					</VBox>
+				</HBox>
+			</u:ObjectPageSubSection>
+		</u:ObjectPageSection>
+		<u:ObjectPageSection id="ASSIGN_PHASE" title="{i18n&gt;viewDC.opDCMaterial}" visible="{= !${/isPopupMode}}">
+			<u:ObjectPageSubSection>
+				<table:Table id="tableOpDCMaterial" rows="{path: '/tableOpDCMaterial'}" width="100%" selectionMode="None" visibleRowCountMode="Fixed" visibleRowCount="12">
+					<table:rowSettingsTemplate>
+						<table:RowSettings highlight="{= ${DEL} === false ? ${EDIT} ? 'Warning' : 'None' : 'Error'}" />
+					</table:rowSettingsTemplate>
+					<table:columns>
+						<table:Column width="23%" hAlign="Center">
+							<Label text="{i18n&gt;viewDC.phase}" />
+							<table:template>
+								<ComboBox selectedKey="{PHASE_ID}" items="{path: '/Phasecombo', templateShareable:false}" width="100%" valueState="None" maxWidth="100%" editable="{= ${EDIT} &amp;&amp; ${DEL} === false}" change="onChangePhase">
+									<core:Item key="{PHASE_ID}" text="{PHASE}" />
+								</ComboBox>
+							</table:template>
+						</table:Column>
+						<table:Column width="23%" hAlign="Center">
+							<Label text="{i18n&gt;viewDC.Parameter}" />
+							<table:template>
+								<ComboBox selectedKey="{PARAMETER_ID}" items="{path: '/DatacollectorParameterCombo', templateShareable:false}" width="100%" valueState="None" maxWidth="100%" editable="{= ${EDIT} &amp;&amp; ${DEL} === false}" change="onChangeParameter">
+									<core:Item key="{PARAM_ID}" text="{PARAM_DESCR}" />
+								</ComboBox>
+							</table:template>
+						</table:Column>
+						<table:Column width="19%" hAlign="Center">
+							<Label text="{i18n&gt;viewDC.actionSend}" />
+							<table:template>
+								<ComboBox selectedKey="{SEND_TRIGGER}" width="100%" valueState="None" maxWidth="100%" editable="{= ${EDIT} &amp;&amp; ${DEL} === false}">
+									<core:Item key="1" text="{i18n&gt;viewMail.attach.table.actionStart}" />
+									<core:Item key="2" text="{i18n&gt;viewMail.attach.table.actionComplete}" />
+								</ComboBox>
+							</table:template>
+						</table:Column>
+						<table:Column width="6%" hAlign="Center">
+							<Label text="{i18n&gt;viewSite.Edit}" />
+							<table:template>
+								<Button press="editOpDCMaterial" tooltip="{i18n&gt;viewSite.Edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+							</table:template>
+						</table:Column>
+						<table:Column width="6%" hAlign="Center">
+							<Label text="{i18n&gt;viewUsr.Table.ruledelete}" />
+							<table:template>
+								<Button press="deleteOpDCMaterial" tooltip="{i18n&gt;viewUsr.Table.ruledelete}" type="Reject" icon="sap-icon://delete" iconDensityAware="false" />
+							</table:template>
+						</table:Column>
+					</table:columns>
+				</table:Table>
+			</u:ObjectPageSubSection>
+		</u:ObjectPageSection>
+		<u:footer>
+			<Toolbar style="Clear" design="Transparent">
+				<!-- footer ObjectPageSectio id="PARAM"-->
+				<Label text="{i18n&gt;viewWRK.label.search}:" visible="{/viewParamElements/visParamPageFooterBtn}" />
+				<Input value="{/paramDetails/PARAM_SEARCH_FIELD}" visible="{/viewParamElements/visParamPageFooterBtn}" enabled="{= !${/viewParamElements/editMode}}" type="Text" width="20%" placeholder="{i18n&gt;viewDC.listparam}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onSearchParam" />
+				<Button id="dwnlxecl2" visible="{/viewParamElements/visParamPageFooterBtn}" enabled="{= ${/viewParamElements/editMode} &amp;&amp; ${/paramDetails/PARAM_ID} !== '0'}" icon="sap-icon://excel-attachment" tooltip="{i18n&gt;viewPhase.download}" press="downloadParam" type="Transparent" />
+				<Button id="closeDCParam" visible="{/viewParamElements/visParamPageFooterBtn}" enabled="{= ${/viewParamElements/editMode}}" text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="newParam(false)" icon="sap-icon://reset" type="Transparent" />
+				<Button id="newDCparam" visible="{= ${/viewParamElements/visParamPageFooterBtn} &amp;&amp; !${/isPopupMode}}" text="{i18n&gt;viewDC.addparam}" tooltip="{i18n&gt;viewDC.addparam}" press="newParam(true)" icon="sap-icon://add" type="Transparent" />
+				<!-- footer ObjectPageSectio id="ASSIGN_PHASE"-->
+				<MultiComboBox id="filterOpDCPhase" visible="{/viewParamElements/visAssignPageFooterBtn}" enabled="{= !${/viewCriticalItemElements/editMode}}" selectionFinish="refreshOpDCMaterial" items="{/filterOpDCPhaseCombo}" showSecondaryValues="true" placeholder="{i18n&gt;viewDC.phase}..." width="20%" class="sapUiTinyMarginEnd">
+					<core:ListItem key="{PHASE_ID}" text="{PHASE}" tooltip="{PHASE}" />
+				</MultiComboBox>
+				<Button visible="{/viewParamElements/visAssignPageFooterBtn}" enabled="{= !${/viewCriticalItemElements/editMode}}" tooltip="{i18n&gt;viewSupWh.removeFilters}" press="removeOpDCPhaseFilters" type="Transparent" icon="sap-icon://clear-filter" iconDensityAware="true" />
+				<Button id="newOpDCMaterial" visible="{/viewParamElements/visAssignPageFooterBtn}" text="{i18n&gt;viewDC.newOpDCMaterial}" tooltip="{i18n&gt;viewDC.newOpDCMaterial}" press="newOpDCMaterial" icon="sap-icon://create-form" type="Ghost" />
+				<ToolbarSpacer />
+				<!-- footer ObjectPageSectio id="PARAM"-->
+				<Button id="saveUpdateParam" visible="{/viewParamElements/visParamPageFooterBtn}" enabled="{= ${/viewParamElements/editMode}}" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveNewParam" icon="sap-icon://save" type="Accept" />
+				<Button id="deleteParam" visible="{= ${/viewParamElements/visParamPageFooterBtn} &amp;&amp; ${/viewParamElements/editMode} &amp;&amp; ${/paramDetails/IS_USED} === 'false' &amp;&amp; !${/isPopupMode}}" text="{i18n&gt;viewWRK.delete}" tooltip="{i18n&gt;viewMainTile.undo}" press="deleteParam" icon="sap-icon://delete" type="Reject" />
+				<!-- footer ObjectPageSectio id="ASSIGN_PHASE"-->
+				<Button id="saveOpDCMaterial" visible="{/viewParamElements/visAssignPageFooterBtn}" text="{i18n&gt;viewDC.saveOpDCMaterial}" tooltip="{i18n&gt;viewDC.saveOpDCMaterial}" enabled="{= ${/viewCriticalItemElements/editMode}}" press="saveOpDCMaterial" icon="sap-icon://save" type="Accept" />
+				<Button id="btnCloseOpDCMaterial" visible="{= ${/viewParamElements/visAssignPageFooterBtn} &amp;&amp; !${/isPopupMode}}" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" enabled="{= ${/viewCriticalItemElements/editMode}}" press="refreshOpDCMaterial" icon="sap-icon://undo" type="Reject" />
+			</Toolbar>
+		</u:footer>
+	</u:ObjectPageLayout>
+</core:FragmentDefinition>

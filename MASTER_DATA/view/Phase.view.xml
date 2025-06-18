@@ -1,0 +1,163 @@
+<?xml version="1.0" 	encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" xmlns:u="sap.uxap" controllerName="master_data.controller.Phase" height="100%">
+	<u:ObjectPageLayout id="phaseObjectPage" flexEnabled="true" enableLazyLoading="true" navigate="pressTabBar" showTitleInHeaderContent="false" upperCaseAnchorBar="false" useIconTabBar="true" backgroundDesignAnchorBar="Transparent" showHeaderContent="false" height="100%" class="sapUiNoContentPadding" showFooter="{= !${/viewPhaseElements/isMasterPhaseFooter}}" >
+		
+		<!-- Edit Phase -->
+		<u:ObjectPageSection title="{i18n&gt;operations}" id="OP_PHASE">
+			<u:heading>
+				<MessageStrip type="Warning" text="{i18n&gt;viewPhase.fieldChangeRetroactive}" visible="{= ${/PhaseData/IS_USED} &amp;&amp; ${/viewPhaseElements/editMode} &amp;&amp; ${/viewPhaseElements/visPhasePageFooterBtn}}" showIcon="true" class="sapUiTinyMarginBegin" />
+			</u:heading>
+			<core:Fragment fragmentName="master_data.view.popup.phase.phaseHeading" type="XML" />
+			<core:Fragment fragmentName="master_data.view.popup.phase.phaseParameters" type="XML" />
+			<core:Fragment fragmentName="master_data.view.popup.phase.phaseAttachment" type="XML" />
+		</u:ObjectPageSection>
+		
+		<!-- Edit Master -->
+		<u:ObjectPageSection id="MASTER_CHECKLIST" title="{i18n&gt;viewPhase.MasterChecklist}" >
+			<u:ObjectPageSubSection class="sapUxAPObjectPageSubSectionFitContainer">
+					<l:ResponsiveSplitter>
+						<l:PaneContainer>
+							<l:SplitPane requiredParentWidth="300">
+								<l:layoutData>
+									<l:SplitterLayoutData size="30%" />
+								</l:layoutData>
+								<Page floatingFooter="true" enableScrolling="true" showSubHeader="true" backgroundDesign="List" showHeader="false">
+									<subHeader>
+										<Toolbar design="Solid" style="Standard" >													
+											<SearchField width="40%" liveChange="onSearchMasterPhaseFilter" />
+											<Button icon="sap-icon://filter" tooltip="{i18n&gt;viewPhase.Filter}" press="openFilterPopup" />
+											<Button icon="sap-icon://clear-filter" id="resetPhaseMasterFilter" tooltip="{i18n&gt;viewSupWh.removeFilters}" press="removePhaseMasterFilter" visible="{/viewPhaseElements/isFilterMasterChecklist}" />
+											<Button icon="sap-icon://refresh" tooltip="{i18n&gt;viewDC.updParType}" press="getMasterPhasesListData" />
+											<ToolbarSpacer />
+											<Button icon="sap-icon://add" tooltip="{i18n&gt;viewPhase.butttonnew}" press="newPhase(true)" visible="{/viewPhaseElements/visPhasePageFooterBtn}" enabled="{/viewPhaseElements/enabledNewPhaseBtn}" type="Transparent" />
+										</Toolbar>
+									</subHeader>
+									<content>
+										<List id="MasterPhasesList" items="{path: '/MasterPhaseList'}" mode="SingleSelectMaster" selectionChange="onSelectMasterPhase" >
+											<StandardListItem title="{SEQUENCE}" description="{OP_CODE_DESCR}" counter="{= parseInt(${OP_CODE})}" info="{= ${IS_USED} ? ${i18n&gt;viewPhase.inUsed} : ${i18n&gt;viewPhase.notUsed}}" infoState="{= ${IS_USED} ?  'Success' : 'Information'}" wrapping="true" wrapCharLimit="50" />
+										</List>
+									</content>
+									<footer>
+										<Toolbar >
+											<ToolbarSpacer />
+										</Toolbar>
+									</footer>
+								</Page>
+							</l:SplitPane>
+							<l:SplitPane requiredParentWidth="700" >
+								<l:layoutData>
+									<l:SplitterLayoutData size="70%" />
+								</l:layoutData>
+								<u:ObjectPageLayout showTitleInHeaderContent="false" upperCaseAnchorBar="false" useIconTabBar="false" backgroundDesignAnchorBar="Transparent" showHeaderContent="false" height="100%" class="sapUiNoContentPadding" showFooter="{/viewPhaseElements/isMasterPhaseFooter}" >	
+									<u:ObjectPageSection showTitle="false">
+										<u:heading>
+											<MessageStrip type="Warning" text="{i18n&gt;viewPhase.fieldChangeRetroactive}" visible="{= ${/PhaseData/IS_USED} &amp;&amp; ${/viewPhaseElements/editMode} &amp;&amp; ${/viewPhaseElements/visPhasePageFooterBtn}}" showIcon="true" class="sapUiTinyMarginBegin" />
+										</u:heading>
+										<core:Fragment fragmentName="master_data.view.popup.phase.phaseHeading" type="XML" />
+									</u:ObjectPageSection>
+									<u:ObjectPageSection showTitle="false">
+										<core:Fragment fragmentName="master_data.view.popup.phase.phaseParameters" type="XML" />
+									</u:ObjectPageSection>
+									<u:ObjectPageSection showTitle="false">
+										<core:Fragment fragmentName="master_data.view.popup.phase.phaseAttachment" type="XML" />
+									</u:ObjectPageSection>
+									<u:footer>
+										<Toolbar style="Clear" design="Transparent">
+											<!-- footer ObjectPageSectio id="OP_PHASE"-->
+											<Button icon="sap-icon://excel-attachment" tooltip="{i18n&gt;viewPhase.download}" press="downloadModel" visible="{/viewPhaseElements/visPhasePageFooterBtn}" enabled="{/viewPhaseElements/enabledDownloadModelBtn}" type="Transparent" />
+											<Button text="{i18n&gt;viewLogistic.reset}" icon="sap-icon://reset" tooltip="{i18n&gt;viewLogistic.reset}" press="newPhase(false)" visible="{/viewPhaseElements/visPhasePageFooterBtn}" enabled="{/viewPhaseElements/enabledClosePhaseBtn}" type="Transparent" />
+											<Button text="{i18n&gt;viewPhase.clone}" icon="sap-icon://copy" tooltip="{i18n&gt;viewPhase.clone}" press="clonePhase" visible="{/viewPhaseElements/visPhasePageFooterBtn}" enabled="{/viewPhaseElements/enabledClonePhaseBtn}" type="Transparent" />
+											<Button text="{i18n&gt;viewPhase.newVersion}" tooltip="{i18n&gt;viewPhase.newVersion}" icon="sap-icon://create" press="newVersionPhase" visible="{/viewPhaseElements/visPhasePageFooterBtn}" enabled="{/viewPhaseElements/enabledNewVersionPhaseBtn}" type="Transparent" />
+											<ToolbarSpacer />
+											<!-- footer ObjectPageSectio id="OP_PHASE"-->
+											<Button text="{i18n&gt;viewSite.save}" icon="sap-icon://save" tooltip="{i18n&gt;viewSite.save}" press="savePhase" visible="{/viewPhaseElements/visPhasePageFooterBtn}" enabled="{/viewPhaseElements/enabledSavePhaseBtn}" type="Accept" />
+											<Button text="{i18n&gt;viewWRK.delete}" icon="sap-icon://delete" tooltip="{i18n&gt;viewWRK.delete}" press="deletePhase" visible="{= ${/viewPhaseElements/visPhasePageFooterBtn} &amp;&amp; !${/PhaseData/IS_USED} &amp;&amp; ${/viewPhaseElements/enabledDeletePhaseBtn}}" enabled="{= !${/PhaseData/IS_USED}}" type="Reject" />
+										</Toolbar>
+									</u:footer>
+								</u:ObjectPageLayout>
+							</l:SplitPane>
+						</l:PaneContainer>	
+					</l:ResponsiveSplitter>
+			</u:ObjectPageSubSection>
+		</u:ObjectPageSection>
+		
+		<!-- Edit Phase Automha -->
+		<u:ObjectPageSection id="OPAUTOMHA" title="{i18n&gt;viewPhase.automha}" visible="{= ${/currentSite} === 'ADIGE'}">
+			<u:ObjectPageSubSection class="sapUxAPObjectPageSubSectionFitContainer">
+				<table:Table id="tabOperationAutomha" rows="{path: '/tabOperationAutomha'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive">
+					<table:rowSettingsTemplate>
+						<table:RowSettings highlight="{= ${DEL} === 'false' ? ${EDIT} === 'true' ? 'Warning' : 'None' : 'Error'}" />
+					</table:rowSettingsTemplate>
+					<table:columns>
+						<table:Column width="30%" hAlign="Center">
+							<Label text="{i18n&gt;viewPhase.phase}" />
+							<table:template>
+								<ComboBox selectedKey="{PHASE_ID}" items="{path: '/PhaseOperationAutomhaCombo', templateShareable:false}" width="100%" valueState="None" textAlign="Center" maxWidth="100%" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} === 'false'}" change="onChangePhase">
+									<core:Item key="{PHASE_ID}" text="{PHASE}" />
+								</ComboBox>
+							</table:template>
+						</table:Column>
+						<table:Column width="30%" hAlign="Center">
+							<Label text="{i18n&gt;viewPhase.opNetwork}" />
+							<table:template>
+								<Input value="{NETWORK_OPERATION}" tooltip="{NETWORK_OPERATION}" textAlign="Center" showValueHelp="false" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} === 'false'}" width="100%" />
+							</table:template>
+						</table:Column>
+						<table:Column width="30%" hAlign="Center">
+							<Label text="{i18n&gt;viewWRK.label.piazzolaAuthoma}" />
+							<table:template>
+								<Input value="{WORK_CENTER_AUTOMHA}" tooltip="{WORK_CENTER_AUTOMHA}" textAlign="Center" showValueHelp="false" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} === 'false'}" width="100%" />
+							</table:template>
+						</table:Column>
+						<table:Column width="30%" hAlign="Center">
+							<Label text="{i18n&gt;viewPhase.actionSend}" />
+							<table:template>
+								<ComboBox selectedKey="{SENDING_TRIGGER}" width="100%" valueState="None" textAlign="Center" maxWidth="100%" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} === 'false'}">
+									<core:Item key="1" text="{i18n&gt;viewMail.attach.table.actionStart}" />
+									<core:Item key="2" text="{i18n&gt;viewMail.attach.table.actionComplete}" />
+								</ComboBox>
+							</table:template>
+						</table:Column>
+						<table:Column width="7%" hAlign="Center">
+							<Label text="{i18n&gt;viewLogistic.table.Edit}" />
+							<table:template>
+								<Button press="editOperationAutomha" tooltip="{i18n&gt;viewLogistic.table.Edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+							</table:template>
+						</table:Column>
+						<table:Column width="7%" hAlign="Center">
+							<Label text="{i18n&gt;viewLogistic.table.Delete}" />
+							<table:template>
+								<Button press="deleteOperationAutomha" tooltip="{i18n&gt;viewLogistic.table.Delete}" type="Reject" icon="sap-icon://delete" iconDensityAware="false" />
+							</table:template>
+						</table:Column>
+					</table:columns>
+				</table:Table>
+			</u:ObjectPageSubSection>
+		</u:ObjectPageSection>
+		<u:footer>
+			<Toolbar style="Clear" design="Transparent">
+				<!-- footer ObjectPageSectio id="OP_PHASE"-->
+				<Label text="{i18n&gt;viewPhase.serach}" visible="{/viewPhaseElements/visPhasePageFooterBtn}" />
+				<Input id="phaseInput" value="{/PhaseData/SEQUENCE}" width="300px" placeholder="{i18n&gt;viewPhase.phaselistempty}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onOpenSearchPhasePopup" visible="{/viewPhaseElements/visPhasePageFooterBtn}" editable="{/viewPhaseElements/enabledPhaseInput}" />
+				<Button id="dwnlxecl" icon="sap-icon://excel-attachment" tooltip="{i18n&gt;viewPhase.download}" press="downloadModel" visible="{/viewPhaseElements/visPhasePageFooterBtn}" enabled="{/viewPhaseElements/enabledDownloadModelBtn}" type="Transparent" />
+				<Button id="closePhase" text="{i18n&gt;viewLogistic.reset}" icon="sap-icon://reset" tooltip="{i18n&gt;viewLogistic.reset}" press="newPhase(false)" visible="{/viewPhaseElements/visPhasePageFooterBtn}" enabled="{/viewPhaseElements/enabledClosePhaseBtn}" type="Transparent" />
+				<Button id="newPhase" text="{i18n&gt;viewPhase.butttonnew}" icon="sap-icon://add" tooltip="{i18n&gt;viewPhase.butttonnew}" press="newPhase(true)" visible="{/viewPhaseElements/visPhasePageFooterBtn}" enabled="{/viewPhaseElements/enabledNewPhaseBtn}" type="Transparent" />
+				<Button id="clonePhase" text="{i18n&gt;viewPhase.clone}" icon="sap-icon://copy" tooltip="{i18n&gt;viewPhase.clone}" press="clonePhase" visible="{/viewPhaseElements/visPhasePageFooterBtn}" enabled="{/viewPhaseElements/enabledClonePhaseBtn}" type="Transparent" />
+				<Button id="newVersionPhase" text="{i18n&gt;viewPhase.newVersion}" tooltip="{i18n&gt;viewPhase.newVersion}" icon="sap-icon://create" press="newVersionPhase" visible="{/viewPhaseElements/visPhasePageFooterBtn}" enabled="{/viewPhaseElements/enabledNewVersionPhaseBtn}" type="Transparent" />
+				<!-- footer ObjectPageSectio id="OPAUTOMHA"-->
+				<MultiComboBox id="filterOperationAutomha" visible="{/viewPhaseElements/visAutomhaPageFooterBtn}" selectionFinish="getOperationAutomha" items="{/filterOperationAutomhaPhase}" showSecondaryValues="true" placeholder="{i18n&gt;viewPhase.phaselistempty}" width="20%" class="sapUiTinyMarginEnd">
+					<core:ListItem key="{PHASE_ID}" text="{PHASE}" tooltip="{PHASE}" />
+				</MultiComboBox>
+				<Button id="resetFilterOperationAutomha" visible="{/viewPhaseElements/visAutomhaPageFooterBtn}" tooltip="{i18n&gt;viewSupWh.removeFilters}" press="removeAutomhaPhaseListFilters" type="Transparent" icon="sap-icon://clear-filter" iconDensityAware="true" />
+				<Button visible="{/viewPhaseElements/visAutomhaPageFooterBtn}" text="{i18n&gt;viewPhase.newOperationAutomha}" tooltip="{i18n&gt;viewPhase.newOperationAutomha}" press="newOperationAutomha" type="Transparent" icon="sap-icon://add" />
+				<ToolbarSpacer />
+				<!-- footer ObjectPageSectio id="OP_PHASE"-->
+				<Button id="savePhase" text="{i18n&gt;viewSite.save}" icon="sap-icon://save" tooltip="{i18n&gt;viewSite.save}" press="savePhase" visible="{/viewPhaseElements/visPhasePageFooterBtn}" enabled="{/viewPhaseElements/enabledSavePhaseBtn}" type="Accept" />
+				<Button id="delPhase" text="{i18n&gt;viewWRK.delete}" icon="sap-icon://delete" tooltip="{i18n&gt;viewWRK.delete}" press="deletePhase" visible="{= ${/viewPhaseElements/visPhasePageFooterBtn} &amp;&amp; !${/PhaseData/IS_USED} &amp;&amp; ${/viewPhaseElements/enabledDeletePhaseBtn}}" enabled="{= !${/PhaseData/IS_USED}}" type="Reject" />
+				<!-- footer ObjectPageSectio id="OPAUTOMHA"-->
+				<Button id="btnSaveOperationAutomha" visible="{/viewPhaseElements/visAutomhaPageFooterBtn}" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveOperationAutomha" icon="sap-icon://save" type="Accept" />
+				<Button id="btnCloseOperationAutomha" visible="{/viewPhaseElements/visAutomhaPageFooterBtn}" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getOperationAutomha" icon="sap-icon://undo" type="Reject" />
+			</Toolbar>
+		</u:footer>
+	</u:ObjectPageLayout>
+</mvc:View>

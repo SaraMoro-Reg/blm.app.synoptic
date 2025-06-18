@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" controllerName="master_data.controller.WorkCenter" height="100%" displayBlock="true">
+	<VBox height="100%" renderType="Bare">
+		<IconTabBar id="wkcITB" expandable="false" tabDensityMode="Compact" headerBackgroundDesign="Translucent" select="pressWkcTabBar" backgroundDesign="Translucent" stretchContentHeight="true" applyContentPadding="false">
+			<items>
+				<!-- Definizione Piazzola -->
+				<IconTabFilter key="WKC" icon="sap-icon://machine" text="{i18n&gt;viewWRK.wrkmain}">
+					<VBox width="100%" height="100%" renderType="Bare">
+						<HBox width="100%" height="20%" renderType="Bare">
+							<l:VerticalLayout class="sapUiContentPadding" width="100%">
+								<Label text="{i18n&gt;viewWRK.label.search}:" />
+								<HBox width="100%" height="100%" renderType="Bare">
+									<Input id="piazzolaInput" type="Text" placeholder="{i18n&gt;viewWRK.list.place}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelp" class="sapUiSmallMarginBottom sapUiSmallMarginStart sapUiTinyMarginEnd" width="20%" />
+								    <Button id="dwnlxecl" icon="sap-icon://excel-attachment" press="downloadModel" enabled="true" class="sapUiMediumMarginEnd" />
+									<Label id="siteId" visible="false" />
+									<Label id="wrkId" visible="false" />
+									<Button id="btnNewWrk" text="{i18n&gt;viewWRK.newWrk}" tooltip="{i18n&gt;viewWRK.newWrk}" press="newSlot(true)" icon="sap-icon://add" class="sapUiTinyMarginEnd" />
+									<Button id="closeWrk" text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="newSlot(false)" icon="sap-icon://reset" class="sapUiMediumMarginEnd" />
+									<Button id="btnSaveWrk" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveUpdateNew" icon="sap-icon://save" type="Accept" class="sapUiTinyMarginEnd" />
+									<Button id="btnDelWrk" text="{i18n&gt;viewWRK.delete}" tooltip="{i18n&gt;viewWRK.delete}" press="deletePiazzola" icon="sap-icon://delete" type="Reject" />									
+								</HBox>
+							</l:VerticalLayout>
+						</HBox>
+						<HBox width="100%" height="20%" renderType="Bare">
+							<l:VerticalLayout width="15%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewWRK.label.slot}:" />
+								<Input id="inputPiazzola" />
+							</l:VerticalLayout>
+							<l:VerticalLayout width="25%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewWRK.label.description}:" />
+								<Input id="descrPiazzola" width="100%" fieldWidth="100%" />
+							</l:VerticalLayout>
+							<l:VerticalLayout width="15%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewWRK.label.type}:" />
+								<ComboBox id="comboType" selectionChange="onChangeType" items="{path: '/tabwrktype',sorter: { path: 'WORKCENTERTYPE' }}">
+									<core:Item key="{WORKCENTERTYPE_ID}" text="{WORKCENTERTYPE}" />
+								</ComboBox>
+							</l:VerticalLayout>
+							<l:VerticalLayout width="15%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewWRK.label.parent}:" />
+								<ComboBox id="comboParent" selectionChange="onChangeParent" items="{path: '/tabwrklist',sorter: { path: 'WORKCENTER' }}">
+									<core:Item key="{WORKCENTER_ID}" text="{WORKCENTER} - {WORKCENTER_DESC}" />
+								</ComboBox>
+							</l:VerticalLayout>
+							<l:VerticalLayout width="15%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewWRK.label.status}:" />
+								<ComboBox id="comboStatus" items="{path: '/tabwrkStatus',sorter: { path: 'STATUS' }}">
+									<core:Item key="{STATUS_ID}" text="{STATUS_DESC}" />
+								</ComboBox>
+							</l:VerticalLayout>
+							<l:VerticalLayout width="15%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewWRK.label.piazzolaAuthoma}:" />
+								<Input id="inputPiazzolaAuthoma" />
+							</l:VerticalLayout>
+						</HBox>						
+						<HBox width="100%" height="60%" renderType="Bare">
+							<l:VerticalLayout width="100%" class="sapUiContentPadding">
+								<HBox width="100%" height="10%" renderType="Bare">
+									<Button id="btnWrkNewDescr" text="{i18n&gt;viewWRK.label.adddescr}" tooltip="{i18n&gt;viewWRK.label.adddescr}" press="newWrkDesc" icon="sap-icon://add" class="sapUiTinyMarginEnd" />
+									<Button id="btnWrkSaveDescr" text="{i18n&gt;viewPhase.savenewdescr}" tooltip="{i18n&gt;viewPhase.savenewdescr}" press="confirmEditDescwrk" icon="sap-icon://save" type="Accept" />
+								</HBox>
+								<table:Table id="tabWrkDesc" rows="{path: '/tabWrkDesc'}" width="100%" selectionMode="None" visibleRowCountMode="Fixed" visibleRowCount="5">
+									<table:rowSettingsTemplate>
+										<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+									</table:rowSettingsTemplate>
+									<table:columns>
+										<table:Column width="15%" hAlign="Center">
+											<Label text="{i18n&gt;viewSite.Lang}" />
+											<table:template>
+												<ComboBox selectedKey="{LANGUAGE}" selectionChange="onChangeStatus" width="100%" valueState="None" maxWidth="100%" editable="{EDIT}" >
+													<items>
+														<core:Item key="IT" text="{i18n&gt;viewSite.it}" />
+														<core:Item key="EN" text="{i18n&gt;viewSite.en}" />
+													</items>
+												</ComboBox>
+											</table:template>
+										</table:Column>
+										<table:Column width="auto" hAlign="Center">
+											<Label text="{i18n&gt;viewWRK.table.wrktypedescr}" />
+											<table:template>
+												<Input value="{WORKCENTER_DESC}" tooltip="{WORKCENTER_DESC}" liveChange="onChangeWrkDescr" width="100%"  />
+											</table:template>
+										</table:Column>
+										<table:Column width="7%" hAlign="Center">
+											<Label text="{i18n&gt;viewSite.Delete}" />
+											<table:template>
+												<Button press="deleteWorkCenterDescr" tooltip="{i18n&gt;viewSite.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+											</table:template>
+										</table:Column>
+									</table:columns>
+								</table:Table>
+							</l:VerticalLayout>
+						</HBox>
+					</VBox>
+				</IconTabFilter>
+				
+				<!-- Definizione Tipo Piazzola -->
+				<IconTabFilter key="WKC_TYPE" icon="sap-icon://washing-machine" text="{i18n&gt;viewWRK.wrktypr}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<HBox width="100%" height="100%" renderType="Bare">								
+								<Button id="btnNewWrkType" text="{i18n&gt;viewWRK.newType}" tooltip="{i18n&gt;viewWRK.newType}" press="newType" icon="sap-icon://add" class="sapUiMediumMarginEnd" />
+								<Button id="btnCloseWrkType" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="undoWrkType" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+								<Button id="btnSaveWrkType" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveNewType" icon="sap-icon://save" type="Accept" />
+							</HBox>
+						</HBox>
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabWrkType" rows="{path: '/tabwrktype'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="16%" hAlign="Center" filterProperty="WORKCENTERTYPE" sortProperty="WORKCENTERTYPE">
+										<Label text="{i18n&gt;viewWRK.table.wrktype}" />
+										<table:template>
+											<Input value="{WORKCENTERTYPE}" editable="{=(${EDIT} === 'true') ? true : false}" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="70%" hAlign="Center" filterProperty="WORKCENTERTYPE_DESC" sortProperty="WORKCENTERTYPE_DESC">
+										<Label text="{i18n&gt;viewWRK.table.wrktypedescr}" />
+										<table:template>
+											<Input value="{WORKCENTERTYPE_DESC}" editable="{=(${EDIT} === 'true') ? true : false}" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.Edit}" />
+										<table:template>
+											<Button press="editType" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.Delete}" />
+										<table:template>
+											<Button press="deleteNewType" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				
+				<!--Edit Orario Lavorativo Piazzole  -->
+				<IconTabFilter key="WKC_HOURS" icon="sap-icon://history" text="{i18n&gt;viewWRK.wrkHours}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Button text="{i18n&gt;viewWRK.newHours}" tooltip="{i18n&gt;viewWRK.newHours}" press="newHours" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="deleteAllHours" text="{i18n&gt;viewWRK.deleteAll}" tooltip="{i18n&gt;viewWRK.deleteAll}" press="deleteAllHours" icon="sap-icon://delete" type="Reject" class="sapUiMediumMarginEnd" />
+							<Button id="btnCloseNewHours" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getHoursList" icon="sap-icon://undo" class="sapUiTinyMarginEnd" />	
+							<Button id="saveNewHours" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" enabled="false" press="saveNewHours" icon="sap-icon://save" type="Accept" />		
+						</HBox>
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabWrkHours" rows="{path: '/tabWrkHours'}" width="100%" selectionMode="Single" rowSelectionChange="onSelectionChangeRowTabHours" selectionBehavior="RowOnly" visibleRowCountMode="Interactive" >
+								<table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="11%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrk}" />
+										<table:template>
+											<Input value="{WORKCENTER}" tooltip="{WORKCENTER}" editable="{=(${VIS} === 'false')? false : true}" showValueHelp="true" textAlign="Center" valueHelpOnly="true" valueHelpRequest="openWkcHelpHours" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="11%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.user}" />
+										<table:template>
+											<Input value="{USER}" tooltip="{USER}" editable="{=(${VIS} === 'false')? false : true}" showValueHelp="true" textAlign="Center" valueHelpOnly="true" valueHelpRequest="openUserHelpHours" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="12%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.hoursTo1}" />
+										<table:template>
+											<TimePicker	value="{HOURS_TO_1}" tooltip="{HOURS_TO_1}" valueFormat="HH:mm" displayFormat="HH:mm" change="handleChangeHours" textAlign="Center" maskMode="On" placeholder="{i18n&gt;viewWRK.table.enterHours}" />
+										</table:template>
+									</table:Column>
+									<table:Column width="12%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.hoursFrom1}" />
+										<table:template>
+											<TimePicker	value="{HOURS_FROM_1}" tooltip="{HOURS_FROM_1}" valueFormat="HH:mm" displayFormat="HH:mm" change="handleChangeHours" textAlign="Center" maskMode="On" placeholder="{i18n&gt;viewWRK.table.enterHours}" />
+										</table:template>
+									</table:Column>
+									<table:Column width="12%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.hoursTo2}" />
+										<table:template>
+											<TimePicker	value="{HOURS_TO_2}" tooltip="{HOURS_TO_2}" valueFormat="HH:mm" displayFormat="HH:mm" change="handleChangeHours" textAlign="Center" maskMode="On" placeholder="{i18n&gt;viewWRK.table.enterHours}" />
+										</table:template>
+									</table:Column>
+									<table:Column width="12%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.hoursFrom2}" />
+										<table:template>
+											<TimePicker	value="{HOURS_FROM_2}" tooltip="{HOURS_FROM_2}" valueFormat="HH:mm" displayFormat="HH:mm" change="handleChangeHours" textAlign="Center" maskMode="On" placeholder="{i18n&gt;viewWRK.table.enterHours}" />
+										</table:template>
+									</table:Column>
+									<table:Column width="12%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.hoursTo3}" />
+										<table:template>
+											<TimePicker	value="{HOURS_TO_3}" tooltip="{HOURS_TO_3}" valueFormat="HH:mm" displayFormat="HH:mm" change="handleChangeHours" textAlign="Center" maskMode="On" placeholder="{i18n&gt;viewWRK.table.enterHours}" />
+										</table:template>
+									</table:Column>
+									<table:Column width="12%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.hoursFrom3}" />
+										<table:template>
+											<TimePicker	value="{HOURS_FROM_3}" tooltip="{HOURS_FROM_3}" valueFormat="HH:mm" displayFormat="HH:mm" change="handleChangeHours" textAlign="Center" maskMode="On" placeholder="{i18n&gt;viewWRK.table.enterHours}" />
+										</table:template>
+									</table:Column>	
+									<table:Column width="6%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.Delete}" />
+										<table:template>
+											<Button press="deleteHoursPos" tooltip="{i18n&gt;viewWRK.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>	
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				
+				<!-- Sinottico ADIGE -->
+				<IconTabFilter id="SynopticAdige" key="SYNOPTIC" visible="false" icon="sap-icon://bullet-text" text="{i18n&gt;viewWRK.wrkSynoptic}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Label id="rowSynopticSel" visible="false" />
+							<Button id="btnNewAdige" text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnUndoNewAdige" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getSynopticList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />	
+							<Button id="btnSaveAdige" text="{i18n&gt;viewSite.savePosSyn}" tooltip="{i18n&gt;viewSite.savePosSyn}" press="savePosSyn" icon="sap-icon://save" type="Accept" />
+						</HBox>							
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabWrkSyn" rows="{path: '/tabSynoptic'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+							    <table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="30%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrk}" />
+										<table:template>
+											<Input value="{WORKCENTER}" tooltip="{WORKCENTER}" editable="{=(${EDIT} === 'false')? false : true}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openWkcHelp" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="50%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrkDescr}" />
+										<table:template>
+											<Input value="{WORKCENTER_DESCR}" tooltip="{WORKCENTER_DESCR}" editable="false" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="13%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.position}" />
+										<table:template>
+											<Input value="{POSITION}" tooltip="{POSITION}" textAlign="Center" editable="{=(${DEL} === 'true')? false : true}" change="controlPositionValue" type="Number" width="100%" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.Delete}" />
+										<table:template>
+											<Button press="deleteSynopticPos" tooltip="{i18n&gt;viewWRK.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>			
+				<IconTabFilter id="SynopticAdigeStr1" key="SYNOPTICADIGESTR1" visible="false" icon="sap-icon://bullet-text" text="{i18n&gt;viewWRK.wrkSynopticAdigeStr1}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Label id="rowSynopticAdigeStr1Sel" visible="false" />
+							<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnUndoNewAdigeStr1" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getSynopticList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+							<Button id="btnSaveNewAdigeStr1" text="{i18n&gt;viewSite.savePosSyn}" tooltip="{i18n&gt;viewSite.savePosSyn}" press="savePosSyn" icon="sap-icon://save" type="Accept" />								
+						</HBox>							
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabWrkSynAdigeStr1" rows="{path: '/tabSynopticAdigeStr1'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+							    <table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="30%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrk}" />
+										<table:template>
+											<Input value="{WORKCENTER}" tooltip="{WORKCENTER}" editable="{=(${EDIT} === 'false')? false : true}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openWkcHelp" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="50%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrkDescr}" />
+										<table:template>
+											<Input value="{WORKCENTER_DESCR}" tooltip="{WORKCENTER_DESCR}" editable="false" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="13%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.position}" />
+										<table:template>
+											<Input value="{POSITION}" tooltip="{POSITION}" textAlign="Center" editable="{=(${DEL} === 'true')? false : true}" change="controlPositionValue" type="Number" width="100%" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.Delete}" />
+										<table:template>
+											<Button press="deleteSynopticPos" tooltip="{i18n&gt;viewWRK.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				
+				<!-- Sinottico BGS -->
+				<IconTabFilter id="SynopticBgs1" key="SYNOPTICBGS1" visible="false" icon="sap-icon://bullet-text" text="{i18n&gt;viewWRK.wrkSynopticBGS1}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Label id="rowSynopticBGS1Sel" visible="false" />
+							<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnUndoNewBgs1" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getSynopticList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+							<Button id="btnSaveNewBgs1" text="{i18n&gt;viewSite.savePosSyn}" tooltip="{i18n&gt;viewSite.savePosSyn}" press="savePosSyn" icon="sap-icon://save" type="Accept" />	
+						</HBox>							
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabWrkSynBGS1" rows="{path: '/tabSynopticBGS1'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+							    <table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="30%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrk}" />
+										<table:template>
+											<Input value="{WORKCENTER}" tooltip="{WORKCENTER}" editable="{=(${EDIT} === 'false')? false : true}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openWkcHelp" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="50%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrkDescr}" />
+										<table:template>
+											<Input value="{WORKCENTER_DESCR}" tooltip="{WORKCENTER_DESCR}" editable="false" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="13%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.position}" />
+										<table:template>
+											<Input value="{POSITION}" tooltip="{POSITION}" textAlign="Center" editable="{=(${DEL} === 'true')? false : true}" change="controlPositionValue" type="Number" width="100%" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.Delete}" />
+										<table:template>
+											<Button press="deleteSynopticPos" tooltip="{i18n&gt;viewWRK.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				<IconTabFilter id="SynopticBgs2" key="SYNOPTICBGS2" visible="false" icon="sap-icon://bullet-text" text="{i18n&gt;viewWRK.wrkSynopticBGS2}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Label id="rowSynopticBGS2Sel" visible="false" />
+							<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnUndoNewBgs2" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getSynopticList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />	
+							<Button id="btnSaveNewBgs2" text="{i18n&gt;viewSite.savePosSyn}" tooltip="{i18n&gt;viewSite.savePosSyn}" press="savePosSyn" icon="sap-icon://save" type="Accept" />
+						</HBox>							
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabWrkSynBGS2" rows="{path: '/tabSynopticBGS2'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+							    <table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="30%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrk}" />
+										<table:template>
+											<Input value="{WORKCENTER}" tooltip="{WORKCENTER}" editable="{=(${EDIT} === 'false')? false : true}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openWkcHelp" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="50%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrkDescr}" />
+										<table:template>
+											<Input value="{WORKCENTER_DESCR}" tooltip="{WORKCENTER_DESCR}" editable="false" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="13%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.position}" />
+										<table:template>
+											<Input value="{POSITION}" tooltip="{POSITION}" textAlign="Center" editable="{=(${DEL} === 'true')? false : true}" change="controlPositionValue" type="Number" width="100%" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.Delete}" />
+										<table:template>
+											<Button press="deleteSynopticPos" tooltip="{i18n&gt;viewWRK.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>						
+					</l:VerticalLayout>
+				</IconTabFilter>
+				
+				<!-- Sinottico ADIGE-SYS -->				
+				<IconTabFilter id="SynopticAdigeSys1" key="SYNOPTICADIGESYS1" visible="false" icon="sap-icon://bullet-text" text="{i18n&gt;viewWRK.wrkSynopticAdigeSys1}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Label id="rowSynopticAdigeSys1Sel" visible="false" />
+							<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnUndoNewAgigeSys1" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getSynopticList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+							<Button id="btnSaveNewAgigeSys1" text="{i18n&gt;viewSite.savePosSyn}" tooltip="{i18n&gt;viewSite.savePosSyn}" press="savePosSyn" icon="sap-icon://save" type="Accept" />	
+						</HBox>							
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabWrkSynAdigeSys1" rows="{path: '/tabSynopticAdigeSys1'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+							    <table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="30%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrk}" />
+										<table:template>
+											<Input value="{WORKCENTER}" tooltip="{WORKCENTER}" editable="{=(${EDIT} === 'false')? false : true}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openWkcHelp" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="50%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrkDescr}" />
+										<table:template>
+											<Input value="{WORKCENTER_DESCR}" tooltip="{WORKCENTER_DESCR}" editable="false" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="13%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.position}" />
+										<table:template>
+											<Input value="{POSITION}" tooltip="{POSITION}" textAlign="Center" editable="{=(${DEL} === 'true')? false : true}" change="controlPositionValue" type="Number" width="100%" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.Delete}" />
+										<table:template>
+											<Button press="deleteSynopticPos" tooltip="{i18n&gt;viewWRK.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				<!-- Sinottico Disabilitato -->
+				<IconTabFilter id="SynopticAdigeSys2" key="SYNOPTICADIGESYS2" visible="false" icon="sap-icon://bullet-text" text="{i18n&gt;viewWRK.wrkSynopticAdigeSys2}" >
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Label id="rowSynopticAdigeSys2Sel" visible="false" />
+							<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnUndoNewAgigeSys2" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getSynopticList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+							<Button id="btnSaveNewAgigeSys2" text="{i18n&gt;viewSite.savePosSyn}" tooltip="{i18n&gt;viewSite.savePosSyn}" press="savePosSyn" icon="sap-icon://save" type="Accept" />
+						</HBox>							
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabWrkSynAdigeSys2" rows="{path: '/tabSynopticAdigeSys2'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+							    <table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="30%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrk}" />
+										<table:template>
+											<Input value="{WORKCENTER}" tooltip="{WORKCENTER}" editable="{=(${EDIT} === 'false')? false : true}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openWkcHelp" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="50%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrkDescr}" />
+										<table:template>
+											<Input value="{WORKCENTER_DESCR}" tooltip="{WORKCENTER_DESCR}" editable="false" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="13%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.position}" />
+										<table:template>
+											<Input value="{POSITION}" tooltip="{POSITION}" textAlign="Center" editable="{=(${DEL} === 'true')? false : true}" change="controlPositionValue" type="Number" width="100%" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.Delete}" />
+										<table:template>
+											<Button press="deleteSynopticPos" tooltip="{i18n&gt;viewWRK.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				<IconTabFilter id="SynopticAdigeSys3" key="SYNOPTICADIGESYS3" visible="false" icon="sap-icon://bullet-text" text="{i18n&gt;viewWRK.wrkSynopticAdigeSys3}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Label id="rowSynopticAdigeSys3Sel" visible="false" />
+							<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnUndoNewAgigeSys3" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getSynopticList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+							<Button id="btnSaveNewAgigeSys3" text="{i18n&gt;viewSite.savePosSyn}" tooltip="{i18n&gt;viewSite.savePosSyn}" press="savePosSyn" icon="sap-icon://save" type="Accept" />
+						</HBox>							
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabWrkSynAdigeSys3" rows="{path: '/tabSynopticAdigeSys3'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+							    <table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="30%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrk}" />
+										<table:template>
+											<Input value="{WORKCENTER}" tooltip="{WORKCENTER}" editable="{=(${EDIT} === 'false')? false : true}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openWkcHelp" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="50%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrkDescr}" />
+										<table:template>
+											<Input value="{WORKCENTER_DESCR}" tooltip="{WORKCENTER_DESCR}" editable="false" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="13%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.position}" />
+										<table:template>
+											<Input value="{POSITION}" tooltip="{POSITION}" textAlign="Center" editable="{=(${DEL} === 'true')? false : true}" change="controlPositionValue" type="Number" width="100%" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.Delete}" />
+										<table:template>
+											<Button press="deleteSynopticPos" tooltip="{i18n&gt;viewWRK.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				<IconTabFilter id="SynopticBgusa" key="SYNOPTICBGUSA" visible="false" icon="sap-icon://bullet-text" text="{i18n&gt;viewWRK.wrkSynopticBgusa}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Label id="rowSynopticBgusaSel" visible="false" />
+							<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnUndoNewBgusa" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getSynopticList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+							<Button id="btnSaveNewBgusa" text="{i18n&gt;viewSite.savePosSyn}" tooltip="{i18n&gt;viewSite.savePosSyn}" press="savePosSyn" icon="sap-icon://save" type="Accept" />
+						</HBox>							
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabWrkSynBusa" rows="{path: '/tabSynopticBgusa'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+							    <table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="30%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrk}" />
+										<table:template>
+											<Input value="{WORKCENTER}" tooltip="{WORKCENTER}" editable="{=(${EDIT} === 'false')? false : true}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openWkcHelp" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="50%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrkDescr}" />
+										<table:template>
+											<Input value="{WORKCENTER_DESCR}" tooltip="{WORKCENTER_DESCR}" editable="false" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="13%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.position}" />
+										<table:template>
+											<Input value="{POSITION}" tooltip="{POSITION}" textAlign="Center" editable="{=(${DEL} === 'true')? false : true}" change="controlPositionValue" type="Number" width="100%" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.Delete}" />
+										<table:template>
+											<Button press="deleteSynopticPos" tooltip="{i18n&gt;viewWRK.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				
+				<!-- Sinottico Macchine Standard -->
+				<IconTabFilter id="SynopticBlm1" key="SYNOPTICBLM1" visible="false" icon="sap-icon://bullet-text" text="{i18n&gt;viewWRK.wrkSynopticBlm1}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Label id="rowSynopticBlm1Sel" visible="false" />
+							<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnUndoNewBlm1" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getSynopticList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+							<Button id="btnSaveNewBlm1" text="{i18n&gt;viewSite.savePosSyn}" tooltip="{i18n&gt;viewSite.savePosSyn}" press="savePosSyn" icon="sap-icon://save" type="Accept" />
+						</HBox>							
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabWrkSynBlm1" rows="{path: '/tabSynopticBlm1'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+							    <table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="30%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrk}" />
+										<table:template>
+											<Input value="{WORKCENTER}" tooltip="{WORKCENTER}" editable="{=(${EDIT} === 'false')? false : true}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openWkcHelp" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="50%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrkDescr}" />
+										<table:template>
+											<Input value="{WORKCENTER_DESCR}" tooltip="{WORKCENTER_DESCR}" editable="false" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="13%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.position}" />
+										<table:template>
+											<Input value="{POSITION}" tooltip="{POSITION}" textAlign="Center" editable="{=(${DEL} === 'true')? false : true}" change="controlPositionValue" type="Number" width="100%" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.Delete}" />
+										<table:template>
+											<Button press="deleteSynopticPos" tooltip="{i18n&gt;viewWRK.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+				
+				<!-- Sinottico Macchine Personalizzate -->
+				<IconTabFilter id="SynopticBlm2" key="SYNOPTICBLM2" visible="false" icon="sap-icon://bullet-text" text="{i18n&gt;viewWRK.wrkSynopticBlm2}">
+					<l:VerticalLayout width="100%" class="sapUiContentPadding">
+						<HBox width="100%" height="10%" renderType="Bare">
+							<Label id="rowSynopticBlm2Sel" visible="false" />
+							<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" class="sapUiSmallMarginEnd" />
+							<Button id="btnUndoNewBlm2" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getSynopticList" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+							<Button id="btnSaveNewBlm2" text="{i18n&gt;viewSite.savePosSyn}" tooltip="{i18n&gt;viewSite.savePosSyn}" press="savePosSyn" icon="sap-icon://save" type="Accept" />
+						</HBox>							
+						<HBox width="100%" height="90%" renderType="Bare">
+							<table:Table id="tabWrkSynBlm2" rows="{path: '/tabSynopticBlm2'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+							    <table:rowSettingsTemplate>
+									<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+							 	</table:rowSettingsTemplate>
+								<table:columns>
+									<table:Column width="30%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrk}" />
+										<table:template>
+											<Input value="{WORKCENTER}" tooltip="{WORKCENTER}" editable="{=(${EDIT} === 'false')? false : true}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openWkcHelp" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="50%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.wrkDescr}" />
+										<table:template>
+											<Input value="{WORKCENTER_DESCR}" tooltip="{WORKCENTER_DESCR}" editable="false" width="100%" />
+										</table:template>
+									</table:Column>
+									<table:Column width="13%" hAlign="Center" >
+										<Label text="{i18n&gt;viewWRK.table.position}" />
+										<table:template>
+											<Input value="{POSITION}" tooltip="{POSITION}" textAlign="Center" editable="{=(${DEL} === 'true')? false : true}" change="controlPositionValue" type="Number" width="100%" />
+										</table:template>
+									</table:Column>									
+									<table:Column width="7%" hAlign="Center">
+										<Label text="{i18n&gt;viewWRK.table.Delete}" />
+										<table:template>
+											<Button press="deleteSynopticPos" tooltip="{i18n&gt;viewWRK.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</HBox>
+					</l:VerticalLayout>
+				</IconTabFilter>
+			</items>
+		</IconTabBar>
+	</VBox>
+</mvc:View>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" xmlns:u="sap.uxap" >
+	<u:ObjectPageSubSection title="{i18n&gt;viewPhase.header}" class="sapUxAPObjectPageSubSectionFitContainer">
+		<u:actions>
+			<Button icon="sap-icon://notes" text="{i18n&gt;viewPhase.notes}" press="onOpenPhaseNotes" enabled="{/viewPhaseElements/enableNotesBtn}" />
+		</u:actions>
+		<HBox justifyContent="SpaceBetween">
+			<VBox width="33%" class="sapUiContentPadding">
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.sequence}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Input value="{/PhaseData/SEQUENCE}" change="checkifPhasehasDot" enabled="{/viewPhaseElements/enabledSequenceField}" required="{= !!${/viewPhaseElements/editMode}}" />
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.phasevers}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<StepInput width="30%" value="{/PhaseData/OP_CODE}" change="changeStepInputCheck" min="0" textAlign="Center" enabled="{/viewPhaseElements/enabledVersionField}" required="{= !!${/viewPhaseElements/editMode}}" />
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.macrophase}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<ComboBox value="{/PhaseData/MAINSEQUENCE}" selectedKey="{/PhaseData/MAINSEQUENCE}" items="{path: '/macrophaselist',sorter: { path: 'MAINSEQUENCE' }}" width="60%" enabled="{/viewPhaseElements/enabledMacroPhaseField}" required="{= !!${/viewPhaseElements/editMode}}">
+						<core:Item key="{MAINSEQUENCE}" text="{MAINSEQUENCE}" />
+					</ComboBox>
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.phaseDescr}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Input type="Text" value="{/PhaseData/OP_CODE_DESCR}" showValueHelp="{= ${/viewPhaseElements/editMode} &amp;&amp; ${/PhaseData/OP_CODE_ID} !== '0'}" valueHelpOnly="{= ${/viewPhaseElements/editMode} &amp;&amp; ${/PhaseData/OP_CODE_ID} !== '0'}" valueHelpRequest="handlePhaseDescrValueHelp" valueHelpIconSrc="sap-icon://globe" enabled="{/viewPhaseElements/enabledDescriptionField}" required="{= !!${/viewPhaseElements/editMode}}" />
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.phasePriceListCode}:" />
+					<Input type="Text" value="{/PhaseData/CODE_LIST}" enabled="{/viewPhaseElements/enabledPriceListCodeField}" />
+				</l:VerticalLayout>
+			</VBox>
+			<VBox width="33%" class="sapUiContentPadding">
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.state}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Select selectedKey="{/PhaseData/STATE_ID}" enabled="{/viewPhaseElements/enabledStateField}" required="{= !!${/viewPhaseElements/editMode}}">
+						<core:Item key="1" text="{i18n&gt;viewPhase.active}" />
+						<core:Item key="0" text="{i18n&gt;viewPhase.inactive}" />
+					</Select>
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.phaseType}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Select width="60%" selectedKey="{/PhaseData/SEQUENCE_TYPE}" showSecondaryValues="false" enabled="{/viewPhaseElements/enabledPhaseTypeField}" required="{= !!${/viewPhaseElements/editMode}}">
+						<core:ListItem key="0" text="0 - {i18n&gt;viewPhase.phasetype.0}" />
+						<core:ListItem key="1" text="1 - {i18n&gt;viewPhase.phasetype.1}" />
+						<core:ListItem key="2" text="2 - {i18n&gt;viewPhase.phasetype.2}" />
+						<core:ListItem key="3" text="3 - {i18n&gt;viewPhase.phasetype.3}" />
+					</Select>
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.kmat}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<MultiComboBox items="{/kmatlist}" selectedKeys="{/PhaseData/KMAT_ID}" showSecondaryValues="false" enabled="{/viewPhaseElements/enabledKmatField}" required="{= !!${/viewPhaseElements/editMode}}">
+						<core:ListItem key="{KMAT_ID}" text="{KMAT}" />
+					</MultiComboBox>
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.phaseparal}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Switch state="{/PhaseData/PARALLEL}" change="updParalelValue" customTextOn="{i18n&gt;viewPhase.yes}" customTextOff="{i18n&gt;viewPhase.no}" enabled="{/viewPhaseElements/enabledParallelField}" />
+				</l:VerticalLayout>
+			</VBox>
+			<VBox width="33%" class="sapUiContentPadding">
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.currentVersion}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Switch state="{/PhaseData/CURRENT_VERSION}" change="updDftValue" customTextOn="{i18n&gt;viewPhase.yes}" customTextOff="{i18n&gt;viewPhase.no}" enabled="{= !${/PhaseData/CURRENT_VERSION} &amp;&amp; ${/viewPhaseElements/enabledCurrentVersionField}}" />
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.relevantTime}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Select width="60%" selectedKey="{/PhaseData/TIMEREL}" showSecondaryValues="false" enabled="{/viewPhaseElements/enabledRelevantTimeField}" required="{= !!${/viewPhaseElements/editMode}}">
+						<core:ListItem key="0" text="0 - {i18n&gt;viewPhase.timerel.0}" />
+						<core:ListItem key="1" text="1 - {i18n&gt;viewPhase.timerel.1}" />
+						<core:ListItem key="2" text="2 - {i18n&gt;viewPhase.timerel.2}" />
+					</Select>
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.operatorsStd}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<StepInput width="30%" value="{/PhaseData/OPERATORS}" change="changeStepInputCheck" min="0" textAlign="Center" enabled="{/viewPhaseElements/enabledOperatorsStdField}" required="{= !!${/viewPhaseElements/editMode}}" />
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.standardTime}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<StepInput width="30%" value="{/PhaseData/STDTIME}" change="changeStepInputCheck" min="0" textAlign="Center" enabled="{/viewPhaseElements/enabledStandardTimeField}" required="{= !!${/viewPhaseElements/editMode}}" />
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+					<Label text="{i18n&gt;viewPhase.recoveryPhase}:" required="{= !!${/viewPhaseElements/editMode}}" />
+					<Switch state="{/PhaseData/RECOVERYPHASE}" customTextOn="{i18n&gt;viewPhase.yes}" customTextOff="{i18n&gt;viewPhase.no}" enabled="{/viewPhaseElements/enabledRecoveryField}" />
+				</l:VerticalLayout>
+			</VBox>
+		</HBox>
+	</u:ObjectPageSubSection>
+	<u:ObjectPageSubSection title="{i18n&gt;viewPhase.parameters}" class="sapUxAPObjectPageSubSectionFitContainer">
+		<VBox width="100%" height="auto" renderType="Bare">
+			<table:Table rows="{path: '/PhaseParameters'}" width="100%" selectionMode="None" visibleRowCountMode="Fixed" visibleRowCount="9">
+				<table:extension>
+					<OverflowToolbar class="sapUiTinyMarginTopBottom" style="Clear">
+						<ToolbarSpacer />
+						<Button text="{i18n&gt;viewDC.addparam}" tooltip="{i18n&gt;viewDC.addparam}" press="addNewParam" enabled="{/parametersButtons/btnNewParameterEnabled}" icon="sap-icon://add" type="Transparent" />
+					</OverflowToolbar>
+				</table:extension>
+				<table:rowSettingsTemplate>
+					<table:RowSettings highlight="{= ${DEL} === false ? ${EDIT} ? 'Warning' : 'None' : 'Error'}" />
+				</table:rowSettingsTemplate>
+				<table:columns>
+					<!-- Parametro -->
+					<table:Column width="18%" hAlign="Begin">
+						<Label text="{i18n&gt;viewDC.labelparam}" wrapping="true" />
+						<table:template>
+							<Input value="{PARAMNAME}" type="Text" width="100%" placeholder="{i18n&gt;viewDC.listparam}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onSearchParam" editable="{= ${EDIT} &amp;&amp; ${DEL} === false}" />
+						</table:template>
+					</table:Column>
+					<!-- Descrizione Parametro -->
+					<table:Column width="auto" hAlign="Begin">
+						<Label text="{i18n&gt;viewWRK.label.description}" wrapping="true" />
+						<table:template>
+							<ExpandableText text="{PARAMDESC}" maxCharacters="20" overflowMode="Popover" />
+						</table:template>
+					</table:Column>
+					<!-- Tipo Parametro -->
+					<table:Column width="12%" hAlign="Begin">
+						<Label text="{i18n&gt;viewWRK.label.type}" wrapping="true" />
+						<table:template>
+							<Label text="{DC_TYPE} - {DC_TYPE_DESCR}" />
+						</table:template>
+					</table:Column>
+					<!-- UdM -->
+					<table:Column width="7%" hAlign="Center">
+						<Label text="{i18n&gt;viewDC.labeluom}" wrapping="true" />
+						<table:template>
+							<Label text="{UOM}" />
+						</table:template>
+					</table:Column>
+					<!-- Minimo -->
+					<table:Column width="7%" hAlign="Center">
+						<Label text="{i18n&gt;viewDC.labelMin}" wrapping="true" />
+						<table:template>
+							<Label text="{PARAM_MIN}" />
+						</table:template>
+					</table:Column>
+					<!-- Atteso -->
+					<table:Column width="9%" hAlign="Center">
+						<Label text="{i18n&gt;viewDC.labelStd}" wrapping="true" />
+						<table:template>
+							<Label text="{PARAM_STD}" />
+						</table:template>
+					</table:Column>
+					<!-- Massimo -->
+					<table:Column width="7%" hAlign="Center">
+						<Label text="{i18n&gt;viewDC.labelMax}" wrapping="true" />
+						<table:template>
+							<Label text="{PARAM_MAX}" />
+						</table:template>
+					</table:Column>
+					<!-- Url -->
+					<!-- <table:Column width="12%" hAlign="Center">
+								<Label text="{i18n&gt;viewUplod.Url}" wrapping="true" />
+								<table:template>
+									<Label text="{PARAM_URI}" />
+								</table:template>
+							</table:Column> -->
+					<!-- Ordinamento Parametri -->
+					<table:Column width="19%" hAlign="Center">
+						<Label text="{i18n&gt;viewUplod.OrdParam}" wrapping="true" />
+						<table:template>
+							<StepInput value="{PARAM_ORD}" min="0" width="100%" textAlign="Center" editable="{= !${DEL}}" change="onChangeParameterOrderValue" />
+						</table:template>
+					</table:Column>
+					<!-- Elimina -->
+					<table:Column width="5%" hAlign="Center">
+						<Label text="{i18n&gt;viewWRK.delete}" wrapping="true" />
+						<table:template>
+							<Button press="deleteParam" tooltip="{i18n&gt;viewSite.Delete}" type="Reject" icon="sap-icon://delete" enabled="{= !${DEL}}" />
+						</table:template>
+					</table:Column>
+				</table:columns>
+			</table:Table>
+		</VBox>
+	</u:ObjectPageSubSection>
+	<u:ObjectPageSubSection title="{i18n&gt;viewUplod.Attachment}" class="sapUxAPObjectPageSubSectionFitContainer">
+		<table:Table rows="{path: '/PhaseAttachments'}" width="100%" selectionMode="None" visibleRowCountMode="Fixed" visibleRowCount="9">
+			<table:extension>
+				<Toolbar style="Clear">
+					<content>
+						<ToolbarSpacer />
+						<Button icon="sap-icon://add" text="{i18n&gt;viewAtt.cheklist.newattached}" tooltip="{i18n&gt;viewAtt.cheklist.newattached}" press="onAddAttachment" type="Transparent" enabled="{/PhaseAttachmentsButtons/btnNewAttachmentEnabled}" />
+					</content>
+				</Toolbar>
+			</table:extension>
+			<table:rowSettingsTemplate>
+				<table:RowSettings highlight="{= ${DEL} === false ? ${EDIT} ? 'Warning' : 'None' : 'Error'}" />
+			</table:rowSettingsTemplate>
+			<table:columns>
+				<table:Column width="70%" hAlign="Center">
+					<Label text="{i18n&gt;viewAtt.attached.path}" />
+					<table:template>
+						<Input value="{URI}" type="Text" placeholder="{i18n&gt;viewAtt.attechedchklist.table.search}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleAttachmentPathValueHelp" width="100%" fieldWidth="100%" editable="{= ${EDIT} &amp;&amp; ${DEL} === false}" />
+					</table:template>
+				</table:Column>
+				<table:Column width="23%" hAlign="Center">
+					<Label text="{i18n&gt;viewWRK.table.wrktypedescr}" />
+					<table:template>
+						<Input value="{URI_DESCR}" tooltip="{URI_DESCR}" width="100%" fieldWidth="100%" editable="{= ${EDIT} &amp;&amp; ${DEL} === false}" />
+					</table:template>
+				</table:Column>
+				<table:Column width="7%" hAlign="Center">
+					<Label text="{i18n&gt;viewSite.Delete}" />
+					<table:template>
+						<Button press="onDeleteAttachment" tooltip="{i18n&gt;viewSite.Delete}" type="Reject" icon="sap-icon://delete" enabled="{= !${DEL}}" />
+					</table:template>
+				</table:Column>
+			</table:columns>
+		</table:Table>
+	</u:ObjectPageSubSection>
+</core:FragmentDefinition>

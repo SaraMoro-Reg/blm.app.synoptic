@@ -1,0 +1,22 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		noDataText="No Users Mail list found"
+		title="{i18n&gt;viewUsr.List.usr}"
+		liveChange="handleSearchMail"
+		confirm="handleValueHelpCloseMail"
+		cancel="handleValueHelpCloseMail"		
+		items="{
+			path : '/mailist',
+			sorter : {
+				path : 'MailingList',
+				descending : false
+			}
+		}">
+		<StandardListItem selected=""
+			title="{MailingList}"
+		          description="{MailingListId}"
+			type="Active" />
+	</SelectDialog>
+</core:FragmentDefinition>

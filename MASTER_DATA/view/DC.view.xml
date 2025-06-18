@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc"  xmlns:core="sap.ui.core"  controllerName="master_data.controller.DC" height="100%">
+	<core:Fragment fragmentName="master_data.view.popup.dc.dcPageContent" type="XML" />
+</mvc:View>

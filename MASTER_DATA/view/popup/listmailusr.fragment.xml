@@ -1,0 +1,23 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		noDataText="No Users Mail list found"
+		title="{i18n&gt;viewMail.table.usrsel}"
+		search="handleSearchMailUsr"
+		confirm="handleValueHelpCloseMailUsr"
+		cancel="handleValueHelpCloseMailUsr"
+		showClearButton="true"
+		items="{
+			path : '/usrlist',
+			sorter : {
+				path : 'USR',
+				descending : false
+			}
+		}">
+		<StandardListItem selected=""
+			title="{USR}"
+		          description="{NAME}"
+			type="Active" />
+	</SelectDialog>
+</core:FragmentDefinition>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" >
+	<SelectDialog contentWidth ="28rem" contentHeight="60rem"  title="{i18n&gt;viewUsr.userGroupList}" liveChange="handleSearchUserGrp" cancel="usrGrpValueHelpCancel" confirm="usrGrpValueHelpConfirm" items="{path : '/tabUserGroupList',sorter : {path : 'USER_GROUP', descending : false}}">
+		<StandardListItem title="{USER_GROUP}" description="{USER_GROUP_DESCR}" highlightText="{USER_GROUP_ID}" type="Active" />
+	</SelectDialog>
+</core:FragmentDefinition>

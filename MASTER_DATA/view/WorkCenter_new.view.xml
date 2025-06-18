@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" xmlns:u="sap.uxap" controllerName="master_data.controller.WorkCenter" height="100%" displayBlock="true">
+	<u:ObjectPageLayout id="phaseObjectPage" enableLazyLoading="true" navigate="pressWkcTabBar" showTitleInHeaderContent="false" upperCaseAnchorBar="false" useIconTabBar="true" backgroundDesignAnchorBar="Transparent" showHeaderContent="false" height="100%" class="sapUiNoContentPadding" showFooter="true">
+		<!-- Definizione Piazzola -->
+		<u:ObjectPageSection id="WKC" title="{i18n&gt;viewWRK.wrkmain}">
+			<u:ObjectPageSubSection>
+				<HBox justifyContent="SpaceBetween">
+					<l:VerticalLayout width="15%" class="sapUiContentPadding">
+						<Label text="{i18n&gt;viewWRK.label.slot}:" required="{/viewWrkElements/editMode}" />
+						<Input value="{/wrkDetails/WORKCENTER}" enabled="{/viewWrkElements/enabledWrkField}"/>
+					</l:VerticalLayout>
+					<l:VerticalLayout width="25%" class="sapUiContentPadding">
+						<Label text="{i18n&gt;viewWRK.label.description}:" required="{/viewWrkElements/editMode}"/>
+						<Input value="{/wrkDetails/WORKCENTER_DESC}" enabled="{/viewWrkElements/enabledDescrWrkField}" width="100%" placeholder="{i18n&gt;viewDC.input.paramDesc}" showValueHelp="{= ${/viewWrkElements/editMode} &amp;&amp; ${/wrkDetails/PARAM_ID} !== '0'}" valueHelpOnly="{= ${/viewWrkElements/editMode} &amp;&amp; ${/wrkDetails/PARAM_ID} !== '0'}" valueHelpRequest="onOpenValueHelpWrkDesc" valueHelpIconSrc="sap-icon://globe" />
+					</l:VerticalLayout>
+					<l:VerticalLayout width="15%" class="sapUiContentPadding">
+						<Label text="{i18n&gt;viewWRK.label.type}:" required="{/viewWrkElements/editMode}" />
+						<ComboBox selectedKey="{/wrkDetails/WORKCENTERTYPE_ID}" items="{path: '/tabwrktype',sorter: { path: 'WORKCENTERTYPE' }}" enabled="{/viewWrkElements/enabledWrkType}">
+							<core:Item key="{WORKCENTERTYPE_ID}" text="{WORKCENTERTYPE}" />
+						</ComboBox>
+					</l:VerticalLayout>
+					<l:VerticalLayout width="15%" class="sapUiContentPadding">
+						<Label text="{i18n&gt;viewWRK.label.parent}:" />
+						<ComboBox selectedKey="{/wrkDetails/PARENTWORKCENTER_ID}" items="{path: '/tabwrklist',sorter: { path: 'WORKCENTER' }}" enabled="{/viewWrkElements/enabledWrkParent}">
+							<core:Item key="{WORKCENTER_ID}" text="{WORKCENTER} - {WORKCENTER_DESC}" />
+						</ComboBox>
+					</l:VerticalLayout>
+					<l:VerticalLayout width="15%" class="sapUiContentPadding">
+						<Label text="{i18n&gt;viewWRK.label.status}:" required="{/viewWrkElements/editMode}" />
+						<ComboBox selectedKey="{/wrkDetails/STATUS_ID}" items="{path: '/tabwrkStatus',sorter: { path: 'STATUS' }}" enabled="{/viewWrkElements/enabledWrkStatus}">
+							<core:Item key="{STATUS_ID}" text="{STATUS_DESC}" />
+						</ComboBox>
+					</l:VerticalLayout>
+					<l:VerticalLayout width="15%" class="sapUiContentPadding">
+						<Label text="{i18n&gt;viewWRK.label.piazzolaAuthoma}:" visible="{= ${/user/0/Site} === 'ADIGE'}"/>
+						<Input value="{/wrkDetails/WORKCENTER_AUTHOMA}" enabled="{/viewWrkElements/enabledWrkAutomha}" visible="{= ${/user/0/Site} === 'ADIGE'}"/>
+					</l:VerticalLayout>					
+				</HBox>
+			</u:ObjectPageSubSection>
+		</u:ObjectPageSection>
+		
+		<!-- Definizione Tipo Piazzola -->
+		<u:ObjectPageSection id="WKC_TYPE" title="{i18n&gt;viewWRK.wrktypr}" >
+			<u:ObjectPageSubSection>
+				<table:Table id="tabWrkType" rows="{path: '/tabwrktype'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+					<table:rowSettingsTemplate>
+						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+					</table:rowSettingsTemplate>
+					<table:columns>
+						<table:Column width="16%" hAlign="Center" filterProperty="WORKCENTERTYPE" sortProperty="WORKCENTERTYPE">
+							<Label text="{i18n&gt;viewWRK.table.wrktype}" />
+							<table:template>
+								<Input value="{WORKCENTERTYPE}" editable="{=(${EDIT} === 'true') ? true : false}" width="100%" />
+							</table:template>
+						</table:Column>
+						<table:Column width="70%" hAlign="Center" filterProperty="WORKCENTERTYPE_DESC" sortProperty="WORKCENTERTYPE_DESC">
+							<Label text="{i18n&gt;viewWRK.table.wrktypedescr}" />
+							<table:template>
+								<Input value="{WORKCENTERTYPE_DESC}" editable="{=(${EDIT} === 'true') ? true : false}" width="100%" />
+							</table:template>
+						</table:Column>
+						<table:Column width="7%" hAlign="Center">
+							<Label text="{i18n&gt;viewWRK.table.Edit}" />
+							<table:template>
+								<Button press="editType" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" />
+							</table:template>
+						</table:Column>
+						<table:Column width="7%" hAlign="Center">
+							<Label text="{i18n&gt;viewWRK.table.Delete}" />
+							<table:template>
+								<Button press="deleteNewType" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+							</table:template>
+						</table:Column>
+					</table:columns>
+				</table:Table>
+			</u:ObjectPageSubSection>
+		</u:ObjectPageSection>
+		
+		<!-- Orario Lavorativo Piazzole  -->
+		<u:ObjectPageSection id="WKC_HOURS" title="{i18n&gt;viewWRK.wrkHours}" >
+			<u:ObjectPageSubSection>
+				<table:Table id="tabWrkHours" rows="{path: '/tabWrkHours'}" width="100%" selectionMode="Single" rowSelectionChange="onSelectionChangeRowTabHours" selectionBehavior="RowOnly" visibleRowCountMode="Interactive" >
+					<table:rowSettingsTemplate>
+						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+					</table:rowSettingsTemplate>
+					<table:columns>
+						<table:Column width="11%" hAlign="Center" >
+							<Label text="{i18n&gt;viewWRK.table.wrk}" />
+							<table:template>
+								<Input value="{WORKCENTER}" tooltip="{WORKCENTER}" editable="{=(${VIS} === 'false')? false : true}" showValueHelp="true" textAlign="Center" valueHelpOnly="true" valueHelpRequest="openWkcHelpHours" width="100%" />
+							</table:template>
+						</table:Column>
+						<table:Column width="11%" hAlign="Center" >
+							<Label text="{i18n&gt;viewWRK.table.user}" />
+							<table:template>
+								<Input value="{USER}" tooltip="{USER}" editable="{=(${VIS} === 'false')? false : true}" showValueHelp="true" textAlign="Center" valueHelpOnly="true" valueHelpRequest="openUserHelpHours" width="100%" />
+							</table:template>
+						</table:Column>
+						<table:Column width="12%" hAlign="Center" >
+							<Label text="{i18n&gt;viewWRK.table.hoursTo1}" />
+							<table:template>
+								<TimePicker	value="{HOURS_TO_1}" tooltip="{HOURS_TO_1}" valueFormat="HH:mm" displayFormat="HH:mm" change="handleChangeHours" textAlign="Center" maskMode="On" placeholder="{i18n&gt;viewWRK.table.enterHours}" />
+							</table:template>
+						</table:Column>
+						<table:Column width="12%" hAlign="Center">
+							<Label text="{i18n&gt;viewWRK.table.hoursFrom1}" />
+							<table:template>
+								<TimePicker	value="{HOURS_FROM_1}" tooltip="{HOURS_FROM_1}" valueFormat="HH:mm" displayFormat="HH:mm" change="handleChangeHours" textAlign="Center" maskMode="On" placeholder="{i18n&gt;viewWRK.table.enterHours}" />
+							</table:template>
+						</table:Column>
+						<table:Column width="12%" hAlign="Center" >
+							<Label text="{i18n&gt;viewWRK.table.hoursTo2}" />
+							<table:template>
+								<TimePicker	value="{HOURS_TO_2}" tooltip="{HOURS_TO_2}" valueFormat="HH:mm" displayFormat="HH:mm" change="handleChangeHours" textAlign="Center" maskMode="On" placeholder="{i18n&gt;viewWRK.table.enterHours}" />
+							</table:template>
+						</table:Column>
+						<table:Column width="12%" hAlign="Center">
+							<Label text="{i18n&gt;viewWRK.table.hoursFrom2}" />
+							<table:template>
+								<TimePicker	value="{HOURS_FROM_2}" tooltip="{HOURS_FROM_2}" valueFormat="HH:mm" displayFormat="HH:mm" change="handleChangeHours" textAlign="Center" maskMode="On" placeholder="{i18n&gt;viewWRK.table.enterHours}" />
+							</table:template>
+						</table:Column>
+						<table:Column width="12%" hAlign="Center" >
+							<Label text="{i18n&gt;viewWRK.table.hoursTo3}" />
+							<table:template>
+								<TimePicker	value="{HOURS_TO_3}" tooltip="{HOURS_TO_3}" valueFormat="HH:mm" displayFormat="HH:mm" change="handleChangeHours" textAlign="Center" maskMode="On" placeholder="{i18n&gt;viewWRK.table.enterHours}" />
+							</table:template>
+						</table:Column>
+						<table:Column width="12%" hAlign="Center">
+							<Label text="{i18n&gt;viewWRK.table.hoursFrom3}" />
+							<table:template>
+								<TimePicker	value="{HOURS_FROM_3}" tooltip="{HOURS_FROM_3}" valueFormat="HH:mm" displayFormat="HH:mm" change="handleChangeHours" textAlign="Center" maskMode="On" placeholder="{i18n&gt;viewWRK.table.enterHours}" />
+							</table:template>
+						</table:Column>	
+						<table:Column width="6%" hAlign="Center">
+							<Label text="{i18n&gt;viewWRK.table.Delete}" />
+							<table:template>
+								<Button press="deleteHoursPos" tooltip="{i18n&gt;viewWRK.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+							</table:template>
+						</table:Column>	
+					</table:columns>
+				</table:Table>
+			</u:ObjectPageSubSection>
+		</u:ObjectPageSection>
+		
+		<!-- Sinottico ADIGE -->
+		<u:ObjectPageSection id="SYNOPTIC" title="{i18n&gt;viewWRK.wrkSynoptic}" >
+			<u:ObjectPageSubSection>
+				<table:Table id="tabWrkSyn" rows="{path: '/tabSynoptic'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+					<table:rowSettingsTemplate>
+						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+					</table:rowSettingsTemplate>
+					<table:columns>
+						<table:Column width="30%" hAlign="Center" >
+							<Label text="{i18n&gt;viewWRK.table.wrk}" />
+							<table:template>
+								<Input value="{WORKCENTER}" tooltip="{WORKCENTER}" editable="{=(${EDIT} === 'false')? false : true}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="openWkcHelp" width="100%" />
+							</table:template>
+						</table:Column>
+						<table:Column width="50%" hAlign="Center" >
+							<Label text="{i18n&gt;viewWRK.table.wrkDescr}" />
+							<table:template>
+								<Input value="{WORKCENTER_DESCR}" tooltip="{WORKCENTER_DESCR}" editable="false" width="100%" />
+							</table:template>
+						</table:Column>
+						<table:Column width="13%" hAlign="Center" >
+							<Label text="{i18n&gt;viewWRK.table.position}" />
+							<table:template>
+								<Input value="{POSITION}" tooltip="{POSITION}" textAlign="Center" editable="{=(${DEL} === 'true')? false : true}" change="controlPositionValue" type="Number" width="100%" />
+							</table:template>
+						</table:Column>									
+						<table:Column width="7%" hAlign="Center">
+							<Label text="{i18n&gt;viewWRK.table.Delete}" />
+							<table:template>
+								<Button press="deleteSynopticPos" tooltip="{i18n&gt;viewWRK.table.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+							</table:template>
+						</table:Column>
+					</table:columns>
+				</table:Table>
+			</u:ObjectPageSubSection>
+		</u:ObjectPageSection>
+		
+		<u:footer>
+			<Toolbar style="Clear" design="Transparent">
+				<!-- footer ObjectPageSection id="WKC"-->
+				<Label text="{i18n&gt;viewWRK.label.search}:" visible="{/viewWrkElements/visWrkPageFooterBtn}" />
+				<Input value="{/wrkDetails/WORKCENTER}" placeholder="{i18n&gt;viewWRK.list.place}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onOpenSearchWrkValueHelp" enabled="{= !${/viewWrkElements/editMode}}" visible="{/viewWrkElements/visWrkPageFooterBtn}"/>
+				<Button icon="sap-icon://excel-attachment" press="downloadModel" visible="{/viewWrkElements/visWrkPageFooterBtn}" />		
+				
+				<Button text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="newSlot(false)" icon="sap-icon://reset" enabled="{/viewWrkElements/editMode}" visible="{/viewWrkElements/visWrkPageFooterBtn}" />
+				<Button text="{i18n&gt;viewWRK.newWrk}" tooltip="{i18n&gt;viewWRK.newWrk}" press="newSlot(true)" icon="sap-icon://add" visible="{/viewWrkElements/visWrkPageFooterBtn}" />
+				<ToolbarSpacer />
+				<Button text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveUpdateNew" icon="sap-icon://save" type="Accept" enabled="{/viewWrkElements/editMode}" visible="{/viewWrkElements/visWrkPageFooterBtn}"  />
+				<Button text="{i18n&gt;viewWRK.delete}" tooltip="{i18n&gt;viewWRK.delete}" press="deletePiazzola" icon="sap-icon://delete" type="Reject" visible="{= ${/viewWrkElements/visWrkPageFooterBtn} &amp;&amp; ${/wrkDetails/IS_USED} &amp;&amp; ${/wrkDetails/WORKCENTER_ID} !== '0'}" />
+				
+				<!-- footer ObjectPageSectio id="WKC_TYPE"-->
+				<Button id="btnNewWrkType" text="{i18n&gt;viewWRK.newType}" tooltip="{i18n&gt;viewWRK.newType}" press="newType" icon="sap-icon://add" visible="{/viewWrkTypeElements/visWrkTypePageFooterBtn}" />
+				<ToolbarSpacer />
+				<Button id="btnCloseWrkType" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="undoWrkType" icon="sap-icon://undo" type="Reject" visible="{/viewWrkTypeElements/visWrkTypePageFooterBtn}" />
+				<Button id="btnSaveWrkType" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveNewType" icon="sap-icon://save" type="Accept" visible="{/viewWrkTypeElements/visWrkTypePageFooterBtn}" />
+				
+				<!-- footer ObjectPageSectio id="WKC_HOURS"-->
+				<Button text="{i18n&gt;viewWRK.newHours}" tooltip="{i18n&gt;viewWRK.newHours}" press="newHours" icon="sap-icon://add" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" />
+				<Button id="deleteAllHours" text="{i18n&gt;viewWRK.deleteAll}" tooltip="{i18n&gt;viewWRK.deleteAll}" press="deleteAllHours" icon="sap-icon://delete" type="Reject" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" />
+				<ToolbarSpacer />
+				<Button id="btnCloseNewHours" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getHoursList" icon="sap-icon://undo" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" />	
+				<Button id="saveNewHours" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" enabled="false" press="saveNewHours" icon="sap-icon://save" type="Accept" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" />		
+				
+				<!-- footer ObjectPageSectio id="SYNOPTIC"-->
+				<Label id="rowSynopticSel" visible="false" />
+				<Button id="btnNewAdige" text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visAdigeSynopticPageFooterBtn}" />
+				<ToolbarSpacer />
+				<Button id="btnUndoNewAdige" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getSynopticList" icon="sap-icon://undo" type="Reject" visible="{/viewWrkSynopticElements/visAdigeSynopticPageFooterBtn}"  />	
+				<Button id="btnSaveAdige" text="{i18n&gt;viewSite.savePosSyn}" tooltip="{i18n&gt;viewSite.savePosSyn}" press="savePosSyn" icon="sap-icon://save" type="Accept" visible="{/viewWrkSynopticElements/visAdigeSynopticPageFooterBtn}" />
+							
+			</Toolbar>
+		</u:footer>
+	</u:ObjectPageLayout>
+</mvc:View>

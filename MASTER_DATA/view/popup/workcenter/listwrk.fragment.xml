@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" >
+	<SelectDialog contentWidth ="28rem" contentHeight="60rem"  title="{i18n&gt;viewWRK.list.placePop}" liveChange="onSearchWrk" confirm="handleValueHelpClose" cancel="closeDialog" items="{path : '/tabwrklist'}">
+		<StandardListItem selected="{selected}" title="{WORKCENTER}" description="{WORKCENTER_DESC}" info="{STATUS_DESCRIPTION}" infoState="{STATUS_COLOUR}" type="Active" />
+	</SelectDialog>
+</core:FragmentDefinition>

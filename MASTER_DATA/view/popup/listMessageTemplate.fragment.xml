@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<TableSelectDialog title="{i18n&gt;viewMail.template.selecttemplatePop}" liveChange="searchMessageTemplate" confirm="onConfirmMessageTemplate" cancel="closeTemplate" items="{/templateMessagelist}">
+		<ColumnListItem selected="">
+			<cells>
+				<Text text="{MESSAGE_TEMPLATE}" />
+				<ExpandableText text="{MESSAGE_TEMPLATE_DESCRIPTION}" overflowMode="Popover" />
+				<ExpandableText text="{MESSAGE_OBJECT}" overflowMode="Popover" />
+				<ExpandableText text="{MESSAGE_BODY}" overflowMode="Popover" />	
+			</cells>
+		</ColumnListItem>
+		<columns>
+			<Column width="15%">
+				<header>
+					<Label text="{i18n&gt;viewMail.template.name}" design="Bold" />
+				</header>
+			</Column>
+			<Column width="15%">
+				<header>
+					<Label text="{i18n&gt;viewLogistic.template.description}" design="Bold" />
+				</header>
+			</Column>
+			<Column width="25%">
+				<header>
+					<Label text="{i18n&gt;viewMail.template.object}" design="Bold" />
+				</header>
+			</Column>
+			<Column>
+				<header>
+					<Label text="{i18n&gt;viewMail.template.body}" design="Bold" />
+				</header>
+			</Column>
+		</columns>
+	</TableSelectDialog>
+</core:FragmentDefinition>

@@ -1,0 +1,86 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" controllerName="master_data.controller.Material" height="100%" displayBlock="true">
+		<!-- <VBox height="100%" renderType="Bare"> -->
+		<!-- <IconTabBar expandable="false" tabDensityMode="Compact" headerBackgroundDesign="Translucent" select="pressWkcTabBar" backgroundDesign="Translucent" stretchContentHeight="true" applyContentPadding="false"> -->
+			<!-- <items> -->
+				<!-- <IconTabFilter key="MAT" icon="sap-icon://action-settings" text="{i18n&gt;viewMat.material}"> -->
+					<VBox width="100%" height="100%" renderType="Bare">
+						<HBox width="100%" height="20%" renderType="Bare">
+							<l:VerticalLayout class="sapUiContentPadding" width="100%">
+								<Label text="{i18n&gt;viewWRK.label.search}:" />
+								<HBox width="100%" height="100%" renderType="Bare">
+									<Label id="siteId" visible="false" />
+									<Label id="wrkId" visible="false" />
+									<Input id="materialInput" type="Text" placeholder="{i18n&gt;viewMat.label.materialsearch}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelpMat" class="sapUiSmallMarginBottom sapUiTinyMarginEnd" width="20%" />
+								    <Button id="dwnlxecl" tooltip="{i18n&gt;viewPhase.download}" icon="sap-icon://excel-attachment" press="downloadModel" class="sapUiMediumMarginEnd" />									
+									<Button id="btnNewMat" text="{i18n&gt;viewMat.btn.newmat}" tooltip="{i18n&gt;viewMat.btn.newmat}" press="newMaterial" icon="sap-icon://action-settings" class="sapUiTinyMarginEnd" />								
+									<Button id="copyMat" text="{i18n&gt;viewMat.btn.copy}" tooltip="{i18n&gt;viewMat.btn.copy}" press="copyMat" icon="sap-icon://copy" enabled="false" class="sapUiMediumMarginEnd" />
+									<Button id="closeMat" text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="disabledField" icon="sap-icon://reset" enabled="false" class="sapUiTinyMarginEnd" />	
+									<Button id="saveMat" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="addNewMaterial" icon="sap-icon://save" enabled="false" type="Accept" class="sapUiTinyMarginEnd" />								
+									<Button id="delMat" text="{i18n&gt;viewWRK.delete}" tooltip="{i18n&gt;viewWRK.delete}" press="deleteMat" icon="sap-icon://delete"  enabled="false" type="Reject" />
+								</HBox>
+							</l:VerticalLayout>
+						</HBox>
+						<HBox width="100%" height="20%" renderType="Bare">
+							<l:VerticalLayout width="15%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewMat.label.materialcode}:" />
+								<Input id="inputMat" change="checkNewVersAvailable" enabled="false" />
+							</l:VerticalLayout>
+							<l:VerticalLayout width="55%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewMat.label.materialdescr}:" />
+								<Input id="descrMat" width="100%" fieldWidth="100%" enabled="false" />
+							</l:VerticalLayout>
+							<l:VerticalLayout width="15%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewMat.label.materialvers}:" />
+								<Input id="versMat" width="50%" fieldWidth="50%" type="Number" enabled="false"/>
+							</l:VerticalLayout>
+							<l:VerticalLayout width="15%" class="sapUiContentPadding">
+								<Label text="{i18n&gt;viewMat.label.materialcurrent}:" />
+								<CheckBox id="currentVer" select="changeDftValue" selected="false" enabled="false"  />
+							</l:VerticalLayout>
+						</HBox>						
+						<HBox width="100%" height="60%" renderType="Bare">
+							<l:VerticalLayout width="100%" class="sapUiContentPadding">
+								<HBox width="100%" height="10%" renderType="Bare">
+									<Button id="btnAddMatDescr" enabled="false" text="{i18n&gt;viewWRK.label.adddescr}" tooltip="{i18n&gt;viewWRK.label.adddescr}" press="addDescr" icon="sap-icon://add" class="sapUiTinyMarginEnd" />
+									<Button id="btnSaveMatDescr" enabled="false" text="{i18n&gt;viewPhase.savenewdescr}" tooltip="{i18n&gt;viewPhase.savenewdescr}" press="updateDescr" icon="sap-icon://save" type="Accept" />										
+								</HBox>
+								<table:Table id="matdescrList" rows="{path: '/matdescrList'}" width="100%" selectionMode="None" visibleRowCountMode="Fixed" visibleRowCount="5">
+									<table:rowSettingsTemplate>
+										<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+									</table:rowSettingsTemplate>
+									<table:columns>
+										<table:Column width="15%" hAlign="Center">
+											<Label text="{i18n&gt;viewSite.Lang}" />
+											<table:template>
+												<ComboBox selectedKey="{LANGUAGE}" selectionChange="onChangeStatus" width="100%" valueState="None" maxWidth="100%" editable="{EDIT}">
+													<items>
+														<core:Item key="IT" text="{i18n&gt;viewSite.it}" />
+														<core:Item key="EN" text="{i18n&gt;viewSite.en}" />
+													</items>
+												</ComboBox>
+											</table:template>
+										</table:Column>
+										<table:Column width="auto" hAlign="Center">
+											<Label text="{i18n&gt;viewWRK.table.wrktypedescr}" />
+											<table:template>
+												<Input value="{DESCRIPTION}" tooltip="{DESCRIPTION}" liveChange="changeMaterialDescr" width="100%" />
+											</table:template>
+										</table:Column>
+										<table:Column width="7%" hAlign="Center">
+											<Label text="{i18n&gt;viewSite.Delete}" />
+											<table:template>
+												<Button press="deleteDescr" tooltip="{i18n&gt;viewSite.Delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+											</table:template>
+										</table:Column>
+									</table:columns>
+								</table:Table>
+							</l:VerticalLayout>
+						</HBox>
+					</VBox>
+				<!-- </IconTabFilter> -->
+				<!--<IconTabFilter key="COMPALLOC" icon="sap-icon://provision" text="{i18n&gt;viewMail.compalloc}">-->
+				<!--</IconTabFilter>-->
+			<!-- </items> -->
+		<!-- </IconTabBar> -->
+	<!-- </VBox> -->
+</mvc:View>
