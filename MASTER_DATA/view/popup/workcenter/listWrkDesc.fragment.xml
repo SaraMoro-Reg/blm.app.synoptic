@@ -8,7 +8,7 @@
 					<table:Table id="tabWrkDesc" rows="{path: '/tabDescrWrk'}" width="96%" selectionMode="None" selectionBehavior="RowOnly" visibleRowCountMode="Auto">
 						<table:extension>
 							<OverflowToolbar class="sapUiTinyMarginTopBottom" style="Clear">
-								<Title text="{i18n&gt;viewWrkDesc.wrk}: {/wrkDetails/WORKCENTER}"/>
+								<Title text="{i18n&gt;viewWRKDesc.wrk}: {/wrkDetails/WORKCENTER}"/>
 								<ToolbarSpacer />
 								<Button text="{i18n&gt;viewPopupDesc.newDesc}" press="newDescrWrk" icon="sap-icon://add" type="Transparent" />
 							</OverflowToolbar>
@@ -29,7 +29,7 @@
 								</table:template>
 							</table:Column>
 							<table:Column width="auto" hAlign="Center" >
-								<Label text="{i18n&gt;viewWrkDesc.wrkDescr}" />
+								<Label text="{i18n&gt;viewWRKDesc.wrkDescr}" />
 								<table:template>
 									<TextArea value="{WORKCENTER_DESC}" liveChange="onChangeDescription" width="100%" editable="{=(${DEL} === false)? true : false}" maxLength="2000" />
 								</table:template>

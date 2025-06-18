@@ -11,7 +11,7 @@
 					</l:VerticalLayout>
 					<l:VerticalLayout width="25%" class="sapUiContentPadding">
 						<Label text="{i18n&gt;viewWRK.label.description}:" required="{/viewWrkElements/editMode}"/>
-						<Input value="{/wrkDetails/WORKCENTER_DESC}" enabled="{/viewWrkElements/enabledDescrWrkField}" width="100%" placeholder="{i18n&gt;viewDC.input.paramDesc}" showValueHelp="{= ${/viewWrkElements/editMode} &amp;&amp; ${/wrkDetails/PARAM_ID} !== '0'}" valueHelpOnly="{= ${/viewWrkElements/editMode} &amp;&amp; ${/wrkDetails/PARAM_ID} !== '0'}" valueHelpRequest="onOpenValueHelpWrkDesc" valueHelpIconSrc="sap-icon://globe" />
+						<Input value="{/wrkDetails/WORKCENTER_DESC}" enabled="{/viewWrkElements/enabledDescrWrkField}" width="100%" placeholder="{i18n&gt;viewDC.input.paramDesc}" showValueHelp="{= ${/viewWrkElements/editMode} &amp;&amp; ${/wrkDetails/WORKCENTER_ID} !== '0'}" valueHelpOnly="{= ${/viewWrkElements/editMode} &amp;&amp; ${/wrkDetails/WORKCENTER_ID} !== '0'}" valueHelpRequest="onOpenValueHelpWrkDesc" valueHelpIconSrc="sap-icon://globe" />
 					</l:VerticalLayout>
 					<l:VerticalLayout width="15%" class="sapUiContentPadding">
 						<Label text="{i18n&gt;viewWRK.label.type}:" required="{/viewWrkElements/editMode}" />
@@ -144,7 +144,7 @@
 		</u:ObjectPageSection>
 		
 		<!-- Sinottico ADIGE -->
-		<u:ObjectPageSection id="SYNOPTIC" title="{i18n&gt;viewWRK.wrkSynoptic}" >
+		<u:ObjectPageSection id="SYNOPTIC" title="{i18n&gt;viewWRK.wrkSynoptic}" visible="{= ${/user/0/Site} === 'ADIGE'}" >
 			<u:ObjectPageSubSection>
 				<table:Table id="tabWrkSyn" rows="{path: '/tabSynoptic'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
@@ -185,7 +185,7 @@
 				<!-- footer ObjectPageSection id="WKC"-->
 				<Label text="{i18n&gt;viewWRK.label.search}:" visible="{/viewWrkElements/visWrkPageFooterBtn}" />
 				<Input value="{/wrkDetails/WORKCENTER}" placeholder="{i18n&gt;viewWRK.list.place}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onOpenSearchWrkValueHelp" enabled="{= !${/viewWrkElements/editMode}}" visible="{/viewWrkElements/visWrkPageFooterBtn}"/>
-				<Button icon="sap-icon://excel-attachment" press="downloadModel" visible="{/viewWrkElements/visWrkPageFooterBtn}" />		
+				<Button icon="sap-icon://excel-attachment" tooltip="{i18n&gt;viewWRK.download}" press="downloadModel" visible="{/viewWrkElements/visWrkPageFooterBtn}" />		
 				
 				<Button text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="newSlot(false)" icon="sap-icon://reset" enabled="{/viewWrkElements/editMode}" visible="{/viewWrkElements/visWrkPageFooterBtn}" />
 				<Button text="{i18n&gt;viewWRK.newWrk}" tooltip="{i18n&gt;viewWRK.newWrk}" press="newSlot(true)" icon="sap-icon://add" visible="{/viewWrkElements/visWrkPageFooterBtn}" />
@@ -207,12 +207,15 @@
 				<Button id="saveNewHours" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" enabled="false" press="saveNewHours" icon="sap-icon://save" type="Accept" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" />		
 				
 				<!-- footer ObjectPageSectio id="SYNOPTIC"-->
+				<Select id="filterSynopticPage" visible="{/viewWrkSynopticElements/visAdigeSynopticPageFooterBtn}" selectionFinish="getSynopticPages" items="{/filterSynopticPage}" showSecondaryValues="true" placeholder="{i18n&gt;viewWRK.pagelistempty}" width="20%" class="sapUiTinyMarginEnd">
+					<core:ListItem key="{key}" text="{text}" tooltip="{tooltip}" />
+				</Select>
 				<Label id="rowSynopticSel" visible="false" />
 				<Button id="btnNewAdige" text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visAdigeSynopticPageFooterBtn}" />
 				<ToolbarSpacer />
 				<Button id="btnUndoNewAdige" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getSynopticList" icon="sap-icon://undo" type="Reject" visible="{/viewWrkSynopticElements/visAdigeSynopticPageFooterBtn}"  />	
 				<Button id="btnSaveAdige" text="{i18n&gt;viewSite.savePosSyn}" tooltip="{i18n&gt;viewSite.savePosSyn}" press="savePosSyn" icon="sap-icon://save" type="Accept" visible="{/viewWrkSynopticElements/visAdigeSynopticPageFooterBtn}" />
-							
+								
 			</Toolbar>
 		</u:footer>
 	</u:ObjectPageLayout>

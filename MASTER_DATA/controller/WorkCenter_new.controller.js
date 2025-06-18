@@ -390,6 +390,7 @@ sap.ui.define([
             }
         },
 
+        /*
         downloadModel: function () {
             //TODO - Capire se conviene passare alla libreria standard
             let dateExport = new Date(),
@@ -420,6 +421,76 @@ sap.ui.define([
             XLSX.utils.book_append_sheet(wb, ws, controller.oBundle.getText("viewWRK.wrkmain"));
             XLSX.writeFile(wb, controller.oBundle.getText("exportttle") + "_" + controller.oBundle.getText("viewWRK.wrkmain") + dateExportStr + ".xlsx");
         },
+        */
+
+        /* Download - libreria standard */
+        downloadModel: function () { 
+            			 try{	
+				let aCols = controllerWorkCenter.createColumnExportWrk(),
+					oSettings = {
+							workbook: {
+								columns: aCols,
+								context: {
+									sheetName: controllerWorkCenter.wrkModel.getProperty("/wrkDetails/WORKCENTER")
+								}
+							},
+							dataSource: [controllerWorkCenter.wrkModel.getProperty("/wrkDetails")],
+							fileName:  controller.oBundle.getText("viewPhase.download")
+						},      
+					oSheet = new Spreadsheet(oSettings);
+					
+                oSheet.build().then(function () {}).finally(function () {
+                    oSheet.destroy();
+                });
+            } catch (err) {}
+        },
+
+        createColumnExportWrk: function () {
+            return [{
+                    // PIAZZOLA
+                    label: controller.oBundle.getText("viewWRK.dwnl.workArea"),
+                    property: 'WORKCENTER',
+                    type: exportLibrary.EdmType.Number,
+					width: '7',
+					textAlign: 'begin'
+                },{
+                    // PIAZZOLA_DECR
+                    label: controller.oBundle.getText("viewWRK.dwnl.workAreaDescr"),   
+					property: 'WORKCENTER_DESC',
+					type: exportLibrary.EdmType.String,
+					width: '10',
+					textAlign: 'begin'
+                }, {
+                    // TIPO - TIPO_DESCR
+                    label: controller.oBundle.getText("viewWRK.dwnl.workAreaType"),
+                    property: '{WORKCENTERTYPE} - {WORKCENTERTYPE_DESC}',
+                    type: exportLibrary.EdmType.String,
+					wrap: true,
+					width: '60',
+					textAlign: 'begin'
+                }, {
+                    // GRUPPO_PIAZZOLA
+                    label: controller.oBundle.getText("viewWRK.dwnl.workAreaGroup"),
+                    property: '{WORKCENTER} - {WORKCENTER_DESC}',
+                    type: exportLibrary.EdmType.String,
+					width: '7',
+					textAlign: 'Center'
+                }, {
+                    // STATO
+                    label: controller.oBundle.getText("viewWRK.dwnl.workAreaStatus"),
+                    property: '{STATUS_ID} - {STATUS_DESC}',
+                    type: exportLibrary.EdmType.String,
+					width: '7',
+					textAlign: 'Center'
+                }, {
+                    // PARTIZIONE_AUTHOMA
+                    label: controller.oBundle.getText("viewWRK.dwnl.workAreaAuthoma"),
+                    property: 'WORKCENTER_AUTHOMA',
+                    type: exportLibrary.EdmType.String,
+					width: '7',
+					textAlign: 'Center'
+                }]
+		},
 
         getWrksuccessExport: function (data, response) {
             try {
@@ -429,6 +500,7 @@ sap.ui.define([
             } catch (e) {}
         },
 
+        /*
         getWrkDesc: function () {
             var input = {};
             input.WORKCENTER_ID = controllerWorkCenter._wrkcenterid;
@@ -540,6 +612,7 @@ sap.ui.define([
             controllerWorkCenter.getWrk(1);
             //}
         },
+        */
 
         getWrk: function (selection) {
             if (!selection) {
@@ -578,6 +651,11 @@ sap.ui.define([
                 "LANGUAGE": controller.language
             };
             controllerWorkCenter.wrkModel.setProperty("/tabwrktype", controller.sendData("GET_WOKCENTER_TYPE", "WORKCENTER/TRANSACTION/WRK", oInput)["Rows"]);
+        },
+
+        /* Selection Synoptic Page */
+        getSynopticPages: function () {
+            
         },
 
         /*General Function*/
