@@ -50,6 +50,17 @@ sap.ui.define([
             tabWrkHours: [],
             "viewWrkSynopticElements": {
                 "visAdigeSynopticPageFooterBtn": false,
+                "visAdigeStr1SynopticPageFooterBtn": false,
+                "visBgs1SynopticPageFooterBtn": false,
+                "visBgs2SynopticPageFooterBtn": false,
+                "visAdigeSys1SysSynopticPageFooterBtn": false,
+                "visAdigeSys2SysSynopticPageFooterBtn": false,
+                "visAdigeSys3SysSynopticPageFooterBtn": false,
+                "visBgusaSynopticPageFooterBtn": false,
+                "visBlm1SynopticPageFooterBtn": false,
+                "visBlm2SynopticPageFooterBtn": false,
+                "visBlm3SynopticPageFooterBtn": false,
+                "visBlm4SynopticPageFooterBtn": false,
                 "editMode": false
             }
         }),
@@ -656,6 +667,394 @@ sap.ui.define([
         /* Selection Synoptic Page */
         getSynopticPages: function () {
             
+        },
+
+        /* Footer */
+        getSynopticList: function () {
+            var synopticType = "", propertySynopticPath = "", propertySynopticPathBkc = "", tableId = "", undoBtnId = "", saveBtnId = "";
+            switch (controllerWorkCenter.byId("wkcITB").getSelectedKey()) {
+            case "SYNOPTIC":
+                synopticType = 1;
+                propertySynopticPath = "/tabSynoptic";
+                propertySynopticPathBkc = "/tabSynopticBkc";
+				tableId = "tabWrkSyn";
+				undoBtnId = "btnUndoNewAdige";
+				saveBtnId = "btnSaveAdige";
+                break;
+			 case "SYNOPTICADIGESTR1":
+                synopticType = 2;
+                propertySynopticPath = "/tabSynopticAdigeStr1";
+                propertySynopticPathBkc = "/tabSynopticAdigeStr1Bkc";
+				tableId = "tabWrkSynAdigeStr1";
+				undoBtnId = "btnUndoNewAdigeStr1";
+				saveBtnId = "btnSaveNewAdigeStr1";
+                break;
+            case "SYNOPTICBGS1":
+                synopticType = 1;
+                propertySynopticPath = "/tabSynopticBGS1";
+                propertySynopticPathBkc = "/tabSynopticBGS1Bkc";
+				tableId = "tabWrkSynBGS1";
+				undoBtnId = "btnUndoNewBgs1";
+				saveBtnId = "btnSaveNewBgs1";
+                break;
+            case "SYNOPTICBGS2":
+                synopticType = 2;
+                propertySynopticPath = "/tabSynopticBGS2";
+                propertySynopticPathBkc = "/tabSynopticBGS2Bkc";
+				tableId = "tabWrkSynBGS2";
+				undoBtnId = "btnUndoNewBgs2";
+				saveBtnId = "btnSaveNewBgs2";
+                break;
+            case "SYNOPTICADIGESYS1":
+                synopticType = 1;
+                propertySynopticPath = "/tabSynopticAdigeSys1";
+                propertySynopticPathBkc = "/tabSynopticAdigeSys1Bkc";
+				tableId = "tabWrkSynAdigeSys1";
+				undoBtnId = "btnUndoNewAdigeSys1";
+				saveBtnId = "btnSaveNewAdigeSys1";
+                break;
+            case "SYNOPTICADIGESYS2":
+                synopticType = 2;
+                propertySynopticPath = "/tabSynopticAdigeSys2";
+                propertySynopticPathBkc = "/tabSynopticAdigeSys2Bkc";
+				tableId = "tabWrkSynAdigeSys2";
+				undoBtnId = "btnUndoAdigeSys2";
+				saveBtnId = "btnSaveNewAdigeSys2";
+                break;
+            case "SYNOPTICADIGESYS3":
+                synopticType = 3;
+                propertySynopticPath = "/tabSynopticAdigeSys3";
+                propertySynopticPathBkc = "/tabSynopticAdigeSys3Bkc";
+				tableId = "tabWrkSynAdigeSys3";
+				undoBtnId = "btnUndoNewAdigeSys3";
+				saveBtnId = "btnSaveNewAdigeSys3";
+                break; 
+			case "SYNOPTICBGUSA":
+                synopticType = 1;
+                propertySynopticPath = "/tabSynopticBgusa";
+                propertySynopticPathBkc = "/tabSynopticBgusaBkc";
+				tableId = "tabWrkBgusa";
+				undoBtnId = "btnUndoNewBgusa";
+				saveBtnId = "btnSaveNewBgusa";
+                break; 
+			case "SYNOPTICBLM1":
+                synopticType = 1;
+                propertySynopticPath = "/tabSynopticBlm1";
+                propertySynopticPathBkc = "/tabSynopticBlm1Bkc";
+				tableId = "tabWrkSynBlm1";
+				undoBtnId = "btnUndoNewBlm1";
+				saveBtnId = "btnSaveNewBlm1";
+                break;
+			case "SYNOPTICBLM2":
+                synopticType = 2;
+                propertySynopticPath = "/tabSynopticBlm2";
+                propertySynopticPathBkc = "/tabSynopticBlm2Bkc";
+				tableId = "tabWrkSynBlm2";
+				undoBtnId = "btnUndoNewBlm2";
+				saveBtnId = "btnSaveNewBlm2";
+                break;
+            case "SYNOPTICBLM3":
+                synopticType = 3;
+                propertySynopticPath = "/tabSynopticBlm3";
+                propertySynopticPathBkc = "/tabSynopticBlm3Bkc";
+				tableId = "tabWrkSynBlm3";
+				undoBtnId = "btnUndoNewBlm3";
+				saveBtnId = "btnSaveNewBlm3";
+                break;
+            case "SYNOPTICBLM4":
+                synopticType = 4;
+                propertySynopticPath = "/tabSynopticBlm4";
+                propertySynopticPathBkc = "/tabSynopticBlm4Bkc";
+				tableId = "tabWrkSynBlm4";
+				undoBtnId = "btnUndoNewBlm4";
+				saveBtnId = "btnSaveNewBlm4";
+                break;		
+            default:
+                synopticType = 1;
+                propertySynopticPath = "/tabSynoptic";
+                propertySynopticPathBkc = "/tabSynopticBkc";
+				tableId = "tabWrkSyn";
+				undoBtnId = "btnUndoNewAdige";
+				saveBtnId = "btnSaveAdige";
+                break;
+            }
+            var Input = {
+                "SITE_ID": controller.SiteId,
+                "LANGUAGE": controller.language,
+                "SYNOPTIC_TYPE": synopticType
+            };
+            var result = controllerSite.sendData("GET_SYNOPTIC_LIST", "WORKCENTER/TRANSACTION", Input);
+            controllerWorkCenter.wrkModel.setProperty(propertySynopticPath, result);
+            controllerWorkCenter.wrkModel.setProperty(propertySynopticPathBkc, JSON.parse(JSON.stringify(result)));
+			
+			//Buttons
+			controllerWorkCenter.byId(undoBtnId).setEnabled(false);
+			controllerWorkCenter.byId(saveBtnId).setEnabled(false);
+        },
+
+        newPosSyn: function () {
+            var propertySynopticPath = "", propertySynopticPathBkc = "", maxWkcNumber = 0, tableId = "", undoBtnId = "", saveBtnId = "";
+            switch (controllerWorkCenter.byId("wkcITB").getSelectedKey()) {
+            case "SYNOPTIC":
+                maxWkcNumber = 40;
+                propertySynopticPath = "/tabSynoptic";
+                propertySynopticPathBkc = "/tabSynopticBkc";
+				tableId = "tabWrkSyn";
+				undoBtnId = "btnUndoNewAdige";
+				saveBtnId = "btnSaveAdige";
+                break;
+			case "SYNOPTICADIGESTR1":
+                maxWkcNumber = 22;
+                propertySynopticPath = "/tabSynopticAdigeStr1";
+                propertySynopticPathBkc = "/tabSynopticAdigeStr1Bkc";
+				tableId = "tabWrkSynAdigeStr1";
+				undoBtnId = "btnUndoNewAdigeStr1";
+				saveBtnId = "btnSaveNewAdigeStr1";
+                break;
+            case "SYNOPTICBGS1":
+                maxWkcNumber = 14;
+                propertySynopticPath = "/tabSynopticBGS1";
+                propertySynopticPathBkc = "/tabSynopticBGS1Bkc";
+				tableId = "tabWrkSynBGS1";
+				undoBtnId = "btnUndoNewBgs1";
+				saveBtnId = "btnSaveNewBgs1";
+                break;
+            case "SYNOPTICBGS2":
+                maxWkcNumber = 53;
+                propertySynopticPath = "/tabSynopticBGS2";
+                propertySynopticPathBkc = "/tabSynopticBGS2Bkc";
+				tableId = "tabWrkSynBGS2";
+				undoBtnId = "btnUndoNewBgs2";
+				saveBtnId = "btnSaveNewBgs2";
+                break;
+            case "SYNOPTICADIGESYS1":
+                maxWkcNumber = 24;
+                propertySynopticPath = "/tabSynopticAdigeSys1";
+                propertySynopticPathBkc = "/tabSynopticAdigeSys1Bkc";
+				tableId = "tabWrkSynAdigeSys1";
+				undoBtnId = "btnUndoNewAdigeSys1";
+				saveBtnId = "btnSaveNewAdigeSys1";
+                break;
+			//Disabilitato	
+            case "SYNOPTICADIGESYS2":
+                maxWkcNumber = 11;
+                propertySynopticPath = "/tabSynopticAdigeSys2";
+                propertySynopticPathBkc = "/tabSynopticAdigeSys2Bkc";
+				tableId = "tabWrkSynAdigeSys2";
+				undoBtnId = "btnUndoAdigeSys2";
+				saveBtnId = "btnSaveNewAdigeSys2";
+                break;
+            case "SYNOPTICADIGESYS3":
+                maxWkcNumber = 27;
+                propertySynopticPath = "/tabSynopticAdigeSys3";
+                propertySynopticPathBkc = "/tabSynopticAdigeSys3Bkc";
+				tableId = "tabWrkSynAdigeSys3";
+				undoBtnId = "btnUndoNewAdigeSys3";
+				saveBtnId = "btnSaveNewAdigeSys3";
+                break; 
+			case "SYNOPTICBGUSA":
+                maxWkcNumber = 20;
+                propertySynopticPath = "/tabSynopticBgusa";
+                propertySynopticPathBkc = "/tabSynopticBgusaBkc";
+				tableId = "tabWrkSynBgusa";
+				undoBtnId = "btnUndoNewBgusa";
+				saveBtnId = "btnSaveNewBgusa";
+                break;
+			case "SYNOPTICBLM1":
+                maxWkcNumber = 244;
+                propertySynopticPath = "/tabSynopticBlm1";
+                propertySynopticPathBkc = "/tabSynopticBlm1Bkc";
+				tableId = "tabWrkSynBlm1";
+				undoBtnId = "btnUndoNewBlm1";
+				saveBtnId = "btnSaveNewBlm1";
+                break;
+			case "SYNOPTICBLM2":
+                maxWkcNumber = 48;
+                propertySynopticPath = "/tabSynopticBlm2";
+                propertySynopticPathBkc = "/tabSynopticBlm2Bkc";
+				tableId = "tabWrkSynBlm2";
+				undoBtnId = "btnUndoNewBlm2";
+				saveBtnId = "btnSaveNewBlm2";
+                break;
+            case "SYNOPTICBLM3":
+                maxWkcNumber = 56;
+                propertySynopticPath = "/tabSynopticBlm3";
+                propertySynopticPathBkc = "/tabSynopticBlm3Bkc";
+				tableId = "tabWrkSynBlm3";
+				undoBtnId = "btnUndoNewBlm3";
+				saveBtnId = "btnSaveNewBlm3";
+                break;
+            case "SYNOPTICBLM4":
+                maxWkcNumber = 12;
+                propertySynopticPath = "/tabSynopticBlm4";
+                propertySynopticPathBkc = "/tabSynopticBlm4Bkc";
+				tableId = "tabWrkSynBlm4";
+				undoBtnId = "btnUndoNewBlm4";
+				saveBtnId = "btnSaveNewBlm4";
+                break;		
+            default:
+                maxWkcNumber = 40;
+                propertySynopticPath = "/tabSynoptic";
+                propertySynopticPathBkc = "/tabSynopticBkc";
+				tableId = "tabWrkSyn";
+				undoBtnId = "btnUndoNewAdige";
+				saveBtnId = "btnSaveAdige";
+                break;
+            }
+            var addRowModel = controllerWorkCenter.wrkModel.getProperty(propertySynopticPath);
+
+            if (addRowModel.length <= maxWkcNumber) {
+                var row = {
+                    "WORKCENTER_ID": "",
+                    "WORKCENTER": "",
+                    "WORKCENTER_DESCR": "",
+                    "POSITION": "",
+                    "EDIT": "true",
+                    "DEL": "false"
+                };
+                addRowModel.push(row);
+                controllerWorkCenter.wrkModel.setProperty(propertySynopticPath, addRowModel);
+                controllerWorkCenter.wrkModel.setProperty(propertySynopticPathBkc, JSON.parse(JSON.stringify(addRowModel)));
+            } else {
+                return MessageToast.show(controller.oBundle.getText("contrWRK.maxLimit"));
+            }
+			
+			//Buttons
+			controllerWorkCenter.byId(undoBtnId).setEnabled(true);
+			controllerWorkCenter.byId(saveBtnId).setEnabled(true);
+			
+			//Scroll to last table Element
+			controllerWorkCenter.byId(tableId).setFirstVisibleRow(addRowModel.length);
+        },
+
+        savePosSyn: function () {
+            var Input = {};
+            var modelProperty = "";
+            var synopticType = "";
+            //Verifico e costruisco il modello per salvare i dati
+            var modInput = [];
+            var obj = {};
+            var maxWkcNumber = 0;
+            switch (controllerWorkCenter.byId("wkcITB").getSelectedKey()) {
+            case "SYNOPTIC":
+                maxWkcNumber = 40;
+                synopticType = 1;
+                modelProperty = "/tabSynoptic";
+                break;
+            case "SYNOPTICBGS1":
+                maxWkcNumber = 14;
+                synopticType = 1;
+                modelProperty = "/tabSynopticBGS1";
+                break;
+            case "SYNOPTICBGS2":
+                maxWkcNumber = 53;
+                synopticType = 2;
+                modelProperty = "/tabSynopticBGS2";
+                break;
+            case "SYNOPTICADIGESYS1":
+                maxWkcNumber = 24;
+                synopticType = 1;
+                modelProperty = "/tabSynopticAdigeSys1";
+                break;
+			//Disabilitato	
+            case "SYNOPTICADIGESYS2":
+                maxWkcNumber = 11;
+                synopticType = 2;
+                modelProperty = "/tabSynopticAdigeSys2";
+                break;
+            case "SYNOPTICADIGESYS3":
+                maxWkcNumber = 27;
+                synopticType = 3;
+                modelProperty = "/tabSynopticAdigeSys3";
+                break;
+            case "SYNOPTICADIGESTR1":
+                maxWkcNumber = 22;
+                synopticType = 2;
+                modelProperty = "/tabSynopticAdigeStr1";
+                break;
+			case "SYNOPTICBGUSA":
+                maxWkcNumber = 20;
+                synopticType = 1;
+                modelProperty = "/tabSynopticBgusa";
+                break;
+			case "SYNOPTICBLM1":
+                maxWkcNumber = 244;
+				synopticType = 1;
+                modelProperty = "/tabSynopticBlm1";
+                break;
+			case "SYNOPTICBLM2":
+                maxWkcNumber = 48;
+				synopticType = 2;
+                modelProperty = "/tabSynopticBlm2";
+                break;
+            case "SYNOPTICBLM3":
+                maxWkcNumber = 56;
+				synopticType = 1;
+                modelProperty = "/tabSynopticBlm3";
+                break;
+			case "SYNOPTICBLM4":
+                maxWkcNumber = 12;
+				synopticType = 2;
+                modelProperty = "/tabSynopticBlm4";
+                break;
+            default:
+                maxWkcNumber = 40;
+                synopticType = 1;
+                modelProperty = "/tabSynoptic";
+                break;
+            }
+            var model = controllerWorkCenter.wrkModel.getProperty(modelProperty);
+            for (var i = 0; i < model.length; i++) {
+                if (model[i].WORKCENTER === "" && model[i].WORKCENTER_ID === "") {
+                    return MessageBox.warning(controller.oBundle.getText("contrWRK.errMissWkc"), {
+                        onClose: function () {}
+                    });
+                }
+
+                if (model[i].POSITION === "" && model[i].DEL === "false") {
+                    return MessageBox.warning(controller.oBundle.getText("contrWRK.errMissPosition"), {
+                        onClose: function () {}
+                    });
+                }
+
+                if (model[i].POSITION.replace(".", ",") < 1 || model[i].POSITION > maxWkcNumber) {
+                    return MessageBox.warning(controller.oBundle.getText("contrWRK.errPosInterval"), {
+                        onClose: function () {}
+                    });
+                }
+
+                if (model[i].POSITION.replace(".", ",") % 1 != 0) {
+                    return MessageBox.warning(controller.oBundle.getText("contrWRK.errPosInt"), {
+                        onClose: function () {}
+                    });
+                }
+
+                if (model[i].EDIT === "true" || model[i].DEL === "true") {
+                    obj.WORKCENTER_ID = model[i].WORKCENTER_ID;
+                    obj.POSITION = model[i].POSITION;
+                    obj.DEL = model[i].DEL;
+                    modInput.push(obj);
+                    obj = new Object;
+                }
+            }
+
+            if (modInput.length === 0)
+                return
+
+                Input = {
+                    "DATA": JSON.stringify(modInput),
+                    "SYNOPTIC_TYPE": synopticType
+                };
+
+            var result = controllerSite.sendData("SAVE_SYNOPTIC_ASSIGNMENT", "WORKCENTER/TRANSACTION", Input);
+            if (result[0].RC != "0") {
+                MessageBox.warning(controller.oBundle.getText("contrWRK.insertKO") + " " + result[0].MESSAGE, {
+                    onClose: function () {}
+                });
+            } else {
+                MessageToast.show(controller.oBundle.getText("contrWRK.insertOK"));
+            }
+            controllerWorkCenter.getSynopticList();
         },
 
         /*General Function*/
