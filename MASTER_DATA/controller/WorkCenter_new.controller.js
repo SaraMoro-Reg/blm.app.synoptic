@@ -34,7 +34,14 @@ sap.ui.define([
                 "enabledWrkStatus": false,
                 "enabledWrkAutomha": false,
                 "visWrkPageFooterBtn": true,
-                "editMode": false
+                "editMode": false,
+                // Footer buttons enablement
+                "enabledSearchInput": true,
+                "enabledExcelDownloadBtn": true,
+                "enabledNewWrkBtn": true,
+                "enabledResetBtn": false,
+                "enabledSaveBtn": false,
+                "enabledDeleteBtn": false
             },
             tabwrklistExport: [],
             tabwrklist: [],
@@ -42,13 +49,22 @@ sap.ui.define([
             tabwrkStatus: [],
             "viewWrkTypeElements": {
                 "visWrkTypePageFooterBtn": false,
-                "editMode": false
-            },
-            "viewWrkHoursElements": {
-                "visWrkHoursPageFooterBtn": false,
-                "editMode": false
+                "editMode": false,
+                // Footer buttons enablement
+                "enabledNewWrkTypeBtn": true,
+                "enabledUndoWrkTypeBtn": false,
+                "enabledSaveWrkTypeBtn": false
             },
             tabWrkHours: [],
+            "viewWrkHoursElements": {
+                "visWrkHoursPageFooterBtn": false,
+                "editMode": false,
+                // Footer buttons enablement
+                "enabledNewHoursBtn": true,
+                "enabledDeleteAllHoursBtn": true,
+                "enabledUndoHoursBtn": false,
+                "enabledSaveHoursBtn": false
+            },
             "viewWrkSynopticElements": {
                 "visAdigeSynopticPageFooterBtn": false,
                 "visAdigeStr1SynopticPageFooterBtn": false,
@@ -62,7 +78,11 @@ sap.ui.define([
                 "visBlm2SynopticPageFooterBtn": false,
                 "visBlm3SynopticPageFooterBtn": false,
                 "visBlm4SynopticPageFooterBtn": false,
-                "editMode": false
+                "editMode": false,
+                // Footer buttons enablement for all synoptic sections
+                "enabledNewPosSynBtn": true,
+                "enabledUndoSynBtn": false,
+                "enabledSaveSynBtn": false
             }
         }),
         _oValueHelpDialog: undefined,
@@ -72,6 +92,9 @@ sap.ui.define([
             controllerWorkCenter = this;
             controllerWorkCenter.getView().setModel(controllerWorkCenter.wrkModel);
             controllerWorkCenter.wrkModel.setSizeLimit(10000);
+            
+            // Inizializza lo stato di default
+            controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC", false);
         },
 
         /* Gestisce il cambio di tab nell'ObjectPageLayout */
@@ -104,52 +127,72 @@ sap.ui.define([
             switch (sPage) {
                 case "WKC":
                     viewWrkElements.visWrkPageFooterBtn = true;
+                    // Reset allo stato di default per tab WKC
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC", false);
                     break;
                 case "WKC_TYPE":
                     viewWrkTypeElements.visWrkTypePageFooterBtn = true;
+                    // Reset allo stato di default per tab WKC_TYPE
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC_TYPE", false);
                     break;
                 case "WKC_HOURS":
                     viewWrkHoursElements.visWrkHoursPageFooterBtn = true;
+                    // Reset allo stato di default per tab WKC_HOURS
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC_HOURS", false);
                     break;
                 case "SYNOPTIC":
                     viewWrkSynopticElements.visAdigeSynopticPageFooterBtn = true;
+                    // Reset allo stato di default per tab Synoptic
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
                     break;
                 case "SYNOPTICADIGESTR1":
                     viewWrkSynopticElements.visAdigeStr1SynopticPageFooterBtn = true;
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
                     break;
                 case "SYNOPTICBGS1":
                     viewWrkSynopticElements.visBgs1SynopticPageFooterBtn = true;
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
                     break;
                 case "SYNOPTICBGS2":
                     viewWrkSynopticElements.visBgs2SynopticPageFooterBtn = true;
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
                     break;
                 case "SYNOPTICADIGESYS1":
                     viewWrkSynopticElements.visAdigeSys1SysSynopticPageFooterBtn = true;
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
                     break;
                 case "SYNOPTICADIGESYS2":
                     viewWrkSynopticElements.visAdigeSys2SysSynopticPageFooterBtn = true;
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
                     break;
                 case "SYNOPTICADIGESYS3":
                     viewWrkSynopticElements.visAdigeSys3SysSynopticPageFooterBtn = true;
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
                     break;
                 case "SYNOPTICBGUSA":
                     viewWrkSynopticElements.visBgusaSynopticPageFooterBtn = true;
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
                     break;
                 case "SYNOPTICBLM1":
                     viewWrkSynopticElements.visBlm1SynopticPageFooterBtn = true;
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
                     break;
                 case "SYNOPTICBLM2":
                     viewWrkSynopticElements.visBlm2SynopticPageFooterBtn = true;
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
                     break;
                 case "SYNOPTICBLM3":
                     viewWrkSynopticElements.visBlm3SynopticPageFooterBtn = true;
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
                     break;
                 case "SYNOPTICBLM4":
                     viewWrkSynopticElements.visBlm4SynopticPageFooterBtn = true;
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
                     break;
                 default:
                     // Default: mostra solo WKC
                     viewWrkElements.visWrkPageFooterBtn = true;
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC", false);
                     break;
             }
                 
@@ -160,61 +203,177 @@ sap.ui.define([
             controllerWorkCenter.wrkModel.setProperty("/viewWrkSynopticElements", viewWrkSynopticElements);
             
             // console.log("Footer visibility updated for section: " + sPage);
-        },    
+        },
 
-        /* Definizione Piazzola */
+        /* Gestisce l'abilitazione/disabilitazione dei campi e bottoni */
+        enabledWorkCenterFields: function(sAction, bValue){
+            let oWrkElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkElements");
+            let oWrkTypeElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkTypeElements");
+            let oWrkHoursElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkHoursElements");
+            let oWrkSynopticElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkSynopticElements");
+            
+            switch (sAction) {
+                case "DEFAULT_WKC":
+                    // Stato di default per tab Piazzola
+                    oWrkElements.enabledSearchInput = true;
+                    oWrkElements.enabledExcelDownloadBtn = true;
+                    oWrkElements.enabledNewWrkBtn = true;
+                    oWrkElements.enabledResetBtn = false;
+                    oWrkElements.enabledSaveBtn = false;
+                    oWrkElements.enabledDeleteBtn = false;
+                    
+                    // Campi della sezione WKC disabilitati
+                    oWrkElements.enabledWrkField = false;
+                    oWrkElements.enabledDescrWrkField = false;
+                    oWrkElements.enabledWrkType = false;
+                    oWrkElements.enabledWrkParent = false;
+                    oWrkElements.enabledWrkStatus = false;
+                    oWrkElements.enabledWrkAutomha = false;
+                    oWrkElements.editMode = false;
+                    
+                    // Reset dei dati
+                    controllerWorkCenter.resetWrkHeaderModel();
+                    break;
+                    
+                case "NEW_WKC":
+                    // Modalità Nuova Piazzola
+                    oWrkElements.enabledSearchInput = false;  // Disabilita input ricerca
+                    oWrkElements.enabledExcelDownloadBtn = true;
+                    oWrkElements.enabledNewWrkBtn = false;   // Disabilita bottone Nuova Piazzola
+                    oWrkElements.enabledResetBtn = true;     // Abilita bottone Chiudi
+                    oWrkElements.enabledSaveBtn = true;      // Abilita bottone Salva
+                    oWrkElements.enabledDeleteBtn = false;   // Elimina resta disabilitato per nuove piazzole
+                    
+                    // Abilita campi della sezione WKC
+                    oWrkElements.enabledWrkField = true;
+                    oWrkElements.enabledDescrWrkField = true;
+                    oWrkElements.enabledWrkType = true;
+                    oWrkElements.enabledWrkParent = true;
+                    oWrkElements.enabledWrkStatus = true;
+                    oWrkElements.enabledWrkAutomha = true;
+                    oWrkElements.editMode = true;
+                    
+                    // Reset dei dati per nuova piazzola
+                    controllerWorkCenter.resetWrkHeaderModel();
+                    break;
+                    
+                case "SELECTED_WKC":
+                    // Piazzola selezionata (modalità edit)
+                    oWrkElements.enabledSearchInput = false; // Disabilita input ricerca
+                    oWrkElements.enabledExcelDownloadBtn = true;
+                    oWrkElements.enabledNewWrkBtn = true;
+                    oWrkElements.enabledResetBtn = true;     // Abilita bottone Chiudi
+                    oWrkElements.enabledSaveBtn = true;      // Abilita bottone Salva
+                    oWrkElements.enabledDeleteBtn = bValue;  // Abilita Elimina solo se non è in uso
+                    
+                    // Abilita campi della sezione WKC (tranne il campo piazzola)
+                    oWrkElements.enabledWrkField = false;    // Campo piazzola resta disabilitato
+                    oWrkElements.enabledDescrWrkField = true;
+                    oWrkElements.enabledWrkType = true;
+                    oWrkElements.enabledWrkParent = true;
+                    oWrkElements.enabledWrkStatus = true;
+                    oWrkElements.enabledWrkAutomha = true;
+                    oWrkElements.editMode = true;
+                    break;
+                    
+                case "DEFAULT_WKC_TYPE":
+                    // Stato di default per tab Tipo Piazzola
+                    oWrkTypeElements.enabledNewWrkTypeBtn = true;
+                    oWrkTypeElements.enabledUndoWrkTypeBtn = false;
+                    oWrkTypeElements.enabledSaveWrkTypeBtn = false;
+                    oWrkTypeElements.editMode = false;
+                    break;
+                    
+                case "NEW_WKC_TYPE":
+                    // Modalità Nuovo Tipo
+                    oWrkTypeElements.enabledNewWrkTypeBtn = true;
+                    oWrkTypeElements.enabledUndoWrkTypeBtn = true;
+                    oWrkTypeElements.enabledSaveWrkTypeBtn = true;
+                    oWrkTypeElements.editMode = true;
+                    break;
+                    
+                case "DEFAULT_WKC_HOURS":
+                    // Stato di default per tab Orari Lavorativi
+                    oWrkHoursElements.enabledNewHoursBtn = true;
+                    oWrkHoursElements.enabledDeleteAllHoursBtn = true;
+                    oWrkHoursElements.enabledUndoHoursBtn = false;
+                    oWrkHoursElements.enabledSaveHoursBtn = false;
+                    oWrkHoursElements.editMode = false;
+                    break;
+                    
+                case "NEW_WKC_HOURS":
+                    // Modalità Nuovo Orario
+                    oWrkHoursElements.enabledNewHoursBtn = true;
+                    oWrkHoursElements.enabledDeleteAllHoursBtn = true;
+                    oWrkHoursElements.enabledUndoHoursBtn = true;
+                    oWrkHoursElements.enabledSaveHoursBtn = false; // Si abilita quando si inserisce la piazzola
+                    oWrkHoursElements.editMode = true;
+                    break;
+                    
+                case "ENABLE_SAVE_HOURS":
+                    // Abilita Salva quando viene inserita la piazzola negli orari
+                    oWrkHoursElements.enabledSaveHoursBtn = true;
+                    break;
+                    
+                case "DEFAULT_SYNOPTIC":
+                    // Stato di default per tab Sinottico
+                    oWrkSynopticElements.enabledNewPosSynBtn = true;
+                    oWrkSynopticElements.enabledUndoSynBtn = false;
+                    oWrkSynopticElements.enabledSaveSynBtn = false;
+                    oWrkSynopticElements.editMode = false;
+                    break;
+                    
+                case "NEW_SYNOPTIC":
+                    // Modalità Nuova Postazione Sinottico
+                    oWrkSynopticElements.enabledNewPosSynBtn = true;
+                    oWrkSynopticElements.enabledUndoSynBtn = true;
+                    oWrkSynopticElements.enabledSaveSynBtn = true;
+                    oWrkSynopticElements.editMode = true;
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            // Aggiorna i modelli
+            controllerWorkCenter.wrkModel.setProperty("/viewWrkElements", oWrkElements);
+            controllerWorkCenter.wrkModel.setProperty("/viewWrkTypeElements", oWrkTypeElements);
+            controllerWorkCenter.wrkModel.setProperty("/viewWrkHoursElements", oWrkHoursElements);
+            controllerWorkCenter.wrkModel.setProperty("/viewWrkSynopticElements", oWrkSynopticElements);
+        },
+
+
+        /* -------------------- Definizione Piazzola -------------------- */
 
         newSlot: function (isNewWorkCenter) {
             //Update Workcenter Type
             if (isNewWorkCenter) {
                 controllerWorkCenter.getWrkType();
                 controllerWorkCenter.getWrkStatus();
+                // Modalità Nuova Piazzola
+                controllerWorkCenter.enabledWorkCenterFields("NEW_WKC", false);
+            } else {
+                // Modalità di default/chiusura
+                controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC", false);
             }
-
-            controllerWorkCenter.enebledViewElements(isNewWorkCenter ? 'NEW' : 'CLOSED', isNewWorkCenter);
         },
 
         enebledViewElements: function (sAction, bValue) {
-            let wrkViewElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkElements");
-
+            // Questa funzione è ora sostituita da enabledWorkCenterFields
+            // Mantengo per compatibilità ma uso il nuovo sistema
             switch (sAction) {
-            case "NEW":
-                wrkViewElements["enabledWrkField"] = bValue;
-                wrkViewElements["enabledDescrWrkField"] = bValue;
-                wrkViewElements["enabledWrkType"] = bValue;
-                wrkViewElements["enabledWrkParent"] = bValue;
-                wrkViewElements["enabledWrkStatus"] = bValue;
-                wrkViewElements["enabledWrkAutomha"] = bValue;
-                wrkViewElements["editMode"] = bValue;
-                controllerWorkCenter.resetWrkHeaderModel();
-                break;
-            case "CLOSED":
-                wrkViewElements["enabledWrkField"] = bValue;
-                wrkViewElements["enabledDescrWrkField"] = bValue;
-                wrkViewElements["enabledWrkType"] = bValue;
-                wrkViewElements["enabledWrkParent"] = bValue;
-                wrkViewElements["enabledWrkStatus"] = bValue;
-                wrkViewElements["enabledWrkAutomha"] = bValue;
-                wrkViewElements["editMode"] = bValue;
-                controllerWorkCenter.resetWrkHeaderModel();
-                break;
-            case "RETRIEVE":
-                wrkViewElements["enabledWrkField"] = !bValue;
-                wrkViewElements["enabledDescrWrkField"] = true;
-                wrkViewElements["enabledWrkType"] = true;
-                wrkViewElements["enabledWrkParent"] = true;
-                wrkViewElements["enabledWrkStatus"] = true;
-                wrkViewElements["enabledWrkAutomha"] = true;
-                wrkViewElements["editMode"] = true;
-                break;
-            default:
-                wrkViewElements["enabledWrkField"] = false;
-                wrkViewElements["enabledDescrWrkField"] = false;
-                wrkViewElements["enabledWrkType"] = false;
-                wrkViewElements["enabledWrkParent"] = false;
-                wrkViewElements["enabledWrkStatus"] = false;
-                wrkViewElements["enabledWrkAutomha"] = false;
-                wrkViewElements["editMode"] = false;
+                case "NEW":
+                    controllerWorkCenter.enabledWorkCenterFields("NEW_WKC", bValue);
+                    break;
+                case "CLOSED":
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC", bValue);
+                    break;
+                case "RETRIEVE":
+                    // Piazzola selezionata - bValue indica se è in uso
+                    controllerWorkCenter.enabledWorkCenterFields("SELECTED_WKC", !bValue);
+                    break;
+                default:
+                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC", bValue);
             }
         },
 
@@ -235,6 +394,28 @@ sap.ui.define([
             });
         },
 
+        sendData: function (Transaction, route, Input) {
+            var results;
+            var transactionCall = route + "/" + Transaction;
+            Input.TRANSACTION = transactionCall;
+            Input.OutputParameter = "JSON";
+            $.ajax({
+                type: 'POST',
+                data: Input,
+                dataType: 'xml',
+                async: false,
+                url: "/XMII/Runner",
+                success: function (data) {
+                    results = JSON.parse(data.documentElement.textContent);
+                },
+                error: function searchError(xhr, err) {
+                    console.error("Error on ajax call: " + err);
+                    console.log(JSON.stringify(xhr));
+                }
+            });
+            return results;
+        },
+
         onOpenSearchWrkValueHelp: function () {
             Fragment.load({
                 name: "master_data.view.popup.workcenter.listwrk",
@@ -253,7 +434,14 @@ sap.ui.define([
                 "SITE": controller.site,
                 "WORKCENTER": ""
             };
-            controllerWorkCenter.wrkModel.setProperty("/tabwrklist", controller.sendData("GET_WRK_LIST_FILTER", "WORKCENTER/TRANSACTION/WRK", oInput)["Rows"]);
+            let result = controller.sendData("GET_WRK_LIST_FILTER", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", oInput);
+            
+            if (result && result["Rows"]) {
+                controllerWorkCenter.wrkModel.setProperty("/tabwrklist", result["Rows"]);
+            } else {
+                console.error("Invalid response from GET_WRK_LIST_FILTER:", result);
+                controllerWorkCenter.wrkModel.setProperty("/tabwrklist", []);
+            }
         },
 
         onSearchWrk: function (oEvent) {
@@ -281,15 +469,20 @@ sap.ui.define([
         },
 
         getWrkHeaderDetails: function (oInput) {
-            let oResult = controller.sendData("GET_WRK_LIST_FILTER", "WORKCENTER/TRANSACTION/WRK", oInput)["Rows"][0];
+            let result = controller.sendData("GET_WRK_LIST_FILTER", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", oInput);
+                
+            if (result && result["Rows"] && result["Rows"].length > 0) {
+                let oResult = result["Rows"][0];
 
-            //Addictional Data
-            controllerWorkCenter.getWrkType();
-            controllerWorkCenter.getWrkStatus();
+                controllerWorkCenter.getWrkType();
+                controllerWorkCenter.getWrkStatus();
 
-            controllerWorkCenter.enebledViewElements("RETRIEVE", oResult["IS_USED"]);
+                controllerWorkCenter.enabledWorkCenterFields("SELECTED_WKC", !oResult["IS_USED"]);
 
-            controllerWorkCenter.wrkModel.setProperty("/wrkDetails", oResult);
+                controllerWorkCenter.wrkModel.setProperty("/wrkDetails", oResult);
+            } else {
+                console.error("Invalid response from GET_WRK_LIST_FILTER:", result);
+            }
         },
 
         closeDialog: function () {
@@ -301,9 +494,9 @@ sap.ui.define([
             controllerWorkCenter._oValueHelpDialog = undefined;
         },
 
-        /* Refresh Data */
+        /* -------------------- Refresh Data -------------------- */
 		refreshWrkData: function(oInput){
-		   let aResult = controller.sendData("GET_WRK_DATA", "WORKCENTER/TRANSACTION/WRK", oInput),     // TODO - Da Realizzare
+		   let aResult = controller.sendData("GET_WRK_DATA", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", oInput),     // TODO - Da Realizzare
 			   oWrkData = aResult[0]["wrkDetails"][0],
 			   aWrkType = aResult[0]["wrktype"];
 		   
@@ -313,7 +506,7 @@ sap.ui.define([
 		   controllerWorkCenter.enabledFieldType(oWrkData["WORKCENTERTYPE_ID"], oWrkData["IS_USED"] === "false", false);
 		},
 
-        /* Descrizione Piazzola - popup */
+        /* -------------------- Descrizione Piazzola - popup -------------------- */
         onOpenValueHelpWrkDesc: function (oEvent) {
             let Input = {
 				"WORKCENTER_ID": controllerWorkCenter.wrkModel.getProperty("/wrkDetails/WORKCENTER_ID")
@@ -325,7 +518,7 @@ sap.ui.define([
 			}).then(function (oValueHelpDialogWrkDesc) {
 				controllerWorkCenter._oValueHelpDialog = oValueHelpDialogWrkDesc;
 				controllerWorkCenter.getView().addDependent(controllerWorkCenter._oValueHelpDialog);
-				controllerWorkCenter.setModelProperty("/tabDescrWrk", controller.sendData("GET_WRK_LIST_DESC", "WORKCENTER/TRANSACTION/WRK", Input)["Rows"]);
+				controllerWorkCenter.setModelProperty("/tabDescrWrk", controller.sendData("GET_WRK_LIST_DESC", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", Input)["Rows"]);
 				controllerWorkCenter._oValueHelpDialog.open();
 			});
         },
@@ -361,7 +554,7 @@ sap.ui.define([
 			
             let Input = {
                 "DATA": JSON.stringify(arrInput)
-            }, result = controller.sendData("SAVE_WRK_DESC", "WORKCENTER/TRANSACTION/WRK", Input);      // TODO - Da Realizzare
+            }, result = controller.sendData("SAVE_WRK_DESC", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", Input);      // TODO - Da Realizzare
 
             if (!result || !Array.isArray(result) || result.length === 0) {
                 return MessageBox.error("Invalid response from server.");
@@ -415,7 +608,14 @@ sap.ui.define([
             let oInput = {
                 "LANGUAGE": controller.language
             };
-            controllerWorkCenter.wrkModel.setProperty("/tabwrkStatus", controller.sendData("GET_WOKCENTER_STATUS", "WORKCENTER/TRANSACTION/WRK", oInput)["Rows"]);
+            let result = controller.sendData("GET_WOKCENTER_STATUS", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", oInput);
+            
+            if (result && result["Rows"]) {
+                controllerWorkCenter.wrkModel.setProperty("/tabwrkStatus", result["Rows"]);
+            } else {
+                console.error("Invalid response from GET_WOKCENTER_STATUS:", result);
+                controllerWorkCenter.wrkModel.setProperty("/tabwrkStatus", []);
+            }
         },
 
         deletePiazzola: function () {
@@ -427,7 +627,7 @@ sap.ui.define([
                 styleClass: "sapUiSizeCompact",
                 onClose: function (evt) {
                     if (evt == "OK") {
-                        let aResult = controller.sendData("DELETE_WRK", "WORKCENTER/TRANSACTION/WRK", oInput);
+                        let aResult = controller.sendData("DELETE_WRK", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", oInput);
                         if (aResult[0]["RC"] === "0") {
                             controllerWorkCenter.newSlot(false);
                         } else {
@@ -473,7 +673,7 @@ sap.ui.define([
             let oInput = {
                 "DATA": xmlInput
             },
-            aResult = controller.sendData("INSERT_WORKCENTER", "WORKCENTER/TRANSACTION/WRK", oInput);
+            aResult = controller.sendData("INSERT_WORKCENTER", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", oInput);
            
 		   if (aResult[0]["RC"] === "0") {
                 controllerWorkCenter.newSlot(false);
@@ -489,40 +689,7 @@ sap.ui.define([
             }
         },
 
-        /*
-        downloadModel: function () {
-            //TODO - Capire se conviene passare alla libreria standard
-            let dateExport = new Date(),
-            mm = "",
-            dd = "";
-
-            if (String(dateExport.getMonth() + 1).length == 1) {
-                mm = "0" + String(dateExport.getMonth() + 1);
-            } else {
-                mm = String(dateExport.getMonth() + 1);
-            }
-
-            if (String(dateExport.getDate()).length == 1) {
-                dd = "0" + String(dateExport.getDate());
-            } else {
-                dd = String(dateExport.getDate());
-            }
-
-            let dateExportStr = dateExport.getFullYear() + (dateExport.getMonth() + 1) + mm + dd;
-
-            controllerWorkCenter.getWrk(3);
-
-            let ws_data = controllerWorkCenter.wrkModel.getProperty("/tabwrklistExport");
-            if (typeof XLSX == 'undefined')
-                XLSX = require('xlsx');
-            let ws = XLSX.utils.json_to_sheet(ws_data),
-            wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, controller.oBundle.getText("viewWRK.wrkmain"));
-            XLSX.writeFile(wb, controller.oBundle.getText("exportttle") + "_" + controller.oBundle.getText("viewWRK.wrkmain") + dateExportStr + ".xlsx");
-        },
-        */
-
-        /* Download - libreria standard */
+        /* -------------------- Download - libreria standard -------------------- */
         downloadModel: function () { 
             			 try{	
 				let aCols = controllerWorkCenter.createColumnExportWrk(),
@@ -599,120 +766,6 @@ sap.ui.define([
             } catch (e) {}
         },
 
-        /*
-        getWrkDesc: function () {
-            var input = {};
-            input.WORKCENTER_ID = controllerWorkCenter._wrkcenterid;
-            controllerWorkCenter.getDataSync("GET_WRK_LIST_DESC", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", input, controllerWorkCenter.getWrkDescSuccess, controllerWorkCenter.transactionError);
-        },
-
-        getWrkDescSuccess: function (data, response) {
-            var jsonArrStr = jQuery(data).find("Row").text();
-            var jsonArr = JSON.parse(jsonArrStr);
-            controllerWorkCenter.wrkModel.setProperty("/tabWrkDesc", jsonArr["Rows"]);
-        },
-
-        newWrkDesc: function () {
-            var addRowModel = controllerWorkCenter.wrkModel.getProperty("/tabWrkDesc");
-            var row = {
-                "WORKCENTER_ID": "" + controllerWorkCenter._wrkcenterid + "",
-                "LANGUAGE": "" + controller.language + "",
-                "WORKCENTER_DESC": "",
-                "DEL": "false",
-                "EDIT": true
-            };
-            if (!addRowModel) {
-                var newArr = [];
-                newArr.push(row);
-                controllerWorkCenter.wrkModel.setProperty("/tabWrkDesc", newArr);
-            } else {
-                if (addRowModel.length === 0) {
-                    var newArr = [];
-                    newArr.push(row);
-                    controllerWorkCenter.wrkModel.setProperty("/tabWrkDesc", newArr);
-                } else {
-                    var addArr = controllerWorkCenter.wrkModel.getProperty("/tabWrkDesc");
-                    addArr.push(row);
-                    controllerWorkCenter.wrkModel.setProperty("/tabWrkDesc", addArr);
-                }
-            }
-
-            //Input Fields
-            controllerWorkCenter.byId("comboType").setEditable(false);
-            controllerWorkCenter.byId("comboParent").setEditable(false);
-            controllerWorkCenter.byId("comboStatus").setEditable(false);
-
-            //Buttons
-            controllerWorkCenter.byId("btnNewWrk").setEnabled(false);
-            controllerWorkCenter.byId("closeWrk").setEnabled(true);
-            controllerWorkCenter.byId("btnSaveWrk").setEnabled(false);
-            controllerWorkCenter.byId("btnDelWrk").setEnabled(true);
-            controllerWorkCenter.byId("btnWrkNewDescr").setEnabled(true);
-            controllerWorkCenter.byId("btnWrkSaveDescr").setEnabled(true);
-            controllerWorkCenter.getWrkType();
-        },
-
-        onChangeWrkDescr: function () {
-            //Input Fields
-            controllerWorkCenter.byId("comboType").setEditable(false);
-            controllerWorkCenter.byId("comboParent").setEditable(false);
-            controllerWorkCenter.byId("comboStatus").setEditable(false);
-
-            //Buttons
-            controllerWorkCenter.byId("btnNewWrk").setEnabled(false);
-            controllerWorkCenter.byId("closeWrk").setEnabled(true);
-            controllerWorkCenter.byId("btnSaveWrk").setEnabled(false);
-            controllerWorkCenter.byId("btnDelWrk").setEnabled(true);
-            controllerWorkCenter.byId("btnWrkNewDescr").setEnabled(true);
-            controllerWorkCenter.byId("btnWrkSaveDescr").setEnabled(true);
-        },
-
-        deleteWorkCenterDescr: function (evt) {
-            var lineSel = controllerWorkCenter.wrkModel.getProperty(evt.oSource.getBindingContext().sPath);
-            lineSel.DEL = true;
-            lineSel.EDIT = true;
-            controllerWorkCenter.wrkModel.refresh();
-        },
-
-        confirmEditDescwrk: function () {
-            var model = controllerWorkCenter.wrkModel.getProperty("/tabWrkDesc");
-            var arrInput = [];
-            var bCompact = !!controllerSite.getView().$().closest(".sapUiSizeCompact").length;
-
-            for (var i = 0; i < model.length; i++) {
-                if ((model[i].DEL == "false" || model[i].LANGUAGE != "") && model[i].WORKCENTER_DESC != "") {
-                    for (var j = i + 1; j < model.length; j++) {
-                        if (i != j & model[i].LANGUAGE == model[j].LANGUAGE & model[j].DEL == "false") {
-                            return MessageBox.warning(controller.oBundle.getText("contrSite.errSiteMod"), {
-                                styleClass: bCompact ? "sapUiSizeCompact" : ""
-                            });
-                        }
-                    }
-                    arrInput.push(model[i]);
-                }
-            }
-            if (arrInput.length > 0) {
-                var jsonInput = JSON.stringify(arrInput);
-                var input = {
-                    "DATA": jsonInput
-                };
-                controllerWorkCenter.getDataSync("EDIT_WORKCENTER_DESCR", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", input, controllerWorkCenter.confirmEditDescwrkSuccess, this.transactionError);
-            }
-        },
-
-        confirmEditDescwrkSuccess: function (data, response) {
-            var jsonArrStr = jQuery(data).find("Row").text();
-            var jsonArr = JSON.parse(jsonArrStr);
-            if (jsonArr[0].RC != "0") {
-                MessageBox.warning(jsonArr[0].MESSAGE)
-            }
-            //else{
-            controllerWorkCenter.getWrkDesc();
-            controllerWorkCenter.getWrk(1);
-            //}
-        },
-        */
-
         getWrk: function (selection) {
             if (!selection) {
                 selection = 0
@@ -737,259 +790,488 @@ sap.ui.define([
             }
         },
 
-        /* Definizione Tipo Piazzola */
+        /* -------------------- Definizione Tipo Piazzola -------------------- */
+        /*
+        newType: function () {
+            controllerWorkCenter.enabledWorkCenterFields("NEW_WKC_TYPE", true);
+            controllerWorkCenter.getWrkType();
+        },
+
         undoWrkType: function () {
-            //Buttons
-            controllerWorkCenter.byId("btnCloseWrkType").setEnabled(false);
-            controllerWorkCenter.byId("btnSaveWrkType").setEnabled(false);
+            controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC_TYPE", false);
             controllerWorkCenter.getWrkType();
         },
 
         getWrkType: function () {
             let oInput = {
-                "LANGUAGE": controller.language
-            };
-            controllerWorkCenter.wrkModel.setProperty("/tabwrktype", controller.sendData("GET_WOKCENTER_TYPE", "WORKCENTER/TRANSACTION/WRK", oInput)["Rows"]);
-        },
-
-        /* Selection Synoptic Page */
-        getSynopticPages: function () {
+                    "LANGUAGE": controller.language
+                };
+            let result = controller.sendData("GET_WOKCENTER_TYPE", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", oInput);
             
-        },
-
-        /* Footer */
-        getSynopticList: function () {
-            var synopticType = "", propertySynopticPath = "", propertySynopticPathBkc = "", tableId = "", undoBtnId = "", saveBtnId = "";
-            switch (controllerWorkCenter.byId("wkcITB").getSelectedKey()) {
-            case "SYNOPTIC":
-                synopticType = 1;
-                propertySynopticPath = "/tabSynoptic";
-                propertySynopticPathBkc = "/tabSynopticBkc";
-				tableId = "tabWrkSyn";
-				undoBtnId = "btnUndoNewAdige";
-				saveBtnId = "btnSaveAdige";
-                break;
-			 case "SYNOPTICADIGESTR1":
-                synopticType = 2;
-                propertySynopticPath = "/tabSynopticAdigeStr1";
-                propertySynopticPathBkc = "/tabSynopticAdigeStr1Bkc";
-				tableId = "tabWrkSynAdigeStr1";
-				undoBtnId = "btnUndoNewAdigeStr1";
-				saveBtnId = "btnSaveNewAdigeStr1";
-                break;
-            case "SYNOPTICBGS1":
-                synopticType = 1;
-                propertySynopticPath = "/tabSynopticBGS1";
-                propertySynopticPathBkc = "/tabSynopticBGS1Bkc";
-				tableId = "tabWrkSynBGS1";
-				undoBtnId = "btnUndoNewBgs1";
-				saveBtnId = "btnSaveNewBgs1";
-                break;
-            case "SYNOPTICBGS2":
-                synopticType = 2;
-                propertySynopticPath = "/tabSynopticBGS2";
-                propertySynopticPathBkc = "/tabSynopticBGS2Bkc";
-				tableId = "tabWrkSynBGS2";
-				undoBtnId = "btnUndoNewBgs2";
-				saveBtnId = "btnSaveNewBgs2";
-                break;
-            case "SYNOPTICADIGESYS1":
-                synopticType = 1;
-                propertySynopticPath = "/tabSynopticAdigeSys1";
-                propertySynopticPathBkc = "/tabSynopticAdigeSys1Bkc";
-				tableId = "tabWrkSynAdigeSys1";
-				undoBtnId = "btnUndoNewAdigeSys1";
-				saveBtnId = "btnSaveNewAdigeSys1";
-                break;
-            case "SYNOPTICADIGESYS2":
-                synopticType = 2;
-                propertySynopticPath = "/tabSynopticAdigeSys2";
-                propertySynopticPathBkc = "/tabSynopticAdigeSys2Bkc";
-				tableId = "tabWrkSynAdigeSys2";
-				undoBtnId = "btnUndoAdigeSys2";
-				saveBtnId = "btnSaveNewAdigeSys2";
-                break;
-            case "SYNOPTICADIGESYS3":
-                synopticType = 3;
-                propertySynopticPath = "/tabSynopticAdigeSys3";
-                propertySynopticPathBkc = "/tabSynopticAdigeSys3Bkc";
-				tableId = "tabWrkSynAdigeSys3";
-				undoBtnId = "btnUndoNewAdigeSys3";
-				saveBtnId = "btnSaveNewAdigeSys3";
-                break; 
-			case "SYNOPTICBGUSA":
-                synopticType = 1;
-                propertySynopticPath = "/tabSynopticBgusa";
-                propertySynopticPathBkc = "/tabSynopticBgusaBkc";
-				tableId = "tabWrkBgusa";
-				undoBtnId = "btnUndoNewBgusa";
-				saveBtnId = "btnSaveNewBgusa";
-                break; 
-			case "SYNOPTICBLM1":
-                synopticType = 1;
-                propertySynopticPath = "/tabSynopticBlm1";
-                propertySynopticPathBkc = "/tabSynopticBlm1Bkc";
-				tableId = "tabWrkSynBlm1";
-				undoBtnId = "btnUndoNewBlm1";
-				saveBtnId = "btnSaveNewBlm1";
-                break;
-			case "SYNOPTICBLM2":
-                synopticType = 2;
-                propertySynopticPath = "/tabSynopticBlm2";
-                propertySynopticPathBkc = "/tabSynopticBlm2Bkc";
-				tableId = "tabWrkSynBlm2";
-				undoBtnId = "btnUndoNewBlm2";
-				saveBtnId = "btnSaveNewBlm2";
-                break;
-            case "SYNOPTICBLM3":
-                synopticType = 3;
-                propertySynopticPath = "/tabSynopticBlm3";
-                propertySynopticPathBkc = "/tabSynopticBlm3Bkc";
-				tableId = "tabWrkSynBlm3";
-				undoBtnId = "btnUndoNewBlm3";
-				saveBtnId = "btnSaveNewBlm3";
-                break;
-            case "SYNOPTICBLM4":
-                synopticType = 4;
-                propertySynopticPath = "/tabSynopticBlm4";
-                propertySynopticPathBkc = "/tabSynopticBlm4Bkc";
-				tableId = "tabWrkSynBlm4";
-				undoBtnId = "btnUndoNewBlm4";
-				saveBtnId = "btnSaveNewBlm4";
-                break;		
-            default:
-                synopticType = 1;
-                propertySynopticPath = "/tabSynoptic";
-                propertySynopticPathBkc = "/tabSynopticBkc";
-				tableId = "tabWrkSyn";
-				undoBtnId = "btnUndoNewAdige";
-				saveBtnId = "btnSaveAdige";
-                break;
+            if (result && result["Rows"]) {
+                controllerWorkCenter.wrkModel.setProperty("/tabwrktype", result["Rows"]);
+            } else {
+                console.error("Invalid response from GET_WOKCENTER_TYPE:", result);
+                controllerWorkCenter.wrkModel.setProperty("/tabwrktype", []);
             }
-            var Input = {
-                "SITE_ID": controller.SiteId,
-                "LANGUAGE": controller.language,
-                "SYNOPTIC_TYPE": synopticType
+        
+        },
+        */
+
+        
+        newType: function () {
+            var addRowModel = controllerWorkCenter.wrkModel.getProperty("/tabwrktype");
+            var row = {
+                "WORKCENTERTYPE_ID": "",
+                "WORKCENTERTYPE": "",
+                "WORKCENTERTYPE_DESC": "",
+                "EDIT": "true",
+                "DEL": "false"
             };
-            var result = controllerSite.sendData("GET_SYNOPTIC_LIST", "WORKCENTER/TRANSACTION", Input);
-            controllerWorkCenter.wrkModel.setProperty(propertySynopticPath, result);
-            controllerWorkCenter.wrkModel.setProperty(propertySynopticPathBkc, JSON.parse(JSON.stringify(result)));
+            if (!addRowModel) {
+                var newArr = [];
+                newArr.push(row);
+                controllerWorkCenter.wrkModel.setProperty("/tabwrktype", newArr);
+            } else {
+                if (addRowModel.length === 0) {
+                    var newArr = [];
+                    newArr.push(row);
+                    controllerWorkCenter.wrkModel.setProperty("/tabwrktype", newArr);
+                } else {
+                    var addArr = controllerWorkCenter.wrkModel.getProperty("/tabwrktype");
+                    addArr.push(row);
+                    controllerWorkCenter.wrkModel.setProperty("/tabwrktype", addArr);
+                }
+            }
 			
 			//Buttons
-			controllerWorkCenter.byId(undoBtnId).setEnabled(false);
-			controllerWorkCenter.byId(saveBtnId).setEnabled(false);
+			controllerWorkCenter.byId("btnCloseWrkType").setEnabled(true);
+			controllerWorkCenter.byId("btnSaveWrkType").setEnabled(true);
+			
+			//Scroll to last table Element
+			controllerWorkCenter.byId("tabWrkType").setFirstVisibleRow(addRowModel.length); 
+        },
+		
+        saveNewType: function () {
+            var input = {};
+            var model = controllerWorkCenter.wrkModel.getProperty("/tabwrktype");
+            var Name = false;
+            var Desc = false;
+            var modInput = [];
+            var obj = {};
+
+            for (var i = 0; i < model.length; i++) {
+                if (model[i].EDIT === "true") {
+                    if (model[i].WORKCENTERTYPE === "") {
+                        return MessageBox.warning(controller.oBundle.getText("contrSite.errMissSite"));
+                    } else {
+                        obj.WORKCENTERTYPE = model[i].WORKCENTERTYPE;
+                        Name = true;
+                    }
+                    if (model[i].WORKCENTERTYPE_DESC === "") {
+                        return MessageBox.warning(controller.oBundle.getText("contrSite.errMissSiteDescr"));
+                    } else {
+                        obj.WORKCENTERTYPE_DESC = model[i].WORKCENTERTYPE_DESC;
+                        Desc = true
+                    }
+                    obj.LANGUAGE = controller.language;
+                    modInput.push(obj);
+                    obj = new Object;
+                }
+            }
+            if (modInput.length === 0)
+                return MessageToast.show(controller.oBundle.getText("contrSite.insertSite"));
+            else {
+                if (Desc && Name) {
+                    input = {
+                        "DATA": JSON.stringify(modInput)
+                    };
+                    controllerWorkCenter.getDataSync("INSERT_WRKTYPE", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION", input, controllerWorkCenter.saveNewTypeSuccess, this.transactionError);
+                }
+            }
+        },
+		
+        saveNewTypeSuccess: function (data, response) {
+            try {
+                var jsonArrStr = jQuery(data).find("Row").text();
+                var jsonArr = JSON.parse(jsonArrStr);
+                if (jsonArr[0].RC == "0")
+                    controllerWorkCenter.getWrkType();
+                //controllerWorkCenter.wrkModel.setProperty("/tabwrktype",jsonArr.Rows,false);
+                //controllerWorkCenter.getView().setModel(controllerWorkCenter.wrkModel);
+            } catch (e) {
+                MessageBox.warning("TRANSACTION ERROR: GET_SITE. Main Controller line: 43", {
+                    onClose: function () {}
+                });
+            }
+        },
+		
+        deleteNewType: function (oEvent) {
+            var lineSel = controllerWorkCenter.wrkModel.getProperty(oEvent.oSource.getBindingContext().sPath);
+            var typeID = {
+                "WORKCENTERTYPE_ID": lineSel.WORKCENTERTYPE_ID
+            };
+            var input = [];
+            input = typeID;
+            var bCompact = !!controllerWorkCenter.getView().$().closest(".sapUiSizeCompact").length;
+            MessageBox.confirm((controller.oBundle.getText("viewWRK.messageConfirmDelete") + " " + lineSel.WORKCENTERTYPE + "?"), {
+                styleClass: bCompact ? "sapUiSizeCompact" : "",
+                onClose: function (evt) {
+                    if (evt == "OK") {
+                        controllerWorkCenter.getDataSync("DELETE_WORKCENTER_TYPE", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION", input, controllerWorkCenter.deleteNewTypeSuccess, this.transactionError);
+                    } else {
+                        controllerWorkCenter.getWrkType();
+                    }
+                }
+            });
         },
 
-        newPosSyn: function () {
-            var propertySynopticPath = "", propertySynopticPathBkc = "", maxWkcNumber = 0, tableId = "", undoBtnId = "", saveBtnId = "";
-            switch (controllerWorkCenter.byId("wkcITB").getSelectedKey()) {
-            case "SYNOPTIC":
-                maxWkcNumber = 40;
-                propertySynopticPath = "/tabSynoptic";
-                propertySynopticPathBkc = "/tabSynopticBkc";
-				tableId = "tabWrkSyn";
-				undoBtnId = "btnUndoNewAdige";
-				saveBtnId = "btnSaveAdige";
-                break;
-			case "SYNOPTICADIGESTR1":
-                maxWkcNumber = 22;
-                propertySynopticPath = "/tabSynopticAdigeStr1";
-                propertySynopticPathBkc = "/tabSynopticAdigeStr1Bkc";
-				tableId = "tabWrkSynAdigeStr1";
-				undoBtnId = "btnUndoNewAdigeStr1";
-				saveBtnId = "btnSaveNewAdigeStr1";
-                break;
-            case "SYNOPTICBGS1":
-                maxWkcNumber = 14;
-                propertySynopticPath = "/tabSynopticBGS1";
-                propertySynopticPathBkc = "/tabSynopticBGS1Bkc";
-				tableId = "tabWrkSynBGS1";
-				undoBtnId = "btnUndoNewBgs1";
-				saveBtnId = "btnSaveNewBgs1";
-                break;
-            case "SYNOPTICBGS2":
-                maxWkcNumber = 53;
-                propertySynopticPath = "/tabSynopticBGS2";
-                propertySynopticPathBkc = "/tabSynopticBGS2Bkc";
-				tableId = "tabWrkSynBGS2";
-				undoBtnId = "btnUndoNewBgs2";
-				saveBtnId = "btnSaveNewBgs2";
-                break;
-            case "SYNOPTICADIGESYS1":
-                maxWkcNumber = 24;
-                propertySynopticPath = "/tabSynopticAdigeSys1";
-                propertySynopticPathBkc = "/tabSynopticAdigeSys1Bkc";
-				tableId = "tabWrkSynAdigeSys1";
-				undoBtnId = "btnUndoNewAdigeSys1";
-				saveBtnId = "btnSaveNewAdigeSys1";
-                break;
-			//Disabilitato	
-            case "SYNOPTICADIGESYS2":
-                maxWkcNumber = 11;
-                propertySynopticPath = "/tabSynopticAdigeSys2";
-                propertySynopticPathBkc = "/tabSynopticAdigeSys2Bkc";
-				tableId = "tabWrkSynAdigeSys2";
-				undoBtnId = "btnUndoAdigeSys2";
-				saveBtnId = "btnSaveNewAdigeSys2";
-                break;
-            case "SYNOPTICADIGESYS3":
-                maxWkcNumber = 27;
-                propertySynopticPath = "/tabSynopticAdigeSys3";
-                propertySynopticPathBkc = "/tabSynopticAdigeSys3Bkc";
-				tableId = "tabWrkSynAdigeSys3";
-				undoBtnId = "btnUndoNewAdigeSys3";
-				saveBtnId = "btnSaveNewAdigeSys3";
-                break; 
-			case "SYNOPTICBGUSA":
-                maxWkcNumber = 20;
-                propertySynopticPath = "/tabSynopticBgusa";
-                propertySynopticPathBkc = "/tabSynopticBgusaBkc";
-				tableId = "tabWrkSynBgusa";
-				undoBtnId = "btnUndoNewBgusa";
-				saveBtnId = "btnSaveNewBgusa";
-                break;
-			case "SYNOPTICBLM1":
-                maxWkcNumber = 244;
-                propertySynopticPath = "/tabSynopticBlm1";
-                propertySynopticPathBkc = "/tabSynopticBlm1Bkc";
-				tableId = "tabWrkSynBlm1";
-				undoBtnId = "btnUndoNewBlm1";
-				saveBtnId = "btnSaveNewBlm1";
-                break;
-			case "SYNOPTICBLM2":
-                maxWkcNumber = 48;
-                propertySynopticPath = "/tabSynopticBlm2";
-                propertySynopticPathBkc = "/tabSynopticBlm2Bkc";
-				tableId = "tabWrkSynBlm2";
-				undoBtnId = "btnUndoNewBlm2";
-				saveBtnId = "btnSaveNewBlm2";
-                break;
-            case "SYNOPTICBLM3":
-                maxWkcNumber = 56;
-                propertySynopticPath = "/tabSynopticBlm3";
-                propertySynopticPathBkc = "/tabSynopticBlm3Bkc";
-				tableId = "tabWrkSynBlm3";
-				undoBtnId = "btnUndoNewBlm3";
-				saveBtnId = "btnSaveNewBlm3";
-                break;
-            case "SYNOPTICBLM4":
-                maxWkcNumber = 12;
-                propertySynopticPath = "/tabSynopticBlm4";
-                propertySynopticPathBkc = "/tabSynopticBlm4Bkc";
-				tableId = "tabWrkSynBlm4";
-				undoBtnId = "btnUndoNewBlm4";
-				saveBtnId = "btnSaveNewBlm4";
-                break;		
-            default:
-                maxWkcNumber = 40;
-                propertySynopticPath = "/tabSynoptic";
-                propertySynopticPathBkc = "/tabSynopticBkc";
-				tableId = "tabWrkSyn";
-				undoBtnId = "btnUndoNewAdige";
-				saveBtnId = "btnSaveAdige";
-                break;
+        /* -------------------- Selection Synoptic Page -------------------- */
+        getSynopticPages: function () {
+            // Funzione per gestire la selezione delle pagine sinottiche
+            // Implementazione specifica se necessaria
+        },
+
+        getSynopticList: function () {
+            // Reset alla modalità default per sinottico
+            controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
+            
+            var synopticType = "", propertySynopticPath = "", propertySynopticPathBkc = "", tableId = "", undoBtnId = "", saveBtnId = "";
+                switch (controllerWorkCenter.byId("wkcITB").getSelectedKey()) {
+                    case "SYNOPTIC":
+                        synopticType = 1;
+                        propertySynopticPath = "/tabSynoptic";
+                        propertySynopticPathBkc = "/tabSynopticBkc";
+                        tableId = "tabWrkSyn";
+                        undoBtnId = "btnUndoNewAdige";
+                        saveBtnId = "btnSaveAdige";
+                        break;
+                    case "SYNOPTICADIGESTR1":
+                        synopticType = 2;
+                        propertySynopticPath = "/tabSynopticAdigeStr1";
+                        propertySynopticPathBkc = "/tabSynopticAdigeStr1Bkc";
+                        tableId = "tabWrkSynAdigeStr1";
+                        undoBtnId = "btnUndoNewAdigeStr1";
+                        saveBtnId = "btnSaveNewAdigeStr1";
+                        break;
+                    case "SYNOPTICBGS1":
+                        synopticType = 1;
+                        propertySynopticPath = "/tabSynopticBGS1";
+                        propertySynopticPathBkc = "/tabSynopticBGS1Bkc";
+                        tableId = "tabWrkSynBGS1";
+                        undoBtnId = "btnUndoNewBgs1";
+                        saveBtnId = "btnSaveNewBgs1";
+                        break;
+                    case "SYNOPTICBGS2":
+                        synopticType = 2;
+                        propertySynopticPath = "/tabSynopticBGS2";
+                        propertySynopticPathBkc = "/tabSynopticBGS2Bkc";
+                        tableId = "tabWrkSynBGS2";
+                        undoBtnId = "btnUndoNewBgs2";
+                        saveBtnId = "btnSaveNewBgs2";
+                        break;
+                    case "SYNOPTICADIGESYS1":
+                        synopticType = 1;
+                        propertySynopticPath = "/tabSynopticAdigeSys1";
+                        propertySynopticPathBkc = "/tabSynopticAdigeSys1Bkc";
+                        tableId = "tabWrkSynAdigeSys1";
+                        undoBtnId = "btnUndoNewAdigeSys1";
+                        saveBtnId = "btnSaveNewAdigeSys1";
+                        break;
+                    case "SYNOPTICADIGESYS2":
+                        synopticType = 2;
+                        propertySynopticPath = "/tabSynopticAdigeSys2";
+                        propertySynopticPathBkc = "/tabSynopticAdigeSys2Bkc";
+                        tableId = "tabWrkSynAdigeSys2";
+                        undoBtnId = "btnUndoAdigeSys2";
+                        saveBtnId = "btnSaveNewAdigeSys2";
+                        break;
+                    case "SYNOPTICADIGESYS3":
+                        synopticType = 3;
+                        propertySynopticPath = "/tabSynopticAdigeSys3";
+                        propertySynopticPathBkc = "/tabSynopticAdigeSys3Bkc";
+                        tableId = "tabWrkSynAdigeSys3";
+                        undoBtnId = "btnUndoNewAdigeSys3";
+                        saveBtnId = "btnSaveNewAdigeSys3";
+                        break; 
+                    case "SYNOPTICBGUSA":
+                        synopticType = 1;
+                        propertySynopticPath = "/tabSynopticBgusa";
+                        propertySynopticPathBkc = "/tabSynopticBgusaBkc";
+                        tableId = "tabWrkBgusa";
+                        undoBtnId = "btnUndoNewBgusa";
+                        saveBtnId = "btnSaveNewBgusa";
+                        break; 
+                    case "SYNOPTICBLM1":
+                        synopticType = 1;
+                        propertySynopticPath = "/tabSynopticBlm1";
+                        propertySynopticPathBkc = "/tabSynopticBlm1Bkc";
+                        tableId = "tabWrkSynBlm1";
+                        undoBtnId = "btnUndoNewBlm1";
+                        saveBtnId = "btnSaveNewBlm1";
+                        break;
+                    case "SYNOPTICBLM2":
+                        synopticType = 2;
+                        propertySynopticPath = "/tabSynopticBlm2";
+                        propertySynopticPathBkc = "/tabSynopticBlm2Bkc";
+                        tableId = "tabWrkSynBlm2";
+                        undoBtnId = "btnUndoNewBlm2";
+                        saveBtnId = "btnSaveNewBlm2";
+                        break;
+                    case "SYNOPTICBLM3":
+                        synopticType = 3;
+                        propertySynopticPath = "/tabSynopticBlm3";
+                        propertySynopticPathBkc = "/tabSynopticBlm3Bkc";
+                        tableId = "tabWrkSynBlm3";
+                        undoBtnId = "btnUndoNewBlm3";
+                        saveBtnId = "btnSaveNewBlm3";
+                        break;
+                    case "SYNOPTICBLM4":
+                        synopticType = 4;
+                        propertySynopticPath = "/tabSynopticBlm4";
+                        propertySynopticPathBkc = "/tabSynopticBlm4Bkc";
+                        tableId = "tabWrkSynBlm4";
+                        undoBtnId = "btnUndoNewBlm4";
+                        saveBtnId = "btnSaveNewBlm4";
+                        break;		
+                    default:
+                        synopticType = 1;
+                        propertySynopticPath = "/tabSynoptic";
+                        propertySynopticPathBkc = "/tabSynopticBkc";
+                        tableId = "tabWrkSyn";
+                        undoBtnId = "btnUndoNewAdige";
+                        saveBtnId = "btnSaveAdige";
+                        break;
+                }
+                var Input = {
+                    "SITE_ID": controller.SiteId,
+                    "LANGUAGE": controller.language,
+                    "SYNOPTIC_TYPE": synopticType
+                };
+                var result = controllerSite.sendData("GET_SYNOPTIC_LIST", "WORKCENTER/TRANSACTION", Input);
+                controllerWorkCenter.wrkModel.setProperty(propertySynopticPath, result);
+                controllerWorkCenter.wrkModel.setProperty(propertySynopticPathBkc, JSON.parse(JSON.stringify(result)));
+                
+                //Buttons
+                controllerWorkCenter.byId(undoBtnId).setEnabled(false);
+                controllerWorkCenter.byId(saveBtnId).setEnabled(false);
+        },
+
+        /* -------------------- Orari Lavorativi -------------------- */
+        /*
+        newHours: function () {
+            controllerWorkCenter.enabledWorkCenterFields("NEW_WKC_HOURS", true);
+            
+            // Aggiungi una nuova riga alla tabella orari
+            let tabWrkHours = controllerWorkCenter.wrkModel.getProperty("/tabWrkHours");
+            if (!tabWrkHours) tabWrkHours = [];
+            
+            let newRow = {
+                "WORKCENTER": "",
+                "USER": "",
+                "HOURS_TO_1": "",
+                "HOURS_FROM_1": "",
+                "HOURS_TO_2": "",
+                "HOURS_FROM_2": "",
+                "HOURS_TO_3": "",
+                "HOURS_FROM_3": "",
+                "VIS": "true",
+                "DEL": "false"
+            };
+            
+            tabWrkHours.push(newRow);
+            controllerWorkCenter.wrkModel.setProperty("/tabWrkHours", tabWrkHours);
+        },
+
+        getHoursList: function () {
+            // Reset alla modalità default
+            // controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC_HOURS", false);
+            
+            var Input = {
+                "SITE_ID": controller.SiteId
+                //,"LANGUAGE": controller.language
+            };
+            var result = controllerSite.sendData("GET_HOURS_LIST", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION", Input);
+            controllerWorkCenter.wrkModel.setProperty("/tabWrkHours", result);
+			
+			//Buttons
+			controllerWorkCenter.byId("btnCloseNewHours").setEnabled(false);
+			controllerWorkCenter.byId("saveNewHours").setEnabled(false);
+        },
+        */
+
+        newHours: function () {
+            var addRowModel = controllerWorkCenter.wrkModel.getProperty("/tabWrkHours");
+
+            if (controllerWorkCenter.rowSelTabWrkHours === "") {
+                var row = {
+                    "WORKING_HOURS_ID": "",
+                    "WORKCENTER_ID": "",
+                    "WORKCENTER": "",
+                    "USER_ID": "",
+                    "USER": "",
+                    "HOURS_TO_1": "",
+                    "HOURS_FROM_1": "",
+                    "HOURS_TO_2": "",
+                    "HOURS_FROM_2": "",
+                    "HOURS_TO_3": "",
+                    "HOURS_FROM_3": "",
+                    "EDIT": "true",
+                    "VIS": "true",
+                    "DEL": "false"
+                };
+            } else {
+                var row = {
+                    "WORKING_HOURS_ID": "",
+                    "WORKCENTER_ID": "",
+                    "WORKCENTER": "",
+                    "USER_ID": "",
+                    "USER": "",
+                    "HOURS_TO_1": controllerWorkCenter.rowSelTabWrkHours["HOURS_TO_1"],
+                    "HOURS_FROM_1": controllerWorkCenter.rowSelTabWrkHours["HOURS_FROM_1"],
+                    "HOURS_TO_2": controllerWorkCenter.rowSelTabWrkHours["HOURS_TO_2"],
+                    "HOURS_FROM_2": controllerWorkCenter.rowSelTabWrkHours["HOURS_FROM_2"],
+                    "HOURS_TO_3": controllerWorkCenter.rowSelTabWrkHours["HOURS_TO_3"],
+                    "HOURS_FROM_3": controllerWorkCenter.rowSelTabWrkHours["HOURS_FROM_3"],
+                    "EDIT": "true",
+                    "VIS": "true",
+                    "DEL": "false"
+                };
             }
+
+            if (!addRowModel) {
+                var newArr = [];
+                newArr.push(row);
+                controllerWorkCenter.wrkModel.setProperty("/tabWrkHours", newArr);
+            } else {
+                if (addRowModel.length === 0) {
+                    var newArr = [];
+                    newArr.push(row);
+                    controllerWorkCenter.wrkModel.setProperty("/tabWrkHours", newArr);
+                } else {
+                    var addArr = controllerWorkCenter.wrkModel.getProperty("/tabWrkHours");
+                    addArr.push(row);
+                    controllerWorkCenter.wrkModel.setProperty("/tabWrkHours", addArr);
+                }
+            }
+			
+			controllerWorkCenter.byId("btnCloseNewHours").setEnabled(true);
+			
+			//Scroll to last table Element
+			controllerWorkCenter.byId("tabWrkHours").setFirstVisibleRow(addRowModel.length); 
+        },
+
+        deleteAllHours: function () {
+			MessageBox.confirm(controller.oBundle.getText("contrWRK.confirmDeleteAllWorkingHours"), {
+					title: controller.oBundle.getText("contrWRK.confirmDeleteAllWorkingHoursTitle"),
+					onClose: function (oAction) {
+						if(oAction === "OK"){
+							var modWrkHours = controllerWorkCenter.wrkModel.getProperty("/tabWrkHours");
+
+							for (var i in modWrkHours) {
+								modWrkHours[i]["DEL"] = "true";
+								modWrkHours[i]["VIS"] = "false";
+							}
+
+							//lineSel.EDIT = "true";
+							//Buttons
+							controllerWorkCenter.byId("btnCloseNewHours").setEnabled(true);
+							controllerWorkCenter.byId("saveNewHours").setEnabled(true);
+							controllerWorkCenter.wrkModel.refresh();
+						}
+					},
+					actions: [ sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+					emphasizedAction: sap.m.MessageBox.Action.CANCEL,
+					initialFocus: sap.m.MessageBox.Action.CANCEL,
+					textDirection: sap.ui.core.TextDirection.Inherit
+			});        
+        },
+
+        deleteHoursPos: function (oEvent) {
+            var lineSel = controllerWorkCenter.wrkModel.getProperty(oEvent.oSource.getBindingContext().sPath);
+            lineSel.DEL = "true";
+            lineSel.VIS = "false";
+            //lineSel.EDIT = "true";
+			//Buttons
+			controllerWorkCenter.byId("btnCloseNewHours").setEnabled(true);
+            controllerWorkCenter.byId("saveNewHours").setEnabled(true);
+            controllerWorkCenter.wrkModel.refresh();
+        },
+
+        onWorkcenterChangeInHours: function (oEvent) {
+            let sValue = oEvent.getParameter("value");
+            if (sValue && sValue.trim() !== "") {
+                controllerWorkCenter.enabledWorkCenterFields("ENABLE_SAVE_HOURS", true);
+            }
+        },
+
+        /* -------------------- Sinottico -------------------- */
+        newPosSyn: function () {
+            controllerWorkCenter.enabledWorkCenterFields("NEW_SYNOPTIC", true);
+            
+            // Logica esistente per aggiungere nuova posizione
+            var propertySynopticPath = "", propertySynopticPathBkc = "", maxWkcNumber = 0, tableId = "", undoBtnId = "", saveBtnId = "";
+            
+            // Determina la sezione attiva per ottenere il path corretto
+            let currentSection = controllerWorkCenter.getCurrentSynopticSection();
+            
+            switch (currentSection) {
+                case "SYNOPTIC":
+                    maxWkcNumber = 40;
+                    propertySynopticPath = "/tabSynoptic";
+                    break;
+                case "SYNOPTICADIGESTR1":
+                    maxWkcNumber = 22;
+                    propertySynopticPath = "/tabSynopticAdigeStr1";
+                    break;
+                    case "SYNOPTICBGS1":
+                        maxWkcNumber = 14;
+                        propertySynopticPath = "/tabSynopticBGS1";
+                        break;
+                        case "SYNOPTICBGS2":
+                            maxWkcNumber = 53;
+                            propertySynopticPath = "/tabSynopticBGS2";
+                            break;
+                    case "SYNOPTICADIGESYS1":
+                        maxWkcNumber = 24;
+                        propertySynopticPath = "/tabSynopticAdigeSys1";
+                        break;
+                    case "SYNOPTICADIGESYS2":
+                        maxWkcNumber = 11;
+                        propertySynopticPath = "/tabSynopticAdigeSys2";
+                        break;
+                    case "SYNOPTICADIGESYS3":
+                        maxWkcNumber = 27;
+                        propertySynopticPath = "/tabSynopticAdigeSys3";
+                        break;
+                    case "SYNOPTICBGUSA":
+                        maxWkcNumber = 20;
+                        propertySynopticPath = "/tabSynopticBgusa";
+                        break;
+                    case "SYNOPTICBLM1":
+                        maxWkcNumber = 244;
+                        propertySynopticPath = "/tabSynopticBlm1";
+                        break;
+                    case "SYNOPTICBLM2":
+                        maxWkcNumber = 48;
+                        propertySynopticPath = "/tabSynopticBlm2";
+                        break;
+                    case "SYNOPTICBLM3":
+                        maxWkcNumber = 56;
+                        propertySynopticPath = "/tabSynopticBlm3";
+                        break;
+                    case "SYNOPTICBLM4":
+                        maxWkcNumber = 12;
+                        propertySynopticPath = "/tabSynopticBlm4";
+                        break;
+                default:
+                    maxWkcNumber = 40;
+                    propertySynopticPath = "/tabSynoptic";
+                    break;
+            }
+            
             var addRowModel = controllerWorkCenter.wrkModel.getProperty(propertySynopticPath);
+            if (!addRowModel) addRowModel = [];
 
             if (addRowModel.length <= maxWkcNumber) {
                 var row = {
@@ -1006,143 +1288,26 @@ sap.ui.define([
             } else {
                 return MessageToast.show(controller.oBundle.getText("contrWRK.maxLimit"));
             }
-			
-			//Buttons
-			controllerWorkCenter.byId(undoBtnId).setEnabled(true);
-			controllerWorkCenter.byId(saveBtnId).setEnabled(true);
-			
-			//Scroll to last table Element
-			controllerWorkCenter.byId(tableId).setFirstVisibleRow(addRowModel.length);
         },
 
-        savePosSyn: function () {
-            var Input = {};
-            var modelProperty = "";
-            var synopticType = "";
-            //Verifico e costruisco il modello per salvare i dati
-            var modInput = [];
-            var obj = {};
-            var maxWkcNumber = 0;
-            switch (controllerWorkCenter.byId("wkcITB").getSelectedKey()) {
-            case "SYNOPTIC":
-                maxWkcNumber = 40;
-                synopticType = 1;
-                modelProperty = "/tabSynoptic";
-                break;
-            case "SYNOPTICBGS1":
-                maxWkcNumber = 14;
-                synopticType = 1;
-                modelProperty = "/tabSynopticBGS1";
-                break;
-            case "SYNOPTICBGS2":
-                maxWkcNumber = 53;
-                synopticType = 2;
-                modelProperty = "/tabSynopticBGS2";
-                break;
-            case "SYNOPTICADIGESYS1":
-                maxWkcNumber = 24;
-                synopticType = 1;
-                modelProperty = "/tabSynopticAdigeSys1";
-                break;
-			//Disabilitato	
-            case "SYNOPTICADIGESYS2":
-                maxWkcNumber = 11;
-                synopticType = 2;
-                modelProperty = "/tabSynopticAdigeSys2";
-                break;
-            case "SYNOPTICADIGESYS3":
-                maxWkcNumber = 27;
-                synopticType = 3;
-                modelProperty = "/tabSynopticAdigeSys3";
-                break;
-            case "SYNOPTICADIGESTR1":
-                maxWkcNumber = 22;
-                synopticType = 2;
-                modelProperty = "/tabSynopticAdigeStr1";
-                break;
-			case "SYNOPTICBGUSA":
-                maxWkcNumber = 20;
-                synopticType = 1;
-                modelProperty = "/tabSynopticBgusa";
-                break;
-			case "SYNOPTICBLM1":
-                maxWkcNumber = 244;
-				synopticType = 1;
-                modelProperty = "/tabSynopticBlm1";
-                break;
-			case "SYNOPTICBLM2":
-                maxWkcNumber = 48;
-				synopticType = 2;
-                modelProperty = "/tabSynopticBlm2";
-                break;
-            case "SYNOPTICBLM3":
-                maxWkcNumber = 56;
-				synopticType = 1;
-                modelProperty = "/tabSynopticBlm3";
-                break;
-			case "SYNOPTICBLM4":
-                maxWkcNumber = 12;
-				synopticType = 2;
-                modelProperty = "/tabSynopticBlm4";
-                break;
-            default:
-                maxWkcNumber = 40;
-                synopticType = 1;
-                modelProperty = "/tabSynoptic";
-                break;
-            }
-            var model = controllerWorkCenter.wrkModel.getProperty(modelProperty);
-            for (var i = 0; i < model.length; i++) {
-                if (model[i].WORKCENTER === "" && model[i].WORKCENTER_ID === "") {
-                    return MessageBox.warning(controller.oBundle.getText("contrWRK.errMissWkc"), {
-                        onClose: function () {}
-                    });
-                }
-
-                if (model[i].POSITION === "" && model[i].DEL === "false") {
-                    return MessageBox.warning(controller.oBundle.getText("contrWRK.errMissPosition"), {
-                        onClose: function () {}
-                    });
-                }
-
-                if (model[i].POSITION.replace(".", ",") < 1 || model[i].POSITION > maxWkcNumber) {
-                    return MessageBox.warning(controller.oBundle.getText("contrWRK.errPosInterval"), {
-                        onClose: function () {}
-                    });
-                }
-
-                if (model[i].POSITION.replace(".", ",") % 1 != 0) {
-                    return MessageBox.warning(controller.oBundle.getText("contrWRK.errPosInt"), {
-                        onClose: function () {}
-                    });
-                }
-
-                if (model[i].EDIT === "true" || model[i].DEL === "true") {
-                    obj.WORKCENTER_ID = model[i].WORKCENTER_ID;
-                    obj.POSITION = model[i].POSITION;
-                    obj.DEL = model[i].DEL;
-                    modInput.push(obj);
-                    obj = new Object;
-                }
-            }
-
-            if (modInput.length === 0)
-                return
-
-                Input = {
-                    "DATA": JSON.stringify(modInput),
-                    "SYNOPTIC_TYPE": synopticType
-                };
-
-            var result = controllerSite.sendData("SAVE_SYNOPTIC_ASSIGNMENT", "WORKCENTER/TRANSACTION", Input);
-            if (result[0].RC != "0") {
-                MessageBox.warning(controller.oBundle.getText("contrWRK.insertKO") + " " + result[0].MESSAGE, {
-                    onClose: function () {}
-                });
-            } else {
-                MessageToast.show(controller.oBundle.getText("contrWRK.insertOK"));
-            }
-            controllerWorkCenter.getSynopticList();
+        /* Funzione helper per determinare la sezione sinottico attiva */
+        getCurrentSynopticSection: function () {
+            let viewWrkSynopticElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkSynopticElements");
+            
+            if (viewWrkSynopticElements.visAdigeSynopticPageFooterBtn) return "SYNOPTIC";
+            if (viewWrkSynopticElements.visAdigeStr1SynopticPageFooterBtn) return "SYNOPTICADIGESTR1";
+            if (viewWrkSynopticElements.visBgs1SynopticPageFooterBtn) return "SYNOPTICBGS1";
+            if (viewWrkSynopticElements.visBgs2SynopticPageFooterBtn) return "SYNOPTICBGS2";
+            if (viewWrkSynopticElements.visAdigeSys1SysSynopticPageFooterBtn) return "SYNOPTICADIGESYS1";
+            if (viewWrkSynopticElements.visAdigeSys2SysSynopticPageFooterBtn) return "SYNOPTICADIGESYS2";
+            if (viewWrkSynopticElements.visAdigeSys3SysSynopticPageFooterBtn) return "SYNOPTICADIGESYS3";
+            if (viewWrkSynopticElements.visBgusaSynopticPageFooterBtn) return "SYNOPTICBGUSA";
+            if (viewWrkSynopticElements.visBlm1SynopticPageFooterBtn) return "SYNOPTICBLM1";
+            if (viewWrkSynopticElements.visBlm2SynopticPageFooterBtn) return "SYNOPTICBLM2";
+            if (viewWrkSynopticElements.visBlm3SynopticPageFooterBtn) return "SYNOPTICBLM3";
+            if (viewWrkSynopticElements.visBlm4SynopticPageFooterBtn) return "SYNOPTICBLM4";
+            
+            return "SYNOPTIC"; // default
         },
 
         /*General Function*/

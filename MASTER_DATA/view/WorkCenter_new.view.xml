@@ -184,7 +184,7 @@
 		<!-- Sinottico SYNOPTICADIGESTR1 -->
 		<u:ObjectPageSection id="SYNOPTICADIGESTR1" title="{i18n&gt;viewWRK.wrkSynopticAdigeStr1}" visible="{= ${/currentSite} === 'ADIGE'}">	
 			<u:ObjectPageSubSection>
-				<table:Table id="tabWrkSynAdigeStr1" rows="{path: '/tabSynoptic'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+				<table:Table id="tabWrkSynAdigeStr1" rows="{path: '/tabSynopticAdigeStr1'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
 					</table:rowSettingsTemplate>
@@ -222,7 +222,7 @@
 		<!-- Sinottico SYNOPTICBGS1 -->
 		<u:ObjectPageSection id="SYNOPTICBGS1" title="{i18n&gt;viewWRK.wrkSynopticBGS1}" visible="{= ${/currentSite} === 'BGS'}">
 			<u:ObjectPageSubSection>
-				<table:Table id="tabWrkSynBgs1" rows="{path: '/tabSynoptic'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+				<table:Table id="tabWrkSynBGS1" rows="{path: '/tabSynopticBGS1'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
 					</table:rowSettingsTemplate>
@@ -259,7 +259,7 @@
 		<!-- Sinottico SYNOPTICBGS2 -->
 		<u:ObjectPageSection id="SYNOPTICBGS2" title="{i18n&gt;viewWRK.wrkSynopticBGS2}" visible="{= ${/currentSite} === 'BGS'}">
 			<u:ObjectPageSubSection>
-				<table:Table id="tabWrkSynBgs2" rows="{path: '/tabSynoptic'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+				<table:Table id="tabWrkSynBGS2" rows="{path: '/tabSynopticBGS2'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
 					</table:rowSettingsTemplate>
@@ -297,7 +297,7 @@
 		<!-- Sinottico SYNOPTICADIGESYS1 -->
 		<u:ObjectPageSection id="SYNOPTICADIGESYS1" title="{i18n&gt;viewWRK.wrkSynopticAdigeSys1}" visible="{= ${/currentSite} === 'ADIGE-SYS'}">
 			<u:ObjectPageSubSection>
-				<table:Table id="tabWrkSynAdigeSys1" rows="{path: '/tabSynoptic'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+				<table:Table id="tabWrkSynAdigeSys1" rows="{path: '/tabSynopticAdigeSys1'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
 					</table:rowSettingsTemplate>
@@ -334,7 +334,7 @@
 		<!-- Sinottico SYNOPTICADIGESYS2 -->
 		<u:ObjectPageSection id="SYNOPTICADIGESYS2" title="{i18n&gt;viewWRK.wrkSynopticAdigeSys2}" visible="{= ${/currentSite} === 'ADIGE-SYS'}">
 			<u:ObjectPageSubSection>
-				<table:Table id="tabWrkSynAdigeSys2" rows="{path: '/tabSynoptic'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+				<table:Table id="tabWrkSynAdigeSys2" rows="{path: '/tabSynopticAdigeSys2'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
 					</table:rowSettingsTemplate>
@@ -371,7 +371,7 @@
 		<!-- Sinottico SYNOPTICADIGESYS3 -->
 		<u:ObjectPageSection id="SYNOPTICADIGESYS3" title="{i18n&gt;viewWRK.wrkSynopticAdigeSys3}" visible="{= ${/currentSite} === 'ADIGE-SYS'}">
 			<u:ObjectPageSubSection>
-				<table:Table id="tabWrkSynAdigeSys3" rows="{path: '/tabSynoptic'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+				<table:Table id="tabWrkSynAdigeSys3" rows="{path: '/tabSynopticAdigeSys3'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
 					</table:rowSettingsTemplate>
@@ -409,7 +409,7 @@
 		<!-- Sinottico SYNOPTICBGUSA -->
 		<u:ObjectPageSection id="SYNOPTICBGUSA" title="{i18n&gt;viewWRK.wrkSynopticBgusa}" visible="{= ${/currentSite} === 'BGUSA'}">
 			<u:ObjectPageSubSection>
-				<table:Table id="tabWrkSynBgusa" rows="{path: '/tabSynoptic'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+				<table:Table id="tabWrkBgusa" rows="{path: '/tabSynopticBgusa'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
 					</table:rowSettingsTemplate>
@@ -447,7 +447,7 @@
 		<!-- Sinottico SYNOPTICBLM1 -->
 		<u:ObjectPageSection id="SYNOPTICBLM1" title="{i18n&gt;viewWRK.wrkSynopticBlm1}" visible="{= ${/currentSite} === 'BLM'}">
 			<u:ObjectPageSubSection>
-				<table:Table id="tabWrkSynBlm1" rows="{path: '/tabSynoptic'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+				<table:Table id="tabWrkSynBlm1" rows="{path: '/tabSynopticBlm1'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
 					</table:rowSettingsTemplate>
@@ -484,7 +484,7 @@
 		<!-- Sinottico SYNOPTICBLM2 -->
 		<u:ObjectPageSection id="SYNOPTICBLM2" title="{i18n&gt;viewWRK.wrkSynopticBlm2}" visible="{= ${/currentSite} === 'BLM'}">
 			<u:ObjectPageSubSection>
-				<table:Table id="tabWrkSynBlm2" rows="{path: '/tabSynoptic'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+				<table:Table id="tabWrkSynBlm2" rows="{path: '/tabSynopticBlm2'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
 					</table:rowSettingsTemplate>
@@ -521,7 +521,7 @@
 		<!-- Sinottico SYNOPTICBLM3 -->
 		<u:ObjectPageSection id="SYNOPTICBLM3" title="{i18n&gt;viewWRK.wrkSynopticBlm3}" visible="{= ${/currentSite} === 'BLM'}">
 			<u:ObjectPageSubSection>
-				<table:Table id="tabWrkSynBlm3" rows="{path: '/tabSynoptic'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+				<table:Table id="tabWrkSynBlm3" rows="{path: '/tabSynopticBlm3'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
 					</table:rowSettingsTemplate>
@@ -558,7 +558,7 @@
 		<!-- Sinottico SYNOPTICBLM4 -->
 		<u:ObjectPageSection id="SYNOPTICBLM4" title="{i18n&gt;viewWRK.wrkSynopticBlm4}" visible="{= ${/currentSite} === 'BLM'}">
 			<u:ObjectPageSubSection>
-				<table:Table id="tabWrkSynBlm4" rows="{path: '/tabSynoptic'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
+				<table:Table id="tabWrkSynBlm4" rows="{path: '/tabSynopticBlm4'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
 					</table:rowSettingsTemplate>
@@ -596,17 +596,17 @@
 			<Toolbar style="Clear" design="Transparent">
 				<!-- footer ObjectPageSection id="WKC"-->
 				<Label text="{i18n&gt;viewWRK.label.search}:" visible="{/viewWrkElements/visWrkPageFooterBtn}" />
-				<Input value="{/wrkDetails/WORKCENTER}" width="300px" placeholder="{i18n&gt;viewWRK.list.place}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onOpenSearchWrkValueHelp" enabled="{= !${/viewWrkElements/editMode}}" visible="{/viewWrkElements/visWrkPageFooterBtn}"/>
-				<Button icon="sap-icon://excel-attachment" tooltip="{i18n&gt;viewWRK.download}" press="downloadModel" visible="{/viewWrkElements/visWrkPageFooterBtn}" />						
-				<Button text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="newSlot(false)" icon="sap-icon://reset" enabled="{/viewWrkElements/editMode}" visible="{/viewWrkElements/visWrkPageFooterBtn}" />
-				<Button text="{i18n&gt;viewWRK.newWrk}" tooltip="{i18n&gt;viewWRK.newWrk}" press="newSlot(true)" icon="sap-icon://add" visible="{/viewWrkElements/visWrkPageFooterBtn}" class="sapUiTinyMarginEnd"/>
+				<Input value="{/wrkDetails/WORKCENTER}" width="300px" placeholder="{i18n&gt;viewWRK.list.place}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onOpenSearchWrkValueHelp" enabled="{/viewWrkElements/enabledSearchInput}" visible="{/viewWrkElements/visWrkPageFooterBtn}"/>
+				<Button icon="sap-icon://excel-attachment" tooltip="{i18n&gt;viewWRK.download}" press="downloadModel" visible="{/viewWrkElements/visWrkPageFooterBtn}" enabled="{/viewWrkElements/enabledExcelDownloadBtn}" />						
+				<Button text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="newSlot" icon="sap-icon://reset" enabled="{/viewWrkElements/enabledResetBtn}" visible="{/viewWrkElements/visWrkPageFooterBtn}" />
+				<Button text="{i18n&gt;viewWRK.newWrk}" tooltip="{i18n&gt;viewWRK.newWrk}" press="newSlot" icon="sap-icon://add" visible="{/viewWrkElements/visWrkPageFooterBtn}" enabled="{/viewWrkElements/enabledNewWrkBtn}" class="sapUiTinyMarginEnd"/>
 				
 				<!-- footer ObjectPageSection id="WKC_TYPE"-->
-				<Button id="btnNewWrkType" text="{i18n&gt;viewWRK.newType}" tooltip="{i18n&gt;viewWRK.newType}" press="newType" icon="sap-icon://add" visible="{/viewWrkTypeElements/visWrkTypePageFooterBtn}" />
+				<Button id="btnNewWrkType" text="{i18n&gt;viewWRK.newType}" tooltip="{i18n&gt;viewWRK.newType}" press="newType" icon="sap-icon://add" visible="{/viewWrkTypeElements/visWrkTypePageFooterBtn}" enabled="{/viewWrkTypeElements/enabledNewWrkTypeBtn}" />
 				
 				<!-- footer ObjectPageSection id="WKC_HOURS"-->
-				<Button text="{i18n&gt;viewWRK.newHours}" tooltip="{i18n&gt;viewWRK.newHours}" press="newHours" icon="sap-icon://add" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" />
-				<Button id="deleteAllHours" text="{i18n&gt;viewWRK.deleteAll}" tooltip="{i18n&gt;viewWRK.deleteAll}" press="deleteAllHours" icon="sap-icon://delete" type="Reject" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" />
+				<Button text="{i18n&gt;viewWRK.newHours}" tooltip="{i18n&gt;viewWRK.newHours}" press="newHours" icon="sap-icon://add" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" enabled="{/viewWrkHoursElements/enabledNewHoursBtn}" />
+				<Button id="deleteAllHours" text="{i18n&gt;viewWRK.deleteAll}" tooltip="{i18n&gt;viewWRK.deleteAll}" press="deleteAllHours" icon="sap-icon://delete" type="Reject" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" enabled="{/viewWrkHoursElements/enabledDeleteAllHoursBtn}" />
 				
 				<!-- ____________ Site ADIGE ____________ -->
 				<!-- footer ObjectPageSection id="SYNOPTIC"-->
@@ -614,14 +614,14 @@
 					<core:ListItem key="{key}" text="{text}" tooltip="{tooltip}" />
 				</Select>
 				<Label id="rowSynopticSel" visible="false" />
-				<Button id="btnNewAdige" text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visAdigeSynopticPageFooterBtn}" />
+				<Button id="btnNewAdige" text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visAdigeSynopticPageFooterBtn}" enabled="{/viewWrkSynopticElements/enabledNewPosSynBtn}" />
 				
 				<!-- footer ObjectPageSection id="SYNOPTICADIGESTR1" -->
 				<Select id="filterAdigeStr1SynopticPage" visible="{/viewWrkSynopticElements/visAdigeStr1SynopticPageFooterBtn}" change="getSynopticPages" items="{/filterSynopticPage}" showSecondaryValues="true" width="20%" class="sapUiTinyMarginEnd">
 					<core:ListItem key="{key}" text="{text}" tooltip="{tooltip}" />
 				</Select>
 				<Label id="rowSynopticAdigeStr1Sel" visible="false" />
-				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visAdigeStr1SynopticPageFooterBtn}" />
+				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visAdigeStr1SynopticPageFooterBtn}" enabled="{/viewWrkSynopticElements/enabledNewPosSynBtn}" />
 				
 				<!-- ____________ Site BGS ____________ -->
 				<!-- footer ObjectPageSection id="SYNOPTICBGS1"-->
@@ -629,14 +629,14 @@
 					<core:ListItem key="{key}" text="{text}" tooltip="{tooltip}" />
 				</Select>
 				<Label id="rowSynopticBGS1Sel" visible="false" />
-				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visBgs1SynopticPageFooterBtn}" />
+				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visBgs1SynopticPageFooterBtn}" enabled="{/viewWrkSynopticElements/enabledNewPosSynBtn}" />
 				
 				<!-- footer ObjectPageSection id="SYNOPTICBGS2" -->	
 				<Select id="filterBgs2SynopticPage" visible="{/viewWrkSynopticElements/visBgs2SynopticPageFooterBtn}" change="getSynopticPages" items="{/filterSynopticPage}" showSecondaryValues="true" width="20%" class="sapUiTinyMarginEnd">
 					<core:ListItem key="{key}" text="{text}" tooltip="{tooltip}" />
 				</Select>
 				<Label id="rowSynopticBGS2Sel" visible="false" />
-				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visBgs2SynopticPageFooterBtn}" />
+				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visBgs2SynopticPageFooterBtn}" enabled="{/viewWrkSynopticElements/enabledNewPosSynBtn}" />
 				
 				<!-- ____________ Site ADIGE-SYS ____________ -->
 				<!-- footer ObjectPageSection id="SYNOPTICADIGESYS1" -->
@@ -644,21 +644,21 @@
 					<core:ListItem key="{key}" text="{text}" tooltip="{tooltip}" />
 				</Select>	
 				<Label id="rowSynopticAdigeSys1Sel" visible="false" />
-				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visAdigeSys1SysSynopticPageFooterBtn}" />
+				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visAdigeSys1SysSynopticPageFooterBtn}" enabled="{/viewWrkSynopticElements/enabledNewPosSynBtn}" />
 				
 				<!-- footer ObjectPageSection id="SYNOPTICADIGESYS2" -->
 				<Select id="filterAdigeSys2SynopticPage" visible="{/viewWrkSynopticElements/visAdigeSys2SysSynopticPageFooterBtn}" change="getSynopticPages" items="{/filterSynopticPage}" showSecondaryValues="true" width="20%" class="sapUiTinyMarginEnd">
 					<core:ListItem key="{key}" text="{text}" tooltip="{tooltip}" />
 				</Select>
 				<Label id="rowSynopticAdigeSys2Sel" visible="false" />
-				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visAdigeSys2SysSynopticPageFooterBtn}" />
+				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visAdigeSys2SysSynopticPageFooterBtn}" enabled="{/viewWrkSynopticElements/enabledNewPosSynBtn}" />
 				
 				<!-- footer ObjectPageSection id="SYNOPTICADIGESYS3" -->
 				<Select id="filterAdigeSys3SynopticPage" visible="{/viewWrkSynopticElements/visAdigeSys3SysSynopticPageFooterBtn}" change="getSynopticPages" items="{/filterSynopticPage}" showSecondaryValues="true" width="20%" class="sapUiTinyMarginEnd">
 					<core:ListItem key="{key}" text="{text}" tooltip="{tooltip}" />
 				</Select>
 				<Label id="rowSynopticAdigeSys3Sel" visible="false" />
-				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visAdigeSys3SysSynopticPageFooterBtn}" />
+				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visAdigeSys3SysSynopticPageFooterBtn}" enabled="{/viewWrkSynopticElements/enabledNewPosSynBtn}" />
 				
 				<!-- ____________ Site BGUSA ____________ -->
 				<!-- footer ObjectPageSection id="SYNOPTICBGUSA" -->
@@ -666,7 +666,7 @@
 					<core:ListItem key="{key}" text="{text}" tooltip="{tooltip}" />
 				</Select>
 				<Label id="rowSynopticBgusaSel" visible="false" />
-				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visBgusaSynopticPageFooterBtn}" />
+				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visBgusaSynopticPageFooterBtn}" enabled="{/viewWrkSynopticElements/enabledNewPosSynBtn}" />
 				
 				<!-- ____________ Site BLM ____________ -->
 				<!-- footer ObjectPageSection id="SYNOPTICBLM1" -->	
@@ -674,34 +674,34 @@
 					<core:ListItem key="{key}" text="{text}" tooltip="{tooltip}" />
 				</Select>
 				<Label id="rowSynopticBlm1Sel" visible="false" />
-				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visBlm1SynopticPageFooterBtn}" />
+				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visBlm1SynopticPageFooterBtn}" enabled="{/viewWrkSynopticElements/enabledNewPosSynBtn}" />
 				
 				<!-- footer ObjectPageSection id="SYNOPTICBLM2" -->	
 				<Select id="filterBlm2SynopticPage" visible="{/viewWrkSynopticElements/visBlm2SynopticPageFooterBtn}" change="getSynopticPages" items="{/filterSynopticPage}" showSecondaryValues="true" width="20%" class="sapUiTinyMarginEnd">
 					<core:ListItem key="{key}" text="{text}" tooltip="{tooltip}" />
 				</Select>
 				<Label id="rowSynopticBlm2Sel" visible="false" />
-				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visBlm2SynopticPageFooterBtn}" />
+				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visBlm2SynopticPageFooterBtn}" enabled="{/viewWrkSynopticElements/enabledNewPosSynBtn}" />
 				
 				<!-- footer ObjectPageSection id="SYNOPTICBLM3" -->	
 				<Select id="filterBlm3SynopticPage" visible="{/viewWrkSynopticElements/visBlm3SynopticPageFooterBtn}" change="getSynopticPages" items="{/filterSynopticPage}" showSecondaryValues="true" width="20%" class="sapUiTinyMarginEnd">
 					<core:ListItem key="{key}" text="{text}" tooltip="{tooltip}" />
 				</Select>
 				<Label id="rowSynopticBlm3Sel" visible="false" />
-				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visBlm3SynopticPageFooterBtn}" />
+				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visBlm3SynopticPageFooterBtn}" enabled="{/viewWrkSynopticElements/enabledNewPosSynBtn}" />
 				
 				<!-- footer ObjectPageSection id="SYNOPTICBLM4" -->
 				<Select id="filterBlm4SynopticPage" visible="{/viewWrkSynopticElements/visBlm4SynopticPageFooterBtn}" change="getSynopticPages" items="{/filterSynopticPage}" showSecondaryValues="true" width="20%" class="sapUiTinyMarginEnd">
 					<core:ListItem key="{key}" text="{text}" tooltip="{tooltip}" />
 				</Select>
 				<Label id="rowSynopticBlm4Sel" visible="false" />
-				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visBlm4SynopticPageFooterBtn}" />
+				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visBlm4SynopticPageFooterBtn}" enabled="{/viewWrkSynopticElements/enabledNewPosSynBtn}" />
 
 				<ToolbarSpacer />
 				
 				<!-- footer ObjectPageSection id="WKC"-->
-				<Button text="{i18n&gt;viewWRK.delete}" tooltip="{i18n&gt;viewWRK.delete}" press="deletePiazzola" icon="sap-icon://delete" type="Reject" visible="{= ${/viewWrkElements/visWrkPageFooterBtn} &amp;&amp; ${/wrkDetails/IS_USED} &amp;&amp; ${/wrkDetails/WORKCENTER_ID} !== '0'}" />
-				<Button text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveUpdateNew" icon="sap-icon://save" type="Accept" enabled="{/viewWrkElements/editMode}" visible="{/viewWrkElements/visWrkPageFooterBtn}"  />				
+				<Button text="{i18n&gt;viewWRK.delete}" tooltip="{i18n&gt;viewWRK.delete}" press="deletePiazzola" icon="sap-icon://delete" type="Reject" visible="{/viewWrkElements/visWrkPageFooterBtn}" enabled="{/viewWrkElements/enabledDeleteBtn}" />
+				<Button text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveUpdateNew" icon="sap-icon://save" type="Accept" enabled="{/viewWrkElements/enabledSaveBtn}" visible="{/viewWrkElements/visWrkPageFooterBtn}"  />				
 				
 				<!-- footer ObjectPageSection id="WKC_TYPE"-->
 				<Button id="btnCloseWrkType" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="undoWrkType" icon="sap-icon://undo" type="Reject" visible="{/viewWrkTypeElements/visWrkTypePageFooterBtn}" />
