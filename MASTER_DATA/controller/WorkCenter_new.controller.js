@@ -11,6 +11,7 @@ sap.ui.define([
 
     return Controller.extend("master_data.controller.WorkCenter", {
         wrkModel: new sap.ui.model.json.JSONModel({
+            "currentSite": controller.site,
             "wrkDetails": {
                 "PARENTWORKCENTER": "",
                 "PARENTWORKCENTER_ID": "",
@@ -69,10 +70,97 @@ sap.ui.define([
 
         onInit: function () {
             controllerWorkCenter = this;
+            controllerWorkCenter.getView().setModel(controllerWorkCenter.wrkModel);
             controllerWorkCenter.wrkModel.setSizeLimit(10000);
         },
 
-        onAfterRendering: function () {},
+        /* Gestisce il cambio di tab nell'ObjectPageLayout */
+        pressWkcTabBar: function (oEvent) {
+            // sezione di default
+            let sPage = "WKC";
+            
+            if (oEvent && oEvent.getParameter) {
+                sPage = oEvent.getParameter("section").sId.split("--")[1];
+            }
+            
+            let viewWrkElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkElements");
+            let viewWrkTypeElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkTypeElements");
+            let viewWrkHoursElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkHoursElements");
+            let viewWrkSynopticElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkSynopticElements");
+            
+            // Reset di tutti i footer
+            viewWrkElements.visWrkPageFooterBtn = false;
+            viewWrkTypeElements.visWrkTypePageFooterBtn = false;
+            viewWrkHoursElements.visWrkHoursPageFooterBtn = false;
+            
+            // Reset di tutti i footer synoptic
+            Object.keys(viewWrkSynopticElements).forEach(key => {
+                if (key.includes("FooterBtn")) {
+                    viewWrkSynopticElements[key] = false;
+                }
+            });
+        
+            // Imposta il footer corretto in base alla sezione attiva
+            switch (sPage) {
+                case "WKC":
+                    viewWrkElements.visWrkPageFooterBtn = true;
+                    break;
+                case "WKC_TYPE":
+                    viewWrkTypeElements.visWrkTypePageFooterBtn = true;
+                    break;
+                case "WKC_HOURS":
+                    viewWrkHoursElements.visWrkHoursPageFooterBtn = true;
+                    break;
+                case "SYNOPTIC":
+                    viewWrkSynopticElements.visAdigeSynopticPageFooterBtn = true;
+                    break;
+                case "SYNOPTICADIGESTR1":
+                    viewWrkSynopticElements.visAdigeStr1SynopticPageFooterBtn = true;
+                    break;
+                case "SYNOPTICBGS1":
+                    viewWrkSynopticElements.visBgs1SynopticPageFooterBtn = true;
+                    break;
+                case "SYNOPTICBGS2":
+                    viewWrkSynopticElements.visBgs2SynopticPageFooterBtn = true;
+                    break;
+                case "SYNOPTICADIGESYS1":
+                    viewWrkSynopticElements.visAdigeSys1SysSynopticPageFooterBtn = true;
+                    break;
+                case "SYNOPTICADIGESYS2":
+                    viewWrkSynopticElements.visAdigeSys2SysSynopticPageFooterBtn = true;
+                    break;
+                case "SYNOPTICADIGESYS3":
+                    viewWrkSynopticElements.visAdigeSys3SysSynopticPageFooterBtn = true;
+                    break;
+                case "SYNOPTICBGUSA":
+                    viewWrkSynopticElements.visBgusaSynopticPageFooterBtn = true;
+                    break;
+                case "SYNOPTICBLM1":
+                    viewWrkSynopticElements.visBlm1SynopticPageFooterBtn = true;
+                    break;
+                case "SYNOPTICBLM2":
+                    viewWrkSynopticElements.visBlm2SynopticPageFooterBtn = true;
+                    break;
+                case "SYNOPTICBLM3":
+                    viewWrkSynopticElements.visBlm3SynopticPageFooterBtn = true;
+                    break;
+                case "SYNOPTICBLM4":
+                    viewWrkSynopticElements.visBlm4SynopticPageFooterBtn = true;
+                    break;
+                default:
+                    // Default: mostra solo WKC
+                    viewWrkElements.visWrkPageFooterBtn = true;
+                    break;
+            }
+                
+            // Aggiorna i modelli
+            controllerWorkCenter.wrkModel.setProperty("/viewWrkElements", viewWrkElements);
+            controllerWorkCenter.wrkModel.setProperty("/viewWrkTypeElements", viewWrkTypeElements);
+            controllerWorkCenter.wrkModel.setProperty("/viewWrkHoursElements", viewWrkHoursElements);
+            controllerWorkCenter.wrkModel.setProperty("/viewWrkSynopticElements", viewWrkSynopticElements);
+            
+            // console.log("Footer visibility updated for section: " + sPage);
+        },    
 
         /* Definizione Piazzola */
 
@@ -1062,7 +1150,6 @@ sap.ui.define([
 			try{
 				controllerWorkCenter._oValueHelpDialog.close();
 				controllerWorkCenter._oValueHelpDialog.destroy();
-				controllerWorkCenter._oValueHelpDialog = undefined;
 			}catch(err){}
 
 		},
