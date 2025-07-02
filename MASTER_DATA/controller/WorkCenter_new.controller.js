@@ -5,8 +5,10 @@ sap.ui.define([
         "sap/m/MessageBox",
         'sap/ui/core/Fragment',
         'sap/ui/model/Filter',
-        'sap/ui/model/FilterOperator'
-    ], function (Controller, MessageToast, MessageBox, Fragment, Filter, FilterOperator) {
+        'sap/ui/model/FilterOperator',
+        'sap/ui/export/Spreadsheet',
+        'sap/ui/export/library'
+    ], function (Controller, MessageToast, MessageBox, Fragment, Filter, FilterOperator, Spreadsheet, exportLibrary) {
     "use strict";
 
     return Controller.extend("master_data.controller.WorkCenter", {
@@ -809,71 +811,105 @@ sap.ui.define([
 
         /* -------------------- Download - libreria standard -------------------- */
         downloadModel: function () { 
-            			 try{	
-				let aCols = controllerWorkCenter.createColumnExportWrk(),
-					oSettings = {
-							workbook: {
-								columns: aCols,
-								context: {
-									sheetName: controllerWorkCenter.wrkModel.getProperty("/wrkDetails/WORKCENTER")
-								}
-							},
-							dataSource: [controllerWorkCenter.wrkModel.getProperty("/wrkDetails")],
-							fileName:  controller.oBundle.getText("viewPhase.download")
-						},      
-					oSheet = new Spreadsheet(oSettings);
-					
-                oSheet.build().then(function () {}).finally(function () {
-                    oSheet.destroy();
-                });
-            } catch (err) {}
+            try{
+                // Prima carica i dati per l'export
+                let oInput = {
+                    "LANGUAGE": controller.language,
+                    "SITE": controller.site
+                };
+                let result = controller.sendData("GET_WRK_LIST_EXPORT", "WORKCENTER/TRANSACTION/TRANSDWN", oInput);
+                
+                // console.log("Export result:", result); // Debug
+                
+                // Controlla diversi possibili formati di risposta
+                let exportData = null;
+                if (result && result["Rows"]) {
+                    exportData = result["Rows"];
+                } else if (result && Array.isArray(result)) {
+                    exportData = result;
+                } else if (result) {
+                    exportData = [result];
+                }
+                
+                if (!exportData || exportData.length === 0) {
+                    MessageBox.warning(controller.oBundle.getText("viewWRK.noDataToExport"));
+                    return;
+                }
+                              
+                let aCols = controllerWorkCenter.createColumnExportWrk();
+                
+                // Crea il nome file con data
+                let dateExport = new Date();
+                let mm = String(dateExport.getMonth() + 1).padStart(2, '0');
+                let dd = String(dateExport.getDate()).padStart(2, '0');
+                let dateExportStr = dateExport.getFullYear() + mm + dd;
+                let fileName = controller.oBundle.getText("exportttle") + "_" + 
+                               controller.oBundle.getText("viewWRK.wrkmain") + 
+                               "_" + dateExportStr;
+                
+                let oSettings = {
+                    workbook: {
+                        columns: aCols,
+                        context: {
+                            sheetName: controller.oBundle.getText("viewWRK.wrkmain")
+                        }
+                    },
+                    dataSource: exportData,
+                    fileName: fileName
+                };
+                
+                let oSheet = new Spreadsheet(oSettings);
+                                 oSheet.build().then(function () {
+                     MessageToast.show(controller.oBundle.getText("viewWRK.exportSuccess"));
+                 }).finally(function () {
+                     oSheet.destroy();
+                 });
+             } catch (err) {
+                 console.error("Error in downloadModel:", err);
+                 MessageBox.error(controller.oBundle.getText("controllerUpdate.err"));
+             }
         },
 
         createColumnExportWrk: function () {
-            return [{
+            let columns = [{
                     // PIAZZOLA
                     label: controller.oBundle.getText("viewWRK.dwnl.workArea"),
-                    property: 'WORKCENTER',
-                    type: exportLibrary.EdmType.Number,
-					width: '7',
-					textAlign: 'begin'
+                    property: 'PIAZZOLA',
+                    type: exportLibrary.EdmType.String,
+					width: 15
                 },{
-                    // PIAZZOLA_DECR
+                    // PIAZZOLA_DESCR
                     label: controller.oBundle.getText("viewWRK.dwnl.workAreaDescr"),   
-					property: 'WORKCENTER_DESC',
+					property: 'PIAZZOLA_DESCR',
 					type: exportLibrary.EdmType.String,
-					width: '10',
-					textAlign: 'begin'
+					width: 30
                 }, {
                     // TIPO - TIPO_DESCR
-                    label: controller.oBundle.getText("viewWRK.dwnl.workAreaType"),
-                    property: '{WORKCENTERTYPE} - {WORKCENTERTYPE_DESC}',
+                    label: controller.oBundle.getText("viewWRK.dwnl.workAreaType") + " - " + controller.oBundle.getText("viewWRK.dwnl.workAreaDescr"),
+                    property: ['TIPO', 'TIPO_DESCR'],
+                    template: '{0} - {1}',
                     type: exportLibrary.EdmType.String,
-					wrap: true,
-					width: '60',
-					textAlign: 'begin'
+					width: 30
                 }, {
                     // GRUPPO_PIAZZOLA
                     label: controller.oBundle.getText("viewWRK.dwnl.workAreaGroup"),
-                    property: '{WORKCENTER} - {WORKCENTER_DESC}',
+                    property: 'GRUPPO_PIAZZOLA',
                     type: exportLibrary.EdmType.String,
-					width: '7',
-					textAlign: 'Center'
-                }, {
-                    // STATO
-                    label: controller.oBundle.getText("viewWRK.dwnl.workAreaStatus"),
-                    property: '{STATUS_ID} - {STATUS_DESC}',
-                    type: exportLibrary.EdmType.String,
-					width: '7',
-					textAlign: 'Center'
-                }, {
+					width: 15
+                }];
+                
+            // Aggiungi colonna Authoma solo per sito ADIGE
+            if (controller.site === "ADIGE") {
+                columns.push({
                     // PARTIZIONE_AUTHOMA
                     label: controller.oBundle.getText("viewWRK.dwnl.workAreaAuthoma"),
-                    property: 'WORKCENTER_AUTHOMA',
+                    property: 'PIAZZOLA_AUTHOMA',
                     type: exportLibrary.EdmType.String,
-					width: '7',
-					textAlign: 'Center'
-                }]
+                    width: 15
+                });
+            }
+            
+            return columns;
 		},
 
         getWrksuccessExport: function (data, response) {
