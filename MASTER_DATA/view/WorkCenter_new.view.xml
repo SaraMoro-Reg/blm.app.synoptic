@@ -714,8 +714,8 @@
 				<Button id="btnSaveWrkType" enabled="false" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveNewType" icon="sap-icon://save" type="Accept" visible="{/viewWrkTypeElements/visWrkTypePageFooterBtn}" />
 				
 				<!-- footer ObjectPageSection id="WKC_HOURS"-->
-				<Button id="btnCloseNewHours" enabled="false" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getHoursList" icon="sap-icon://undo" type="Reject" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" />	
-				<Button id="saveNewHours" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" enabled="false" press="saveNewHours" icon="sap-icon://save" type="Accept" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" />		
+				<Button id="btnCloseNewHours" enabled="{/viewWrkHoursElements/enabledUndoHoursBtn}" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getHoursList" icon="sap-icon://undo" type="Reject" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" />	
+				<Button id="saveNewHours" text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" enabled="{/viewWrkHoursElements/enabledSaveHoursBtn}" press="saveNewHours" icon="sap-icon://save" type="Accept" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" />		
 				
 				<!-- ____________ Site ADIGE ____________ -->
 				<!-- footer ObjectPageSection id="SYNOPTIC"-->

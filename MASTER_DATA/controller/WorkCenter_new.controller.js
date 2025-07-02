@@ -340,7 +340,7 @@ sap.ui.define([
                     oWrkHoursElements.enabledNewHoursBtn = true;
                     oWrkHoursElements.enabledDeleteAllHoursBtn = true;
                     oWrkHoursElements.enabledUndoHoursBtn = true;
-                    oWrkHoursElements.enabledSaveHoursBtn = false;
+                    oWrkHoursElements.enabledSaveHoursBtn = true;
                     oWrkHoursElements.editMode = true;
                     break;
                     
@@ -527,6 +527,13 @@ sap.ui.define([
             //Remove Filter Value
             oEvent.getSource().getBinding("items").filter([]);
             controllerWorkCenter.closeDialog();
+        },
+
+        handleSearch: function (oEvent) {
+            var sValue = oEvent.getParameter("value");
+            var oFilter = new Filter("WORKCENTER", FilterOperator.Contains, sValue);
+            var oBinding = oEvent.getSource().getBinding("items");
+            oBinding.filter([oFilter]);
         },
 
         getWrkHeaderDetails: function (oInput) {
@@ -965,7 +972,12 @@ sap.ui.define([
         },
 		
 		undoWrkType: function(){
-			controllerWorkCenter.pressWkcTabBar();
+			controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC_TYPE", false);
+
+			controllerWorkCenter.getWrkType();
+
+			controllerWorkCenter.byId("btnCloseWrkType").setEnabled(false);
+			controllerWorkCenter.byId("btnSaveWrkType").setEnabled(false);
 		},
         
         newType: function () {
@@ -1052,6 +1064,11 @@ sap.ui.define([
                     var jsonArr = JSON.parse(jsonArrStr);
                     if (jsonArr && jsonArr[0] && jsonArr[0].RC == "0") {
                         controllerWorkCenter.getWrkType();
+                        
+                        // Disabilita i bottoni dopo il salvataggio con successo
+                        controllerWorkCenter.byId("btnCloseWrkType").setEnabled(false);
+                        controllerWorkCenter.byId("btnSaveWrkType").setEnabled(false);
+                        
                         MessageToast.show(controller.oBundle ? controller.oBundle.getText("contrWRK.insertOK") : "Operazione completata con successo");
                     } else {
                         var errorMessage = (jsonArr && jsonArr[0] && jsonArr[0].MESSAGE) ? jsonArr[0].MESSAGE : "Errore nell'operazione";
@@ -1158,7 +1175,7 @@ sap.ui.define([
         confirmEditType: function () {
             var model = controllerWorkCenter.wrkModel.getProperty("/tabDescrtype");
             var arrInput = [];
-            var bCompact = !!controllerSite.getView().$().closest(".sapUiSizeCompact").length;
+            var bCompact = !!controllerWorkCenter.getView().$().closest(".sapUiSizeCompact").length;
 
             for (var i = 0; i < model.length; i++) {
                 if (model[i].DEL == "false" || model[i].LANG != "") {
@@ -1182,14 +1199,20 @@ sap.ui.define([
         },
 		
         confirmEditTypeSuccess: function (data, response) {
-            var jsonArrStr = jQuery(data).find("Row").text();
-            var jsonArr = JSON.parse(jsonArrStr);
-            if (jsonArr[0].RC == "0")
-                controllerWorkCenter.getWrkType();
-            else {
-                MessageBox.warning(jsonArr[0].MESSAGE)
+            try {
+                var jsonArrStr = jQuery(data).find("Row").text();
+                var jsonArr = JSON.parse(jsonArrStr);
+                if (jsonArr[0].RC == "0") {
+                    controllerWorkCenter.getWrkType();
+                    controllerWorkCenter.closePopup();
+                    MessageToast.show(controller.oBundle.getText("contrWRK.insertOK"));
+                } else {
+                    MessageBox.warning(jsonArr[0].MESSAGE);
+                }
+            } catch (e) {
+                console.error("Error parsing response:", e);
+                MessageBox.error(controller.oBundle.getText("errRoleActivity.inputErr"));
             }
-            controllerWorkCenter._popup.close();
         },
 		
         deleteWorkCenterTypeDescr: function (evt) {
@@ -1330,41 +1353,99 @@ sap.ui.define([
         },
 
         /* -------------------- Orari Lavorativi -------------------- */
-        /*
-        newHours: function () {
-            controllerWorkCenter.enabledWorkCenterFields("NEW_WKC_HOURS", true);
-            
-            // Aggiungi una nuova riga alla tabella orari
-            let tabWrkHours = controllerWorkCenter.wrkModel.getProperty("/tabWrkHours");
-            if (!tabWrkHours) tabWrkHours = [];
-            
-            let newRow = {
-                "WORKCENTER": "",
-                "USER": "",
-                "HOURS_TO_1": "",
-                "HOURS_FROM_1": "",
-                "HOURS_TO_2": "",
-                "HOURS_FROM_2": "",
-                "HOURS_TO_3": "",
-                "HOURS_FROM_3": "",
-                "VIS": "true",
-                "DEL": "false"
-            };
-            
-            tabWrkHours.push(newRow);
-            controllerWorkCenter.wrkModel.setProperty("/tabWrkHours", tabWrkHours);
-        },*/
+        openWkcHelpHours: function (oEvent) {
+            // Dati apertura popup presi da controllerWorkCenter.wrkModel.getProperty("/tabwrklist");
 
-        getHoursList: function () {
-            // Reset alla modalità default
-            controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC_HOURS", false);
-            
-            let oInput = {
-                "SITE_ID": controller.SiteId
-                //,"LANGUAGE": controller.language
-            }, aResult = controllerSite.sendData("GET_HOURS_LIST", "WORKCENTER/TRANSACTION", oInput);
-            
-			controllerWorkCenter.wrkModel.setProperty("/tabWrkHours", aResult);
+            //if(!controllerWorkCenter.wrkModel.getProperty("/tabwrklist")){
+            var input = {};
+            input.LANGUAGE = controller.language;
+            input.SITE = controller.site;
+            input.WORKCENTER = controllerWorkCenter._wrkcenter;
+            controllerWorkCenter.getDataSync("GET_LIST_WRK_FOR_SEARCH_DISP", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", input, controllerWorkCenter.getWrkListsuccess, controllerWorkCenter.transactionError);
+            //  }
+
+            if (!controllerWorkCenter._oValueHelpDialog) {
+                Fragment.load({
+                    name: "master_data.view.popup.workcenter.listwrkHours",
+                    controller: controllerWorkCenter
+                }).then(function (oValueHelpDialog) {
+                    controllerWorkCenter._oValueHelpDialog = oValueHelpDialog;
+                    controllerWorkCenter.getView().addDependent(controllerWorkCenter._oValueHelpDialog);
+                    controllerWorkCenter._oValueHelpDialog.open();
+                });
+            } else {
+                controllerWorkCenter._oValueHelpDialog.open();
+            }
+
+            //Salvo la riga selezionata
+            controllerWorkCenter.byId("rowSynopticSel").setText(oEvent.oSource.getBindingContext().sPath);
+        },
+
+        getWrkListsuccess: function (data, response) {
+            try {
+                var jsonArrStr = jQuery(data).find("Row").text();
+                var jsonArr = JSON.parse(jsonArrStr);
+                controllerWorkCenter.wrkModel.setProperty("/tabwrklist", jsonArr.Rows, false);
+                controllerWorkCenter.getView().setModel(controllerWorkCenter.wrkModel);
+            } catch (e) {}
+        },
+
+        confirmWkcHelpHours: function (oEvent) {
+            var oSelectedItem = oEvent.getParameter("selectedItem");
+            var modelRowSel = controllerWorkCenter.wrkModel.getProperty(controllerWorkCenter.byId("rowSynopticSel").getText());
+            var model = controllerWorkCenter.wrkModel.getProperty("/tabWrkHours");
+            var checkField = oSelectedItem.mProperties.highlightText + "-" + modelRowSel["USER_ID"];
+
+            for (var i = 0; i < model.length; i++) {
+                if (model[i].CHECK_FIELD === checkField) {
+                    return MessageToast.show(controller.oBundle.getText("contrWRK.errSelUser"));
+                }
+            }
+
+            modelRowSel.CHECK_FIELD = checkField;
+            modelRowSel.WORKCENTER_ID = oSelectedItem.mProperties.highlightText;
+            modelRowSel.WORKCENTER = oSelectedItem.mProperties.title;
+
+            modelRowSel.EDIT = "true";
+			controllerWorkCenter.byId("saveNewHours").setEnabled(true);
+            controllerWorkCenter.wrkModel.refresh();
+			
+			//Remove Filter Value
+            oEvent.getSource().getBinding("items").filter([]);
+			
+            controllerWorkCenter.closeDialog();
+        },
+
+        openUserHelpHours: function (oEvent) {
+
+            var input = {};
+            input.SITE_ID = controller.model.getProperty("/user")[0]["SiteId"];
+            controllerWorkCenter.getDataSync("GET_LIST_USER", "ADIGE7/MASTER_DATA/USER/TRANS", input, controllerWorkCenter.getUserListsuccess, controllerWorkCenter.transactionError);
+
+            if (!controllerWorkCenter._oValueHelpDialog) {
+                Fragment.load({
+                    name: "master_data.view.popup.workcenter.listUsrHours",
+                    controller: controllerWorkCenter
+                }).then(function (oValueHelpDialog) {
+                    controllerWorkCenter._oValueHelpDialog = oValueHelpDialog;
+                    controllerWorkCenter.getView().addDependent(controllerWorkCenter._oValueHelpDialog);
+                    controllerWorkCenter._oValueHelpDialog.open();
+                });
+            } else {
+                controllerWorkCenter._oValueHelpDialog.open();
+            }
+
+            //Salvo la riga selezionata
+            controllerWorkCenter.byId("rowSynopticSel").setText(oEvent.oSource.getBindingContext().sPath);
+        },
+
+        getUserListsuccess: function (data, response) {
+            try {
+                var jsonArrStr = jQuery(data).find("Row").text();
+                var jsonArr = JSON.parse(jsonArrStr);
+                controllerWorkCenter.wrkModel.setProperty("/tabUserlist", jsonArr.Rows, false);
+                controllerWorkCenter.getView().setModel(controllerWorkCenter.wrkModel);
+            } catch (e) {}
         },
 
         newHours: function () {
@@ -1422,10 +1503,188 @@ sap.ui.define([
                 }
             }
 			
-			controllerWorkCenter.byId("btnCloseNewHours").setEnabled(true);
+			// Abilita modalità di modifica per gli orari
+			controllerWorkCenter.enabledWorkCenterFields("NEW_WKC_HOURS", true);
 			
 			//Scroll to last table Element
 			controllerWorkCenter.byId("tabWrkHours").setFirstVisibleRow(addRowModel.length); 
+        },
+
+        saveNewHours: function () {
+            var modInput = [];
+            var obj = {};
+            var model = controllerWorkCenter.wrkModel.getProperty("/tabWrkHours");
+
+            /*Controllo unicità inserimenti prima di salvare*/
+            for (var i = 0; i < model.length; i++) {
+                for (var j = i + 1; j < model.length; j++) {
+                    if ((model[i].CHECK_FIELD === (model[j].CHECK_FIELD.split("-")[0] === "" ? "NULL" : model[j].CHECK_FIELD.split("-")[0]) + "-" + (model[j].CHECK_FIELD.split("-")[1] === "" ? "NULL" : model[j].CHECK_FIELD.split("-")[1])) && model[j].DEL != 'true' && model[j].DEL != 'true') {
+                        return MessageToast.show(controller.oBundle.getText("contrWRK.errSelUser"));
+                    }
+                }
+            }
+
+            for (var i = 0; i < model.length; i++) {
+                if (model[i].EDIT === "true" || model[i].DEL === "true") {
+                    if (model[i].DEL === "true" && model[i].WORKING_HOURS_ID === "") {}
+                    else {
+                        obj.WORKING_HOURS_ID = model[i].WORKING_HOURS_ID;
+                        obj.WORKCENTER_ID = model[i].WORKCENTER_ID;
+                        obj.USER_ID = model[i].USER_ID;
+                        obj.HOURS_TO_1 = model[i].HOURS_TO_1;
+                        obj.HOURS_FROM_1 = model[i].HOURS_FROM_1;
+                        obj.HOURS_TO_2 = model[i].HOURS_TO_2;
+                        obj.HOURS_FROM_2 = model[i].HOURS_FROM_2;
+                        obj.HOURS_TO_3 = model[i].HOURS_TO_3;
+                        obj.HOURS_FROM_3 = model[i].HOURS_FROM_3;
+                        obj.DEL = model[i].DEL;
+                        modInput.push(obj);
+                        obj = new Object;
+                    }
+                }
+            }
+
+            if (modInput.length === 0) {
+                controllerWorkCenter.getHoursList();
+                return
+            }
+
+            var Input = {
+                "DATA": JSON.stringify(modInput),
+                "SITE_ID": controller.SiteId
+            };
+
+            var result = controllerSite.sendData("SAVE_WORKING_HOURS", "WORKCENTER/TRANSACTION", Input);
+            if (result[0].RC != "0") {
+                MessageBox.warning(controller.oBundle.getText("contrWRK.insertKO") + " " + result[0].MESSAGE, {
+                    onClose: function () {}
+                });
+                         } else {
+                 MessageToast.show(controller.oBundle.getText("contrWRK.insertOK"));
+                 
+                 // Reset alla modalità default dopo il salvataggio
+                 controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC_HOURS", false);
+                 controllerWorkCenter.rowSelTabWrkHours = "";
+             }
+            controllerWorkCenter.getHoursList();
+        },
+
+        getHoursList: function () {
+            var Input = {
+                "SITE_ID": controller.SiteId
+                //,"LANGUAGE": controller.language
+            };
+            var result = controllerSite.sendData("GET_HOURS_LIST", "WORKCENTER/TRANSACTION", Input);
+            controllerWorkCenter.wrkModel.setProperty("/tabWrkHours", result);
+			
+			//Buttons
+			controllerWorkCenter.byId("btnCloseNewHours").setEnabled(false);
+			controllerWorkCenter.byId("saveNewHours").setEnabled(false);
+        },
+
+        handleChangeHours: function (oEvent) {
+            var indexRowSelObj = oEvent.getParameter("id").split("-")[0].substring(oEvent.getParameter("id").split("-")[0].length - 1, oEvent.getParameter("id").split("-")[0].length);
+	        var rowSel = controllerWorkCenter.wrkModel.getProperty(oEvent.oSource.getBindingContext().sPath);
+            var regex = new RegExp(':', 'g');
+            var prefix,
+            prevPrefix,
+            nextPrefix;
+            var previndexRowSelObj,
+            nextIndexRowSelObj;
+
+            switch (indexRowSelObj) {
+            case 0:
+                indexRowSelObj = 1;
+                previndexRowSelObj = 1;
+                nextIndexRowSelObj = 1;
+                prefix = "HOURS_TO_";
+                prevPrefix = "HOURS_TO_";
+                nextPrefix = "HOURS_FROM_";
+                break;
+            case 1:
+                indexRowSelObj = 1;
+                previndexRowSelObj = 1;
+                nextIndexRowSelObj = 2;
+                prefix = "HOURS_FROM_";
+                prevPrefix = "HOURS_TO_";
+                nextPrefix = "HOURS_TO_";
+                break;
+            case 2:
+                indexRowSelObj = 2;
+                previndexRowSelObj = 1;
+                nextIndexRowSelObj = 2;
+                prefix = "HOURS_TO_";
+                prevPrefix = "HOURS_FROM_";
+                nextPrefix = "HOURS_FROM_";
+                break;
+            case 3:
+                indexRowSelObj = 2;
+                previndexRowSelObj = 2;
+                nextIndexRowSelObj = 3;
+                prefix = "HOURS_FROM_";
+                prevPrefix = "HOURS_TO_";
+                nextPrefix = "HOURS_TO_";
+                break;
+            case 4:
+                indexRowSelObj = 3;
+                previndexRowSelObj = 2;
+                nextIndexRowSelObj = 3;
+                prefix = "HOURS_TO_";
+                prevPrefix = "HOURS_FROM_";
+                nextPrefix = "HOURS_FROM_";
+                break;
+            case 5:
+                indexRowSelObj = 3;
+                previndexRowSelObj = 3;
+                nextIndexRowSelObj = 3;
+                prefix = "HOURS_FROM_";
+                prevPrefix = "HOURS_TO_";
+                nextPrefix = "HOURS_FROM_";
+                break;
+            default:
+                indexRowSelObj = 1;
+                previndexRowSelObj = 1;
+                nextIndexRowSelObj = 1;
+                prefix = "HOURS_TO_";
+                prevPrefix = "HOURS_TO_";
+                nextPrefix = "HOURS_FROM_";
+                break;
+            }
+
+            if (!isNaN(parseInt(rowSel[nextPrefix + nextIndexRowSelObj].replace(regex, ''), 10))) {
+                if ((parseInt(rowSel[prefix + indexRowSelObj].replace(regex, ''), 10) < parseInt(rowSel[prevPrefix + previndexRowSelObj].replace(regex, ''), 10))
+                     || (parseInt(rowSel[prefix + indexRowSelObj].replace(regex, ''), 10) > parseInt(rowSel[nextPrefix + nextIndexRowSelObj].replace(regex, ''), 10))
+                     || isNaN(parseInt(rowSel[prefix + indexRowSelObj].replace(regex, ''), 10)) || isNaN(parseInt(rowSel[prevPrefix + previndexRowSelObj].replace(regex, ''), 10))) {
+                    rowSel[prefix + indexRowSelObj] = "";
+                    controllerWorkCenter.byId("saveNewHours").setEnabled(false);
+                    return MessageToast.show(controller.oBundle.getText("contrWRK.errinsertHours"))
+                }
+                rowSel.EDIT = "true";
+                rowSel.DEL = "false";
+				//Buttons
+				controllerWorkCenter.byId("btnCloseNewHours").setEnabled(true);
+                controllerWorkCenter.byId("saveNewHours").setEnabled(true);
+                controllerWorkCenter.wrkModel.refresh();
+            } else {
+                if ((parseInt(rowSel[prefix + indexRowSelObj].replace(regex, ''), 10) < parseInt(rowSel[prevPrefix + previndexRowSelObj].replace(regex, ''), 10))
+                     || isNaN(parseInt(rowSel[prefix + indexRowSelObj].replace(regex, ''), 10)) || isNaN(parseInt(rowSel[prevPrefix + previndexRowSelObj].replace(regex, ''), 10))) {
+                    rowSel[prefix + indexRowSelObj] = "";
+                    controllerWorkCenter.byId("saveNewHours").setEnabled(false);
+                    return MessageToast.show(controller.oBundle.getText("contrWRK.errinsertHours"))
+                } 
+                rowSel.EDIT = "true";
+                rowSel.DEL = "false";
+                controllerWorkCenter.wrkModel.refresh();
+
+                if (nextPrefix === "HOURS_FROM_") {
+                    controllerWorkCenter.byId("saveNewHours").setEnabled(false);
+                } else {
+					//Buttons
+					controllerWorkCenter.byId("btnCloseNewHours").setEnabled(true);
+                    controllerWorkCenter.byId("saveNewHours").setEnabled(true);
+                }
+            }
+
         },
 
         deleteAllHours: function () {
@@ -1440,10 +1699,8 @@ sap.ui.define([
 								modWrkHours[i]["VIS"] = "false";
 							}
 
-							//lineSel.EDIT = "true";
-							//Buttons
-							controllerWorkCenter.byId("btnCloseNewHours").setEnabled(true);
-							controllerWorkCenter.byId("saveNewHours").setEnabled(true);
+							// Abilita modalità di modifica
+							controllerWorkCenter.enabledWorkCenterFields("NEW_WKC_HOURS", true);
 							controllerWorkCenter.wrkModel.refresh();
 						}
 					},
@@ -1458,18 +1715,53 @@ sap.ui.define([
             var lineSel = controllerWorkCenter.wrkModel.getProperty(oEvent.oSource.getBindingContext().sPath);
             lineSel.DEL = "true";
             lineSel.VIS = "false";
-            //lineSel.EDIT = "true";
-			//Buttons
-			controllerWorkCenter.byId("btnCloseNewHours").setEnabled(true);
-            controllerWorkCenter.byId("saveNewHours").setEnabled(true);
+            lineSel.EDIT = "true";
+            
+            // Abilita modalità di modifica
+            controllerWorkCenter.enabledWorkCenterFields("NEW_WKC_HOURS", true);
             controllerWorkCenter.wrkModel.refresh();
         },
 
+        /*
         onWorkcenterChangeInHours: function (oEvent) {
             let sValue = oEvent.getParameter("value");
             if (sValue && sValue.trim() !== "") {
                 controllerWorkCenter.enabledWorkCenterFields("ENABLE_SAVE_HOURS", true);
             }
+        },
+        */
+
+        confirmUserHelpHours: function (oEvent) {
+            var oSelectedItem = oEvent.getParameter("selectedItem");
+            var modelRowSel = controllerWorkCenter.wrkModel.getProperty(controllerWorkCenter.byId("rowSynopticSel").getText());
+            var model = controllerWorkCenter.wrkModel.getProperty("/tabWrkHours");
+            var checkField = modelRowSel["WORKCENTER_ID"] + "-" + oSelectedItem.mProperties.highlightText;
+
+            for (var i = 0; i < model.length; i++) {
+                if (model[i].CHECK_FIELD === checkField) {
+                    return MessageToast.show(controller.oBundle.getText("contrWRK.errSelUser"));
+                }
+            }
+
+            modelRowSel.CHECK_FIELD = checkField;
+            modelRowSel.USER_ID = oSelectedItem.mProperties.highlightText;
+            modelRowSel.USER = oSelectedItem.mProperties.title;
+
+            modelRowSel.EDIT = "true";
+			controllerWorkCenter.byId("saveNewHours").setEnabled(true);
+            controllerWorkCenter.wrkModel.refresh();
+			
+			//Remove Filter Value
+            oEvent.getSource().getBinding("items").filter([]);
+			
+            controllerWorkCenter.closeDialog();
+        },
+
+        handleUserSearchHours: function (oEvent) {
+            var sValue = oEvent.getParameter("value");
+            var oFilter = new Filter("Name", FilterOperator.Contains, sValue);
+            var oBinding = oEvent.getSource().getBinding("items");
+            oBinding.filter([oFilter]);
         },
 
         /* -------------------- Sinottico -------------------- */
@@ -1577,7 +1869,7 @@ sap.ui.define([
             return "SYNOPTIC"; // default
         },
 
-        /*General Function*/
+        /* -------------------- General Function --------------------*/
 		closePopup: function(){
 			try{
 				if(controllerWorkCenter._oValueHelpDialog){
