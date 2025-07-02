@@ -3,45 +3,51 @@
 	<u:ObjectPageLayout id="wkcObjectPage" enableLazyLoading="true" navigate="pressWkcTabBar" showTitleInHeaderContent="false" upperCaseAnchorBar="false" useIconTabBar="true" backgroundDesignAnchorBar="Transparent" showHeaderContent="false" height="100%" class="sapUiNoContentPadding" showFooter="true">
 		<!-- Definizione Piazzola -->
 		<u:ObjectPageSection id="WKC" title="{i18n&gt;viewWRK.wrkmain}">
-			<u:ObjectPageSubSection>
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<HBox justifyContent="SpaceBetween">
-					<l:VerticalLayout width="100%" class="sapUiContentPadding">
-						<Label text="{i18n&gt;viewWRK.label.slot}:" required="{/viewWrkElements/editMode}" />
-						<Input value="{/wrkDetails/WORKCENTER}" enabled="{/viewWrkElements/enabledWrkField}"/>
-					</l:VerticalLayout>
-					<l:VerticalLayout width="100%" class="sapUiContentPadding">
-						<Label text="{i18n&gt;viewWRK.label.description}:" required="{/viewWrkElements/editMode}"/>
-						<Input value="{/wrkDetails/WORKCENTER_DESC}" enabled="{/viewWrkElements/enabledDescrWrkField}" width="100%" placeholder="{i18n&gt;viewDC.input.paramDesc}" showValueHelp="{= ${/viewWrkElements/editMode} &amp;&amp; ${/wrkDetails/WORKCENTER_ID} !== '0'}" valueHelpOnly="{= ${/viewWrkElements/editMode} &amp;&amp; ${/wrkDetails/WORKCENTER_ID} !== '0'}" valueHelpRequest="onOpenValueHelpWrkDesc" valueHelpIconSrc="sap-icon://globe" />
-					</l:VerticalLayout>
-					<l:VerticalLayout width="100%" class="sapUiContentPadding">
-						<Label text="{i18n&gt;viewWRK.label.type}:" required="{/viewWrkElements/editMode}" />
-						<ComboBox selectedKey="{/wrkDetails/WORKCENTERTYPE_ID}" items="{path: '/tabwrktype',sorter: { path: 'WORKCENTERTYPE' }}" enabled="{/viewWrkElements/enabledWrkType}">
-							<core:Item key="{WORKCENTERTYPE_ID}" text="{WORKCENTERTYPE}" />
-						</ComboBox>
-					</l:VerticalLayout>
-					<l:VerticalLayout width="100%" class="sapUiContentPadding">
-						<Label text="{i18n&gt;viewWRK.label.parent}:" />
-						<ComboBox selectedKey="{/wrkDetails/PARENTWORKCENTER_ID}" items="{path: '/tabwrklist',sorter: { path: 'WORKCENTER' }}" enabled="{/viewWrkElements/enabledWrkParent}">
-							<core:Item key="{WORKCENTER_ID}" text="{WORKCENTER} - {WORKCENTER_DESC}" />
-						</ComboBox>
-					</l:VerticalLayout>
-					<l:VerticalLayout width="100%" class="sapUiContentPadding">
-						<Label text="{i18n&gt;viewWRK.label.status}:" required="{/viewWrkElements/editMode}" />
-						<ComboBox selectedKey="{/wrkDetails/STATUS_ID}" items="{path: '/tabwrkStatus',sorter: { path: 'STATUS' }}" enabled="{/viewWrkElements/enabledWrkStatus}">
-							<core:Item key="{STATUS_ID}" text="{STATUS_DESC}" />
-						</ComboBox>
-					</l:VerticalLayout>
-					<l:VerticalLayout width="100%" class="sapUiContentPadding">
-						<Label text="{i18n&gt;viewWRK.label.piazzolaAuthoma}:" visible="{= ${/currentSite} === 'ADIGE'}"/>
-						<Input value="{/wrkDetails/WORKCENTER_AUTHOMA}" enabled="{/viewWrkElements/enabledWrkAutomha}" visible="{= ${/currentSite} === 'ADIGE'}"/>
-					</l:VerticalLayout>					
+					<VBox width="33%" class="sapUiContentPadding">
+						<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+							<Label text="{i18n&gt;viewWRK.label.slot}:" required="{/viewWrkElements/editMode}" />
+							<Input value="{/wrkDetails/WORKCENTER}" enabled="{/viewWrkElements/enabledWrkField}" width="100%"/>
+						</l:VerticalLayout>
+						<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+							<Label text="{i18n&gt;viewWRK.label.type}:" required="{/viewWrkElements/editMode}" />
+							<ComboBox selectedKey="{/wrkDetails/WORKCENTERTYPE_ID}" items="{path: '/tabwrktype',sorter: { path: 'WORKCENTERTYPE' }}" enabled="{/viewWrkElements/enabledWrkType}" width="100%">
+								<core:Item key="{WORKCENTERTYPE_ID}" text="{WORKCENTERTYPE}" />
+							</ComboBox>
+						</l:VerticalLayout>
+					</VBox>
+					<VBox width="33%" class="sapUiContentPadding">
+						<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+							<Label text="{i18n&gt;viewWRK.label.description}:" required="{/viewWrkElements/editMode}"/>
+							<Input value="{/wrkDetails/WORKCENTER_DESC}" enabled="{/viewWrkElements/enabledDescrWrkField}" width="100%" placeholder="{i18n&gt;viewDC.input.paramDesc}" showValueHelp="{= ${/viewWrkElements/editMode} &amp;&amp; ${/wrkDetails/WORKCENTER_ID} !== '0'}" valueHelpOnly="{= ${/viewWrkElements/editMode} &amp;&amp; ${/wrkDetails/WORKCENTER_ID} !== '0'}" valueHelpRequest="onOpenValueHelpWrkDesc" valueHelpIconSrc="sap-icon://globe" />
+						</l:VerticalLayout>
+						<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+							<Label text="{i18n&gt;viewWRK.label.parent}:" />
+							<ComboBox selectedKey="{/wrkDetails/PARENTWORKCENTER_ID}" items="{path: '/tabwrklist',sorter: { path: 'WORKCENTER' }}" enabled="{/viewWrkElements/enabledWrkParent}" width="100%">
+								<core:Item key="{WORKCENTER_ID}" text="{WORKCENTER} - {WORKCENTER_DESC}" />
+							</ComboBox>
+						</l:VerticalLayout>
+					</VBox>
+					<VBox width="33%" class="sapUiContentPadding">
+						<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+							<Label text="{i18n&gt;viewWRK.label.status}:" required="{/viewWrkElements/editMode}" />
+							<ComboBox selectedKey="{/wrkDetails/STATUS_ID}" items="{path: '/tabwrkStatus',sorter: { path: 'STATUS' }}" enabled="{/viewWrkElements/enabledWrkStatus}" width="100%">
+								<core:Item key="{STATUS_ID}" text="{STATUS_DESC}" />
+							</ComboBox>
+						</l:VerticalLayout>
+						<l:VerticalLayout width="100%" class="sapUiSmallMarginBottom">
+							<Label text="{i18n&gt;viewWRK.label.piazzolaAuthoma}:" visible="{= ${/currentSite} === 'ADIGE'}"/>
+							<Input value="{/wrkDetails/WORKCENTER_AUTHOMA}" enabled="{/viewWrkElements/enabledWrkAutomha}" visible="{= ${/currentSite} === 'ADIGE'}" width="100%"/>				
+						</l:VerticalLayout>
+					</VBox>
 				</HBox>
 			</u:ObjectPageSubSection>
 		</u:ObjectPageSection>
 		
 		<!-- Definizione Tipo Piazzola -->
 		<u:ObjectPageSection id="WKC_TYPE" title="{i18n&gt;viewWRK.wrktypr}" >
-			<u:ObjectPageSubSection>
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkType" rows="{path: '/tabwrktype'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
@@ -78,7 +84,7 @@
 		
 		<!-- Orario Lavorativo Piazzole  -->
 		<u:ObjectPageSection id="WKC_HOURS" title="{i18n&gt;viewWRK.wrkHours}" >
-			<u:ObjectPageSubSection>
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkHours" rows="{path: '/tabWrkHours'}" width="100%" selectionMode="Single" rowSelectionChange="onSelectionChangeRowTabHours" selectionBehavior="RowOnly" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
@@ -146,7 +152,7 @@
 		<!-- ____________ Site ADIGE ____________ -->
 		<!-- Sinottico SYNOPTIC -->
 		<u:ObjectPageSection id="SYNOPTIC" title="{i18n&gt;viewWRK.wrkSynoptic}" visible="{= ${/currentSite} === 'ADIGE'}" >
-			<u:ObjectPageSubSection>
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkSyn" rows="{path: '/tabSynoptic'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
@@ -183,7 +189,7 @@
 
 		<!-- Sinottico SYNOPTICADIGESTR1 -->
 		<u:ObjectPageSection id="SYNOPTICADIGESTR1" title="{i18n&gt;viewWRK.wrkSynopticAdigeStr1}" visible="{= ${/currentSite} === 'ADIGE'}">	
-			<u:ObjectPageSubSection>
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkSynAdigeStr1" rows="{path: '/tabSynopticAdigeStr1'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
@@ -221,7 +227,7 @@
 		<!-- ____________ Site BGS ____________ -->
 		<!-- Sinottico SYNOPTICBGS1 -->
 		<u:ObjectPageSection id="SYNOPTICBGS1" title="{i18n&gt;viewWRK.wrkSynopticBGS1}" visible="{= ${/currentSite} === 'BGS'}">
-			<u:ObjectPageSubSection>
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkSynBGS1" rows="{path: '/tabSynopticBGS1'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
@@ -258,7 +264,7 @@
 
 		<!-- Sinottico SYNOPTICBGS2 -->
 		<u:ObjectPageSection id="SYNOPTICBGS2" title="{i18n&gt;viewWRK.wrkSynopticBGS2}" visible="{= ${/currentSite} === 'BGS'}">
-			<u:ObjectPageSubSection>
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkSynBGS2" rows="{path: '/tabSynopticBGS2'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
@@ -296,7 +302,7 @@
 		<!-- ____________ Site ADIGE-SYS ____________ -->
 		<!-- Sinottico SYNOPTICADIGESYS1 -->
 		<u:ObjectPageSection id="SYNOPTICADIGESYS1" title="{i18n&gt;viewWRK.wrkSynopticAdigeSys1}" visible="{= ${/currentSite} === 'ADIGE-SYS'}">
-			<u:ObjectPageSubSection>
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkSynAdigeSys1" rows="{path: '/tabSynopticAdigeSys1'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
@@ -333,7 +339,7 @@
 
 		<!-- Sinottico SYNOPTICADIGESYS2 -->
 		<u:ObjectPageSection id="SYNOPTICADIGESYS2" title="{i18n&gt;viewWRK.wrkSynopticAdigeSys2}" visible="{= ${/currentSite} === 'ADIGE-SYS'}">
-			<u:ObjectPageSubSection>
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkSynAdigeSys2" rows="{path: '/tabSynopticAdigeSys2'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
@@ -370,7 +376,7 @@
 
 		<!-- Sinottico SYNOPTICADIGESYS3 -->
 		<u:ObjectPageSection id="SYNOPTICADIGESYS3" title="{i18n&gt;viewWRK.wrkSynopticAdigeSys3}" visible="{= ${/currentSite} === 'ADIGE-SYS'}">
-			<u:ObjectPageSubSection>
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkSynAdigeSys3" rows="{path: '/tabSynopticAdigeSys3'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
@@ -408,7 +414,7 @@
 		<!-- ____________ Site BGUSA ____________ -->
 		<!-- Sinottico SYNOPTICBGUSA -->
 		<u:ObjectPageSection id="SYNOPTICBGUSA" title="{i18n&gt;viewWRK.wrkSynopticBgusa}" visible="{= ${/currentSite} === 'BGUSA'}">
-			<u:ObjectPageSubSection>
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkBgusa" rows="{path: '/tabSynopticBgusa'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
@@ -446,7 +452,7 @@
 		<!-- ____________ Site BLM ____________ -->
 		<!-- Sinottico SYNOPTICBLM1 -->
 		<u:ObjectPageSection id="SYNOPTICBLM1" title="{i18n&gt;viewWRK.wrkSynopticBlm1}" visible="{= ${/currentSite} === 'BLM'}">
-			<u:ObjectPageSubSection>
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkSynBlm1" rows="{path: '/tabSynopticBlm1'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
@@ -483,7 +489,7 @@
 
 		<!-- Sinottico SYNOPTICBLM2 -->
 		<u:ObjectPageSection id="SYNOPTICBLM2" title="{i18n&gt;viewWRK.wrkSynopticBlm2}" visible="{= ${/currentSite} === 'BLM'}">
-			<u:ObjectPageSubSection>
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkSynBlm2" rows="{path: '/tabSynopticBlm2'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
@@ -520,7 +526,7 @@
 
 		<!-- Sinottico SYNOPTICBLM3 -->
 		<u:ObjectPageSection id="SYNOPTICBLM3" title="{i18n&gt;viewWRK.wrkSynopticBlm3}" visible="{= ${/currentSite} === 'BLM'}">
-			<u:ObjectPageSubSection>
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkSynBlm3" rows="{path: '/tabSynopticBlm3'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
@@ -557,7 +563,7 @@
 
 		<!-- Sinottico SYNOPTICBLM4 -->
 		<u:ObjectPageSection id="SYNOPTICBLM4" title="{i18n&gt;viewWRK.wrkSynopticBlm4}" visible="{= ${/currentSite} === 'BLM'}">
-			<u:ObjectPageSubSection>
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkSynBlm4" rows="{path: '/tabSynopticBlm4'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />

@@ -1069,7 +1069,7 @@ sap.ui.define([
 		editType: function (evt) {
             var lineSel = controllerWorkCenter.wrkModel.getProperty(evt.oSource.getBindingContext().sPath);
             if (!controllerWorkCenter._oValueHelpDialog) {
-                controllerWorkCenter._oValueHelpDialog = sap.ui.xmlfragment("master_data.view.popup.modType", controllerWorkCenter);
+                controllerWorkCenter._oValueHelpDialog = sap.ui.xmlfragment("master_data.view.popup.workcenter.modType", controllerWorkCenter);
                 controllerWorkCenter.getView().addDependent(controllerWorkCenter._oValueHelpDialog);
             }
             sap.ui.getCore().byId("inputType").setValue(lineSel.WORKCENTERTYPE);
