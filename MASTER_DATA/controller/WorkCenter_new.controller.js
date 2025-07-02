@@ -1072,8 +1072,12 @@ sap.ui.define([
                 controllerWorkCenter._oValueHelpDialog = sap.ui.xmlfragment("master_data.view.popup.workcenter.modType", controllerWorkCenter);
                 controllerWorkCenter.getView().addDependent(controllerWorkCenter._oValueHelpDialog);
             }
-            sap.ui.getCore().byId("inputType").setValue(lineSel.WORKCENTERTYPE);
-            sap.ui.getCore().byId("TypeId").setValue(lineSel.WORKCENTERTYPE_ID);
+            
+            controllerWorkCenter._selectedTypeData = {
+                WORKCENTERTYPE: lineSel.WORKCENTERTYPE,
+                WORKCENTERTYPE_ID: lineSel.WORKCENTERTYPE_ID
+            };
+            
             var input = {
                 "WORKCENTERTYPE_ID": lineSel.WORKCENTERTYPE_ID
             };
@@ -1087,6 +1091,18 @@ sap.ui.define([
                 controllerWorkCenter.wrkModel.setProperty("/tabDescrtype", jsonArr.Rows, false);
                 controllerWorkCenter.getView().setModel(controllerWorkCenter.wrkModel);
                 controllerWorkCenter._oValueHelpDialog.open();
+                
+                setTimeout(function() {
+                    var inputTypeControl = sap.ui.getCore().byId("inputType");
+                    var typeIdControl = sap.ui.getCore().byId("TypeId");
+                    
+                    if (inputTypeControl && controllerWorkCenter._selectedTypeData) {
+                        inputTypeControl.setValue(controllerWorkCenter._selectedTypeData.WORKCENTERTYPE);
+                    }
+                    if (typeIdControl && controllerWorkCenter._selectedTypeData) {
+                        typeIdControl.setValue(controllerWorkCenter._selectedTypeData.WORKCENTERTYPE_ID);
+                    }
+                }, 100);
             } catch (error) {}
         },
 		
@@ -1528,10 +1544,14 @@ sap.ui.define([
         /*General Function*/
 		closePopup: function(){
 			try{
-				controllerWorkCenter._oValueHelpDialog.close();
-				controllerWorkCenter._oValueHelpDialog.destroy();
-			}catch(err){}
-
+				if(controllerWorkCenter._oValueHelpDialog){
+					controllerWorkCenter._oValueHelpDialog.close();
+					controllerWorkCenter._oValueHelpDialog.destroy();
+					controllerWorkCenter._oValueHelpDialog = undefined;
+				}
+			}catch(err){
+				controllerWorkCenter._oValueHelpDialog = undefined;
+			}
 		},
 		
 		manageColor: function (DEL) {
