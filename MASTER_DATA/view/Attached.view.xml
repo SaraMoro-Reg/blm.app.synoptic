@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table" controllerName="master_data.controller.Attached" height="100%" displayBlock="true">
 	<VBox width="100%" height="100%" renderType="Bare">
-		<VBox width="100%" height="14%" renderType="Bare">
+		<VBox width="100%" height="14%" renderType="Bare" class="sapUiSmallMarginBegin">
 			<Label text="{i18n&gt;viewPhase.serach}:" class="sapUiSmallMarginBottom" />
 			<HBox width="100%" renderType="Bare">
 				<Input id="checkListInput" type="Text" placeholder="{i18n&gt;viewAtt.selectchecklist}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelpChkList" class="sapUiSmallMarginBottom sapUiTinyMarginEnd" width="20%" />
@@ -10,7 +10,7 @@
 			</HBox>
 		</VBox>
 		<HBox width="100%" height="86%" renderType="Bare">
-			<IconTabBar id="attachedTabBar" expandable="false" tabDensityMode="Compact" headerBackgroundDesign="Translucent" backgroundDesign="Translucent" stretchContentHeight="true" applyContentPadding="false">
+			<IconTabBar id="attachedTabBar" expandable="false" tabDensityMode="Compact" headerBackgroundDesign="Translucent" backgroundDesign="Translucent" stretchContentHeight="true" applyContentPadding="true">
 				<items>
 					<!-- Checklist Attachment -->
 					<IconTabFilter icon="sap-icon://checklist-item" text="{i18n&gt;viewAtt.attechedchklist}" key="chkatt">

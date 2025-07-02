@@ -25,7 +25,7 @@
 					</Bar>
 				</customHeader>
 				<content>
-					<IconTabBar expandable="false" select="selectedIcontab" headerBackgroundDesign="Translucent" backgroundDesign="Translucent" stretchContentHeight="true" applyContentPadding="true">
+					<IconTabBar expandable="false" select="selectedIcontab" headerBackgroundDesign="Translucent" backgroundDesign="Translucent" stretchContentHeight="true" applyContentPadding="false">
 						<items>
 							<IconTabFilter visible="{/VisibleAdmin/FULL_EDIT_MODE}" icon="sap-icon://factory" text="{i18n&gt;site}" key="SITE">
 								<mvc:XMLView viewName="master_data.view.Site" async="true" />

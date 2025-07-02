@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" xmlns:u="sap.uxap" controllerName="master_data.controller.WorkCenter" height="100%" displayBlock="true">
-	<u:ObjectPageLayout id="phaseObjectPage" enableLazyLoading="true" navigate="pressWkcTabBar" showTitleInHeaderContent="false" upperCaseAnchorBar="false" useIconTabBar="true" backgroundDesignAnchorBar="Transparent" showHeaderContent="false" height="100%" class="sapUiNoContentPadding" showFooter="true">
+	<u:ObjectPageLayout id="wkcObjectPage" enableLazyLoading="true" navigate="pressWkcTabBar" showTitleInHeaderContent="false" upperCaseAnchorBar="false" useIconTabBar="true" backgroundDesignAnchorBar="Transparent" showHeaderContent="false" height="100%" class="sapUiNoContentPadding" showFooter="true">
 		<!-- Definizione Piazzola -->
 		<u:ObjectPageSection id="WKC" title="{i18n&gt;viewWRK.wrkmain}">
 			<u:ObjectPageSubSection>
@@ -598,15 +598,15 @@
 				<Label text="{i18n&gt;viewWRK.label.search}:" visible="{/viewWrkElements/visWrkPageFooterBtn}" />
 				<Input value="{/wrkDetails/WORKCENTER}" width="300px" placeholder="{i18n&gt;viewWRK.list.place}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onOpenSearchWrkValueHelp" enabled="{/viewWrkElements/enabledSearchInput}" visible="{/viewWrkElements/visWrkPageFooterBtn}"/>
 				<Button icon="sap-icon://excel-attachment" tooltip="{i18n&gt;viewWRK.download}" press="downloadModel" visible="{/viewWrkElements/visWrkPageFooterBtn}" enabled="{/viewWrkElements/enabledExcelDownloadBtn}" />						
-				<Button text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="newSlot" icon="sap-icon://reset" enabled="{/viewWrkElements/enabledResetBtn}" visible="{/viewWrkElements/visWrkPageFooterBtn}" />
-				<Button text="{i18n&gt;viewWRK.newWrk}" tooltip="{i18n&gt;viewWRK.newWrk}" press="newSlot" icon="sap-icon://add" visible="{/viewWrkElements/visWrkPageFooterBtn}" enabled="{/viewWrkElements/enabledNewWrkBtn}" class="sapUiTinyMarginEnd"/>
+				<Button text="{i18n&gt;viewLogistic.reset}" tooltip="{i18n&gt;viewLogistic.reset}" press="newSlot(false)" icon="sap-icon://reset" enabled="{/viewWrkElements/enabledResetBtn}" visible="{/viewWrkElements/visWrkPageFooterBtn}" />
+				<Button text="{i18n&gt;viewWRK.newWrk}" tooltip="{i18n&gt;viewWRK.newWrk}" press="newSlot(true)" icon="sap-icon://add" visible="{/viewWrkElements/visWrkPageFooterBtn}" enabled="{/viewWrkElements/enabledNewWrkBtn}" class="sapUiTinyMarginEnd"/>
 				
 				<!-- footer ObjectPageSection id="WKC_TYPE"-->
 				<Button id="btnNewWrkType" text="{i18n&gt;viewWRK.newType}" tooltip="{i18n&gt;viewWRK.newType}" press="newType" icon="sap-icon://add" visible="{/viewWrkTypeElements/visWrkTypePageFooterBtn}" enabled="{/viewWrkTypeElements/enabledNewWrkTypeBtn}" />
 				
 				<!-- footer ObjectPageSection id="WKC_HOURS"-->
-				<Button text="{i18n&gt;viewWRK.newHours}" tooltip="{i18n&gt;viewWRK.newHours}" press="newHours" icon="sap-icon://add" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" enabled="{/viewWrkHoursElements/enabledNewHoursBtn}" />
 				<Button id="deleteAllHours" text="{i18n&gt;viewWRK.deleteAll}" tooltip="{i18n&gt;viewWRK.deleteAll}" press="deleteAllHours" icon="sap-icon://delete" type="Reject" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" enabled="{/viewWrkHoursElements/enabledDeleteAllHoursBtn}" />
+				<Button text="{i18n&gt;viewWRK.newHours}" tooltip="{i18n&gt;viewWRK.newHours}" press="newHours" icon="sap-icon://add" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" enabled="{/viewWrkHoursElements/enabledNewHoursBtn}" />
 				
 				<!-- ____________ Site ADIGE ____________ -->
 				<!-- footer ObjectPageSection id="SYNOPTIC"-->
@@ -700,7 +700,7 @@
 				<ToolbarSpacer />
 				
 				<!-- footer ObjectPageSection id="WKC"-->
-				<Button text="{i18n&gt;viewWRK.delete}" tooltip="{i18n&gt;viewWRK.delete}" press="deletePiazzola" icon="sap-icon://delete" type="Reject" visible="{/viewWrkElements/visWrkPageFooterBtn}" enabled="{/viewWrkElements/enabledDeleteBtn}" />
+				<Button text="{i18n&gt;viewWRK.delete}" tooltip="{i18n&gt;viewWRK.delete}" press="deletePiazzola" icon="sap-icon://delete" type="Reject" visible="{= ${/viewWrkElements/visWrkPageFooterBtn} &amp;&amp; ${/viewWrkElements/enabledDeleteBtn}}" />
 				<Button text="{i18n&gt;viewSite.save}" tooltip="{i18n&gt;viewSite.save}" press="saveUpdateNew" icon="sap-icon://save" type="Accept" enabled="{/viewWrkElements/enabledSaveBtn}" visible="{/viewWrkElements/visWrkPageFooterBtn}"  />				
 				
 				<!-- footer ObjectPageSection id="WKC_TYPE"-->

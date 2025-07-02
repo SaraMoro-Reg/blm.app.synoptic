@@ -295,7 +295,7 @@ sap.ui.define([
 					
 					//heading form data
 					oPhaseHeaderModel["enabledSequenceField"] = !bValue;
-					oPhaseHeaderModel["enabledVersionField"] = !bValue;
+					oPhaseHeaderModel["enabledVersionField"] = false;
 					oPhaseHeaderModel["enabledMacroPhaseField"] = !bValue;
 					oPhaseHeaderModel["enabledDescriptionField"] = true;      
 					oPhaseHeaderModel["enabledPriceListCodeField"] = true;
@@ -463,7 +463,7 @@ sap.ui.define([
                 "RECOVERYPHASE": false,
                 "SEQUENCE": "",
 				"SEQUENCE_TYPE": "0",
-                "SITE_ID": "0",
+                "SITE_ID": controller.SiteId,
                 "STATE_ID": "0",
                 "STDTIME": "0",
                 "TIMEREL": "0",
@@ -490,7 +490,10 @@ sap.ui.define([
 		},
 
         editModels: function (sAction) { 
-            let oPhaseData = controllerPhase.phaseModel.getProperty("/PhaseData");
+            let oPhaseData = controllerPhase.phaseModel.getProperty("/PhaseData"),
+				aPhaseParameters = controllerPhase.phaseModel.getProperty("/PhaseParameters"),
+				aPhaseAttachments = controllerPhase.phaseModel.getProperty("/PhaseAttachments");
+				
             switch (sAction) {
                 case 'COPY':
                     oPhaseData["SEQUENCE"] = "";
@@ -498,6 +501,12 @@ sap.ui.define([
                     oPhaseData["OP_CODE_ID"] = "0";
                     oPhaseData["OP_ID"] = "0";
 					oPhaseData["IS_USED"] = false;
+					for(let i in aPhaseParameters){
+						aPhaseParameters[i]["EDIT"] = true;
+					}
+					for(let j in aPhaseAttachments){
+						aPhaseAttachments[j]["EDIT"] = true;
+					}
                 break;
                 case 'NEW_VERSION':
                     oPhaseData["OP_CODE_ID"] = "0";
@@ -509,6 +518,12 @@ sap.ui.define([
 					};
                     oPhaseData["OP_CODE"] = (parseInt(controller.sendData("GET_LAST_PHASE_VERSION","OPERATION/TRANSACTION", oInput)["Rows"][0]["PHASE_LAST_VERSION"], 10) + 1).toString(); 
 					oPhaseData["IS_USED"] = false;
+					for(let i in aPhaseParameters){
+						aPhaseParameters[i]["EDIT"] = true;
+					}
+					for(let j in aPhaseAttachments){
+						aPhaseAttachments[j]["EDIT"] = true;
+					}
                 break;
                 default:
                     // Nothing
@@ -1094,11 +1109,11 @@ sap.ui.define([
                 return MessageBox.warning(controller.oBundle.getText("viewPhase.misstimerel"));
             }
             // operatori std
-            if (oPhaseData["OPERATORS"] === "") {
+            if (oPhaseData["OPERATORS"] === "" || oPhaseData["OPERATORS"] === "NA") {
                 return MessageBox.warning(controller.oBundle.getText("viewPhase.missoperators")); 
             }
             // tempo standard fase
-            if (oPhaseData["STDTIME"] === "") {
+            if (oPhaseData["STDTIME"] === "" || oPhaseData["STDTIME"] === "NA") {
                 return MessageBox.warning(controller.oBundle.getText("viewPhase.missstdtime"));
             }
             // fase di ripristino
@@ -1143,6 +1158,10 @@ sap.ui.define([
 					
 					controllerPhase.getPhaseData(oInput);
                     MessageToast.show(controller.oBundle.getText("controllerPhase.insertOK"));
+					
+					//Master Data - Refresh List
+					if(controllerPhase.phaseModel.getProperty("/isMasterPhaseFooter"))
+						controllerPhase.getMasterPhasesListData();
                 } else {
                     MessageBox.error(result[0].MESSAGE || controller.oBundle.getText("controllerUpdate.err"));
                 }
@@ -1166,6 +1185,10 @@ sap.ui.define([
 						if (result && result[0] && result[0].RC === "0") {                   
 							controllerPhase.newPhase(false);
 							MessageToast.show(controller.oBundle.getText("viewPhase.deletesucc"));
+							
+							//Master Data - Refresh List
+							if(controllerPhase.phaseModel.getProperty("/isMasterPhaseFooter"))
+								controllerPhase.getMasterPhasesListData();
 						} else {
 							MessageBox.error(result[0].MESSAGE || controller.oBundle.getText("controllerUpdate.err"));
 						}

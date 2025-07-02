@@ -59,8 +59,10 @@ sap.ui.define([
                     controllerUSR.newUsrGrp(false);
                     break;
                 case "WKC":
+	        controllerWorkCenter.byId("wkcObjectPage").setSelectedSection(controllerWorkCenter.byId("WKC").sId);
                     controllerWorkCenter.newSlot(false);
-                    controllerWorkCenter.wrkModel.setProperty("/tabSynoptic", []);
+	        controllerWorkCenter.pressWkcTabBar();
+                    /*controllerWorkCenter.wrkModel.setProperty("/tabSynoptic", []);
                     controllerWorkCenter.wrkModel.setProperty("/tabSynopticBGS1", []);
                     controllerWorkCenter.wrkModel.setProperty("/tabSynopticBGS2", []);
                     controllerWorkCenter.wrkModel.setProperty("/tabSynopticStr1", []);
@@ -140,7 +142,7 @@ sap.ui.define([
                         controllerWorkCenter.byId("SynopticBgusa").setVisible(false);
                         controllerWorkCenter.byId("SynopticBlm1").setVisible(true);
                         controllerWorkCenter.byId("SynopticBlm2").setVisible(true);
-                    }
+                    }*/
 
                     break;
 
@@ -160,8 +162,7 @@ sap.ui.define([
                     break;
 
                 case "OP":
-                    let oSection = controllerPhase.byId("OP_PHASE");
-                    controllerPhase.byId("phaseObjectPage").setSelectedSection(oSection);
+                    controllerPhase.byId("phaseObjectPage").setSelectedSection(controllerPhase.byId("OP_PHASE"));
                     controllerPhase.newPhase(false);
                     break;
 

@@ -1,80 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" controllerName="master_data.controller.MainTile" height="100%" displayBlock="true">
-	<HBox width="100%" height="100%" renderType="Bare">
-		<l:VerticalLayout >
-			<HBox width="100%" height="10%" renderType="Bare" >
-				<Button id="addMainTile" text="{i18n&gt;viewMainTile.addTile}" tooltip="{i18n&gt;viewMainTile.addTile}" press="addTile" icon="sap-icon://add-activity" class="sapUiSmallMarginEnd" />
-				<Button id="cloneMainTile" text="{i18n&gt;viewPhase.clone}" tooltip="{i18n&gt;viewPhase.clone}" press="cloneMainTile" icon="sap-icon://copy" class="sapUiSmallMarginEnd" />
-				<Button id="undoMainTile" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getData" icon="sap-icon://undo" type="Reject" class="sapUiTinyMarginEnd" />
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" xmlns:u="sap.uxap" controllerName="master_data.controller.MainTile" height="100%" displayBlock="true">
+	<u:ObjectPageLayout id="tileMainObjectPage" enableLazyLoading="true" showTitleInHeaderContent="false" upperCaseAnchorBar="false" useIconTabBar="true" backgroundDesignAnchorBar="Transparent" showHeaderContent="false" height="100%" class="sapUiNoContentPadding" showFooter="true">
+		<u:ObjectPageSection showTitle="false" class="sapUiNoMarginBegin">
+			<u:ObjectPageSubSection>
+				<table:Table id="tabMainTiles" rows="{path: '/tabMainTile'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" visibleRowCount="14" >
+					<table:rowSettingsTemplate>
+						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
+					</table:rowSettingsTemplate>
+					<table:columns>
+						<table:Column width="9%" hAlign="Center">
+							<Label text="{i18n&gt;viewMainTile.Table.section}" />
+							<table:template>
+								<Input type="Text" value="{SECTION}" placeholder="{i18n&gt;viewMainTile.list.section}" width="100%" textAlign="Begin" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
+							</table:template>
+						</table:Column>
+						<table:Column width="6.5%" hAlign="Center">
+							<Label text="{i18n&gt;viewMainTile.Table.orderSection}" />
+							<table:template>
+								<StepInput value="{ORDER_SECTION}" change="onChangeOrderSection" textAlign="Center" width="100%" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
+							</table:template>
+						</table:Column>
+						<table:Column width="13%" hAlign="Center">
+							<Label text="{i18n&gt;viewMainTile.Table.tileName}" />
+							<table:template>
+								<Input type="Text" value="{TILE_NAME}" change="onChangeTileName" placeholder="{i18n&gt;viewMainTile.list.tileName}" width="100%" textAlign="Begin" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
+							</table:template>
+						</table:Column>
+						<table:Column width="14%" hAlign="Center">
+							<Label text="{i18n&gt;viewMainTile.Table.activity}" />
+							<table:template>
+								<Input type="Text" value="{ACTIVITY}" placeholder="{i18n&gt;viewMainTile.list.activity}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelpActivity" width="100%" textAlign="Begin" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
+							</table:template>
+						</table:Column>					
+						<table:Column width="7.5%" hAlign="Center">
+							<Label text="{i18n&gt;viewMainTile.Table.position}" />
+							<table:template>
+								<StepInput value="{POSITION}" change="onChangePosition" textAlign="Center" width="100%" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
+							</table:template>
+						</table:Column>
+						<table:Column width="18%" hAlign="Center">
+							<Label text="{i18n&gt;viewMainTile.Table.tileIcon}" />
+							<table:template>
+								<Input type="Text" value="{TILE_ICON}" placeholder="{i18n&gt;viewMainTile.list.tileIcon}" width="100%" textAlign="Begin" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
+							</table:template>
+						</table:Column>
+						<table:Column width="15.5%" hAlign="Center">
+							<Label text="{i18n&gt;viewMainTile.Table.tilePress}" />
+							<table:template>
+								<Input type="Text" value="{TILE_PRESS}"  change="onChangeTilePress" placeholder="{i18n&gt;viewMainTile.list.tilePress}" width="100%" textAlign="Begin" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
+							</table:template>
+						</table:Column>
+						<table:Column width="5.5%" hAlign="Center">
+							<Label text="{i18n&gt;viewMainTile.Table.tileVisible}" />
+							<table:template>
+								<Switch state="{= ${TILE_VISIBLE} === 'true'}" change="onChangeState" enabled="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
+							</table:template>
+						</table:Column>	
+						<table:Column width="5%" hAlign="Center">
+							<Label text="{i18n&gt;viewMainTile.Table.edit}" />
+							<table:template>
+								<Button press="editTileMain" tooltip="{i18n&gt;viewMainTile.Table.edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" enabled="{= ${EDIT} === 'false' &amp;&amp; ${DEL} !== 'true'}" />
+							</table:template>
+						</table:Column>
+						<table:Column width="5%" hAlign="Center">
+							<Label text="{i18n&gt;viewMainTile.Table.delete}" />
+							<table:template>
+								<Button press="deleteTileMain" tooltip="{i18n&gt;viewMainTile.Table.delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
+							</table:template>
+						</table:Column>
+					</table:columns>
+				</table:Table>		
+			</u:ObjectPageSubSection>
+		</u:ObjectPageSection>		
+		<u:footer>
+			<Toolbar style="Clear" design="Transparent">
+				<Button text="{i18n&gt;viewMainTile.addTile}" tooltip="{i18n&gt;viewMainTile.addTile}" press="addTile" icon="sap-icon://add-activity" />
+				<Button text="{i18n&gt;viewPhase.clone}" tooltip="{i18n&gt;viewPhase.clone}" press="cloneMainTile" icon="sap-icon://copy" />
+				<ToolbarSpacer />
+				<Button id="undoMainTile" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getData" icon="sap-icon://undo" type="Reject"  />
 				<Button id="saveMainTile" text="{i18n&gt;viewMainTile.save}" tooltip="{i18n&gt;viewMainTile.save}" press="updateTiles" icon="sap-icon://save" type="Accept" />				
-			</HBox>
-			<table:Table id="tabMainTiles" rows="{path: '/tabMainTile'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" class="sapUiTinyMarginTop" >
-				<table:rowSettingsTemplate>
-					<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
-				</table:rowSettingsTemplate>
-				<table:columns>
-					<table:Column width="9%" hAlign="Center">
-						<Label text="{i18n&gt;viewMainTile.Table.section}" />
-						<table:template>
-							<Input type="Text" value="{SECTION}" placeholder="{i18n&gt;viewMainTile.list.section}" width="100%" textAlign="Begin" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
-						</table:template>
-					</table:Column>
-					<table:Column width="7.5%" hAlign="Center">
-						<Label text="{i18n&gt;viewMainTile.Table.orderSection}" />
-						<table:template>
-							<StepInput value="{ORDER_SECTION}" change="onChangeOrderSection" textAlign="Center" width="100%" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
-						</table:template>
-					</table:Column>
-					<table:Column width="13%" hAlign="Center">
-						<Label text="{i18n&gt;viewMainTile.Table.tileName}" />
-						<table:template>
-							<Input type="Text" value="{TILE_NAME}" change="onChangeTileName" placeholder="{i18n&gt;viewMainTile.list.tileName}" width="100%" textAlign="Begin" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
-						</table:template>
-					</table:Column>
-					<table:Column width="14%" hAlign="Center">
-						<Label text="{i18n&gt;viewMainTile.Table.activity}" />
-						<table:template>
-							<Input type="Text" value="{ACTIVITY}" placeholder="{i18n&gt;viewMainTile.list.activity}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelpActivity" width="100%" textAlign="Begin" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
-						</table:template>
-					</table:Column>					
-					<table:Column width="7.5%" hAlign="Center">
-						<Label text="{i18n&gt;viewMainTile.Table.position}" />
-						<table:template>
-							<StepInput value="{POSITION}" change="onChangePosition" textAlign="Center" width="100%" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
-						</table:template>
-					</table:Column>
-					<table:Column width="18%" hAlign="Center">
-						<Label text="{i18n&gt;viewMainTile.Table.tileIcon}" />
-						<table:template>
-							<Input type="Text" value="{TILE_ICON}" placeholder="{i18n&gt;viewMainTile.list.tileIcon}" width="100%" textAlign="Begin" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
-						</table:template>
-					</table:Column>
-					<table:Column width="15.5%" hAlign="Center">
-						<Label text="{i18n&gt;viewMainTile.Table.tilePress}" />
-						<table:template>
-							<Input type="Text" value="{TILE_PRESS}"  change="onChangeTilePress" placeholder="{i18n&gt;viewMainTile.list.tilePress}" width="100%" textAlign="Begin" editable="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
-						</table:template>
-					</table:Column>
-					<table:Column width="5.5%" hAlign="Center">
-						<Label text="{i18n&gt;viewMainTile.Table.tileVisible}" />
-						<table:template>
-							<Switch state="{= ${TILE_VISIBLE} === 'true'}" change="onChangeState" enabled="{= ${EDIT} === 'true' &amp;&amp; ${DEL} !== 'true'}" />
-						</table:template>
-					</table:Column>	
-					<table:Column width="3%" hAlign="Center">
-						<Label text="{i18n&gt;viewMainTile.Table.edit}" />
-						<table:template>
-							<Button press="editTileMain" tooltip="{i18n&gt;viewMainTile.Table.edit}" type="Transparent" icon="sap-icon://edit" iconDensityAware="false" enabled="{= ${EDIT} === 'false' &amp;&amp; ${DEL} !== 'true'}" />
-						</table:template>
-					</table:Column>
-					<table:Column width="2%" hAlign="Center">
-						<Label text="{i18n&gt;viewMainTile.Table.delete}" />
-						<table:template>
-							<Button press="deleteTileMain" tooltip="{i18n&gt;viewMainTile.Table.delete}" type="Transparent" icon="sap-icon://delete" iconDensityAware="false" />
-						</table:template>
-					</table:Column>
-				</table:columns>
-			</table:Table>
-		</l:VerticalLayout>
-	</HBox>
+			</Toolbar>
+		</u:footer>
+	</u:ObjectPageLayout>
 </mvc:View>

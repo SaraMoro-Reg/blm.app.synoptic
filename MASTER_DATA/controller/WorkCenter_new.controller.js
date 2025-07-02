@@ -14,7 +14,7 @@ sap.ui.define([
             "currentSite": controller.site,
             "wrkDetails": {
                 "PARENTWORKCENTER": "",
-                "PARENTWORKCENTER_ID": "",
+                "PARENTWORKCENTER_ID": "0",
                 "SITE_ID": "",
                 "STATUS_ID": "",
                 "WORKCENTER": "",
@@ -134,11 +134,13 @@ sap.ui.define([
                     viewWrkTypeElements.visWrkTypePageFooterBtn = true;
                     // Reset allo stato di default per tab WKC_TYPE
                     controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC_TYPE", false);
+					controllerWorkCenter.getWrkType();
                     break;
                 case "WKC_HOURS":
                     viewWrkHoursElements.visWrkHoursPageFooterBtn = true;
                     // Reset allo stato di default per tab WKC_HOURS
-                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC_HOURS", false);
+                    //controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC_HOURS", false);
+					controllerWorkCenter.getHoursList();
                     break;
                 case "SYNOPTIC":
                     viewWrkSynopticElements.visAdigeSynopticPageFooterBtn = true;
@@ -205,6 +207,36 @@ sap.ui.define([
             // console.log("Footer visibility updated for section: " + sPage);
         },
 
+        /* Gestione errori generici */
+        transactionError: function (error) {
+            console.error("Transaction error:", error);
+            MessageBox.error(controller.oBundle ? controller.oBundle.getText("controllerUpdate.err") : "Errore nella transazione");
+        },
+
+        /* Metodo per chiamate sincrone come in Phase.controller.js */
+        getDataSync: function (trans, rt, inp, suss, errf) {
+            var transactionCall = rt + "/" + trans;
+            var that = this;
+
+            inp.TRANSACTION = transactionCall;
+            inp.OutputParameter = "JSON";
+
+            try {
+                var req = jQuery.ajax({
+                    url: "/XMII/Runner",
+                    data: inp,
+                    method: "POST",
+                    dataType: "xml",
+                    async: false
+                });
+                req.done(jQuery.proxy(suss, that));
+                req.fail(jQuery.proxy(errf, that));
+            } catch (err) {
+                console.error("Error in getDataSync:", err);
+                errf.call(that, err);
+            }
+        },
+
         /* Gestisce l'abilitazione/disabilitazione dei campi e bottoni */
         enabledWorkCenterFields: function(sAction, bValue){
             let oWrkElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkElements");
@@ -237,12 +269,12 @@ sap.ui.define([
                     
                 case "NEW_WKC":
                     // Modalità Nuova Piazzola
-                    oWrkElements.enabledSearchInput = false;  // Disabilita input ricerca
+                    oWrkElements.enabledSearchInput = false;  
                     oWrkElements.enabledExcelDownloadBtn = true;
-                    oWrkElements.enabledNewWrkBtn = false;   // Disabilita bottone Nuova Piazzola
-                    oWrkElements.enabledResetBtn = true;     // Abilita bottone Chiudi
-                    oWrkElements.enabledSaveBtn = true;      // Abilita bottone Salva
-                    oWrkElements.enabledDeleteBtn = false;   // Elimina resta disabilitato per nuove piazzole
+                    oWrkElements.enabledNewWrkBtn = false;  
+                    oWrkElements.enabledResetBtn = true;     
+                    oWrkElements.enabledSaveBtn = true;      
+                    oWrkElements.enabledDeleteBtn = false;  
                     
                     // Abilita campi della sezione WKC
                     oWrkElements.enabledWrkField = true;
@@ -259,15 +291,15 @@ sap.ui.define([
                     
                 case "SELECTED_WKC":
                     // Piazzola selezionata (modalità edit)
-                    oWrkElements.enabledSearchInput = false; // Disabilita input ricerca
+                    oWrkElements.enabledSearchInput = false;
                     oWrkElements.enabledExcelDownloadBtn = true;
                     oWrkElements.enabledNewWrkBtn = true;
-                    oWrkElements.enabledResetBtn = true;     // Abilita bottone Chiudi
-                    oWrkElements.enabledSaveBtn = true;      // Abilita bottone Salva
-                    oWrkElements.enabledDeleteBtn = bValue;  // Abilita Elimina solo se non è in uso
+                    oWrkElements.enabledResetBtn = true;     
+                    oWrkElements.enabledSaveBtn = true;     
+                    oWrkElements.enabledDeleteBtn = bValue;
                     
                     // Abilita campi della sezione WKC (tranne il campo piazzola)
-                    oWrkElements.enabledWrkField = false;    // Campo piazzola resta disabilitato
+                    oWrkElements.enabledWrkField = false;  
                     oWrkElements.enabledDescrWrkField = true;
                     oWrkElements.enabledWrkType = true;
                     oWrkElements.enabledWrkParent = true;
@@ -306,7 +338,7 @@ sap.ui.define([
                     oWrkHoursElements.enabledNewHoursBtn = true;
                     oWrkHoursElements.enabledDeleteAllHoursBtn = true;
                     oWrkHoursElements.enabledUndoHoursBtn = true;
-                    oWrkHoursElements.enabledSaveHoursBtn = false; // Si abilita quando si inserisce la piazzola
+                    oWrkHoursElements.enabledSaveHoursBtn = false;
                     oWrkHoursElements.editMode = true;
                     break;
                     
@@ -380,8 +412,8 @@ sap.ui.define([
         resetWrkHeaderModel: function () {
             controllerWorkCenter.wrkModel.setProperty("/wrkDetails", {
                 "PARENTWORKCENTER": "",
-                "PARENTWORKCENTER_ID": "",
-                "SITE_ID": "",
+                "PARENTWORKCENTER_ID": "0",
+                "SITE_ID": controller.SiteId,
                 "STATUS_ID": "",
                 "WORKCENTER": "",
                 "WORKCENTERTYPE": "",
@@ -399,20 +431,40 @@ sap.ui.define([
             var transactionCall = route + "/" + Transaction;
             Input.TRANSACTION = transactionCall;
             Input.OutputParameter = "JSON";
-            $.ajax({
-                type: 'POST',
-                data: Input,
-                dataType: 'xml',
-                async: false,
-                url: "/XMII/Runner",
-                success: function (data) {
-                    results = JSON.parse(data.documentElement.textContent);
-                },
-                error: function searchError(xhr, err) {
-                    console.error("Error on ajax call: " + err);
-                    console.log(JSON.stringify(xhr));
-                }
-            });
+            
+            try {
+                $.ajax({
+                    type: 'POST',
+                    data: Input,
+                    dataType: 'xml',
+                    async: false,
+                    url: "/XMII/Runner",
+                    success: function (data) {
+                        try {
+                            var textContent = data.documentElement.textContent;
+                            if (textContent && textContent.trim() !== "") {
+                                results = JSON.parse(textContent);
+                            } else {
+                                console.error("Empty or null response from server");
+                                results = null;
+                            }
+                        } catch (parseError) {
+                            console.error("JSON parsing error:", parseError);
+                            console.error("Raw response:", data.documentElement.textContent);
+                            results = null;
+                        }
+                    },
+                    error: function searchError(xhr, err) {
+                        console.error("Error on ajax call: " + err);
+                        console.error("Status:", xhr.status);
+                        console.error("Response:", xhr.responseText);
+                        results = null;
+                    }
+                });
+            } catch (error) {
+                console.error("Ajax call failed:", error);
+                results = null;
+            }
             return results;
         },
 
@@ -429,18 +481,26 @@ sap.ui.define([
         },
 
         getWrkList: function () {
-            let oInput = {
-                "LANGUAGE": controller.language,
-                "SITE": controller.site,
-                "WORKCENTER": ""
-            };
-            let result = controller.sendData("GET_WRK_LIST_FILTER", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", oInput);
-            
-            if (result && result["Rows"]) {
-                controllerWorkCenter.wrkModel.setProperty("/tabwrklist", result["Rows"]);
-            } else {
-                console.error("Invalid response from GET_WRK_LIST_FILTER:", result);
+            try {
+                let oInput = {
+                    "LANGUAGE": controller.language,
+                    "SITE": controller.site
+                };
+                let result = controller.sendData("GET_LIST_WRK_FOR_SEARCH", "WORKCENTER/TRANSACTION/WRK", oInput);
+                
+                if (result && result["Rows"]) {
+                    controllerWorkCenter.wrkModel.setProperty("/tabwrklist", result["Rows"]);
+                } else {
+                    console.error("Invalid response from GET_LIST_WRK_FOR_SEARCH:", result);
+                    controllerWorkCenter.wrkModel.setProperty("/tabwrklist", []);
+                    if (result && result[0] && result[0].MESSAGE) {
+                        MessageBox.error(result[0].MESSAGE);
+                    }
+                }
+            } catch (error) {
+                console.error("Error in getWrkList:", error);
                 controllerWorkCenter.wrkModel.setProperty("/tabwrklist", []);
+                MessageBox.error(controller.oBundle ? controller.oBundle.getText("controllerUpdate.err") : "Errore nel caricamento dati");
             }
         },
 
@@ -456,8 +516,7 @@ sap.ui.define([
                 let oRowSel = controllerWorkCenter.wrkModel.getProperty(oEvent.getParameter("selectedItem").getBindingContext().sPath),
                 oInput = {
                     "LANGUAGE": controller.language,
-                    "SITE": controller.site,
-                    "WORKCENTER": oRowSel["WORKCENTER"]
+                    "WORKCENTER_ID": oRowSel["WORKCENTER_ID"]
                 };
 
                 controllerWorkCenter.getWrkHeaderDetails(oInput);
@@ -469,19 +528,29 @@ sap.ui.define([
         },
 
         getWrkHeaderDetails: function (oInput) {
-            let result = controller.sendData("GET_WRK_LIST_FILTER", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", oInput);
-                
-            if (result && result["Rows"] && result["Rows"].length > 0) {
-                let oResult = result["Rows"][0];
+            try {
+                let result = controller.sendData("GET_WRK_DATA", "WORKCENTER/TRANSACTION/WRK", oInput);
+                    
+                if (result && result["Rows"] && result["Rows"].length > 0) {
+                    let oResult = result["Rows"][0];
 
-                controllerWorkCenter.getWrkType();
-                controllerWorkCenter.getWrkStatus();
+                    controllerWorkCenter.getWrkType();
+                    controllerWorkCenter.getWrkStatus();
 
-                controllerWorkCenter.enabledWorkCenterFields("SELECTED_WKC", !oResult["IS_USED"]);
+                    controllerWorkCenter.enabledWorkCenterFields("SELECTED_WKC", !oResult["IS_USED"]);
 
-                controllerWorkCenter.wrkModel.setProperty("/wrkDetails", oResult);
-            } else {
-                console.error("Invalid response from GET_WRK_LIST_FILTER:", result);
+                    controllerWorkCenter.wrkModel.setProperty("/wrkDetails", oResult);
+                } else {
+                    console.error("Invalid response from GET_WRK_DATA:", result);
+                    if (result && result[0] && result[0].MESSAGE) {
+                        MessageBox.error(result[0].MESSAGE);
+                    } else {
+                        MessageBox.warning(controller.oBundle ? controller.oBundle.getText("viewWRK.noDataFound") : "Nessun dato trovato");
+                    }
+                }
+            } catch (error) {
+                console.error("Error in getWrkHeaderDetails:", error);
+                MessageBox.error(controller.oBundle ? controller.oBundle.getText("controllerUpdate.err") : "Errore nel caricamento dettagli");
             }
         },
 
@@ -496,31 +565,51 @@ sap.ui.define([
 
         /* -------------------- Refresh Data -------------------- */
 		refreshWrkData: function(oInput){
-		   let aResult = controller.sendData("GET_WRK_DATA", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", oInput),     // TODO - Da Realizzare
-			   oWrkData = aResult[0]["wrkDetails"][0],
-			   aWrkType = aResult[0]["wrktype"];
+		   let aResult = controller.sendData("GET_WRK_DATA", "WORKCENTER/TRANSACTION/WRK", oInput),     // TODO - Da Realizzare
+			   oWrkData = aResult["Rows"][0];
+			   
+			   controllerWorkCenter.getWrkType();
+               controllerWorkCenter.getWrkStatus();
 		   
-		   controllerWorkCenter.setModelProperty("/wrkDetails", oWrkData);
-		   controllerWorkCenter.setModelProperty("/wrktype", aWrkType);
+		   controllerWorkCenter.wrkModel.setProperty("/wrkDetails", oWrkData);
 		   
-		   controllerWorkCenter.enabledFieldType(oWrkData["WORKCENTERTYPE_ID"], oWrkData["IS_USED"] === "false", false);
+		   controllerWorkCenter.enebledViewElements("RETRIEVE", oWrkData["IS_USED"]);
 		},
 
         /* -------------------- Descrizione Piazzola - popup -------------------- */
         onOpenValueHelpWrkDesc: function (oEvent) {
-            let Input = {
-				"WORKCENTER_ID": controllerWorkCenter.wrkModel.getProperty("/wrkDetails/WORKCENTER_ID")
-			};
-			
-			Fragment.load({
-				name: "master_data.view.popup.workcenter.listWrkDesc",
-				controller: controllerWorkCenter
-			}).then(function (oValueHelpDialogWrkDesc) {
-				controllerWorkCenter._oValueHelpDialog = oValueHelpDialogWrkDesc;
-				controllerWorkCenter.getView().addDependent(controllerWorkCenter._oValueHelpDialog);
-				controllerWorkCenter.setModelProperty("/tabDescrWrk", controller.sendData("GET_WRK_LIST_DESC", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", Input)["Rows"]);
-				controllerWorkCenter._oValueHelpDialog.open();
-			});
+            try {
+                let Input = {
+                    "WORKCENTER_ID": controllerWorkCenter.wrkModel.getProperty("/wrkDetails/WORKCENTER_ID")
+                };
+                
+                Fragment.load({
+                    name: "master_data.view.popup.workcenter.listWrkDesc",
+                    controller: controllerWorkCenter
+                }).then(function (oValueHelpDialogWrkDesc) {
+                    controllerWorkCenter._oValueHelpDialog = oValueHelpDialogWrkDesc;
+                    controllerWorkCenter.getView().addDependent(controllerWorkCenter._oValueHelpDialog);
+                    
+                    try {
+                        let result = controller.sendData("GET_WRK_LIST_DESC", "WORKCENTER/TRANSACTION/WRK", Input);
+                        if (result && result["Rows"]) {
+                            controllerWorkCenter.wrkModel.setProperty("/tabDescrWrk", result["Rows"]);
+                        } else {
+                            console.error("Invalid response from GET_WRK_LIST_DESC:", result);
+                            controllerWorkCenter.wrkModel.setProperty("/tabDescrWrk", []);
+                        }
+                    } catch (error) {
+                        console.error("Error loading work center descriptions:", error);
+                        controllerWorkCenter.wrkModel.setProperty("/tabDescrWrk", []);
+                        MessageBox.error(controller.oBundle ? controller.oBundle.getText("controllerUpdate.err") : "Errore nel caricamento delle descrizioni");
+                    }
+                    
+                    controllerWorkCenter._oValueHelpDialog.open();
+                });
+            } catch (error) {
+                console.error("Error opening value help dialog:", error);
+                MessageBox.error(controller.oBundle ? controller.oBundle.getText("controllerUpdate.err") : "Errore nell'apertura del dialogo");
+            }
         },
 
         confirmEditWrkDescr: function () {
@@ -554,7 +643,7 @@ sap.ui.define([
 			
             let Input = {
                 "DATA": JSON.stringify(arrInput)
-            }, result = controller.sendData("SAVE_WRK_DESC", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", Input);      // TODO - Da Realizzare
+            }, result = controller.sendData("SAVE_WRK_DESC", "WORKCENTER/TRANSACTION/WRK", Input);
 
             if (!result || !Array.isArray(result) || result.length === 0) {
                 return MessageBox.error("Invalid response from server.");
@@ -605,87 +694,116 @@ sap.ui.define([
         /* --- */
 
         getWrkStatus: function () {
-            let oInput = {
-                "LANGUAGE": controller.language
-            };
-            let result = controller.sendData("GET_WOKCENTER_STATUS", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", oInput);
-            
-            if (result && result["Rows"]) {
-                controllerWorkCenter.wrkModel.setProperty("/tabwrkStatus", result["Rows"]);
-            } else {
-                console.error("Invalid response from GET_WOKCENTER_STATUS:", result);
+            try {
+                let oInput = {
+                    "LANGUAGE": controller.language
+                };
+                let result = controller.sendData("GET_WOKCENTER_STATUS", "WORKCENTER/TRANSACTION/WRK", oInput);
+                
+                if (result && result["Rows"]) {
+                    controllerWorkCenter.wrkModel.setProperty("/tabwrkStatus", result["Rows"]);
+                } else {
+                    console.error("Invalid response from GET_WOKCENTER_STATUS:", result);
+                    controllerWorkCenter.wrkModel.setProperty("/tabwrkStatus", []);
+                }
+            } catch (error) {
+                console.error("Error in getWrkStatus:", error);
                 controllerWorkCenter.wrkModel.setProperty("/tabwrkStatus", []);
             }
         },
 
         deletePiazzola: function () {
-            let oInput = {
-                "WORKCENTER_ID": controllerWorkCenter.wrkModel.getProperty("/wrkDetails/WORKCENTER_ID")
-            };
+            try {
+                let oModel = controllerWorkCenter.wrkModel.getProperty("/wrkDetails"),
+					oInput = {
+						"WORKCENTER_ID": oModel["WORKCENTER_ID"] 
+					};
 
-            MessageBox.confirm((controller.oBundle.getText("viewWRK.messageConfirmDeletePiazzola") + " " + controllerWorkCenter.byId("inputPiazzola").getValue() + "?"), {
-                styleClass: "sapUiSizeCompact",
-                onClose: function (evt) {
-                    if (evt == "OK") {
-                        let aResult = controller.sendData("DELETE_WRK", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", oInput);
-                        if (aResult[0]["RC"] === "0") {
-                            controllerWorkCenter.newSlot(false);
-                        } else {
-                            MessageBox.error(aResult[0]["MESSAGE"]);
+                MessageBox.confirm((controller.oBundle.getText("viewWRK.messageConfirmDeletePiazzola") + " " + oModel["WORKCENTER"] + "?"), {
+                    styleClass: "sapUiSizeCompact",
+                    onClose: function (evt) {
+                        if (evt == "OK") {
+                            try {
+                                let aResult = controller.sendData("DELETE_WRK", "WORKCENTER/TRANSACTION/WRK", oInput);
+                                if (aResult && aResult[0] && aResult[0]["RC"] === "0") {
+                                    controllerWorkCenter.newSlot(false);
+                                    MessageToast.show(controller.oBundle ? controller.oBundle.getText("viewWRK.deleteSuccess") : "Piazzola eliminata con successo");
+                                } else {
+                                    let errorMessage = (aResult && aResult[0] && aResult[0]["MESSAGE"]) ? aResult[0]["MESSAGE"] : "Errore nell'eliminazione";
+                                    MessageBox.error(errorMessage);
+                                }
+                            } catch (error) {
+                                console.error("Error deleting work center:", error);
+                                MessageBox.error(controller.oBundle ? controller.oBundle.getText("controllerUpdate.err") : "Errore nell'eliminazione della piazzola");
+                            }
                         }
                     }
-                }
-            });
+                });
+            } catch (error) {
+                console.error("Error in deletePiazzola:", error);
+                MessageBox.error(controller.oBundle ? controller.oBundle.getText("controllerUpdate.err") : "Errore nell'operazione di eliminazione");
+            }
         },
 
         saveUpdateNew: function () {
-            let oWrkHeaderModel = controllerWorkCenter.wrkModel.getProperty("/wrkDetails"); 
-			
-            if (oWrkHeaderModel["WORKCENTER"] === "") {
-                return MessageBox.warning(controller.oBundle.getText("viewWRK.warnig.missedcdl"));
-            }
-			
-            if (oWrkHeaderModel["WORKCENTER_DESC"] === "") {
-                return MessageBox.warning(controller.oBundle.getText("viewWRK.warnig.misseddescr"));
-            }
-			
-            if (oWrkHeaderModel["WORKCENTERTYPE_ID"] === "") {
-                return MessageBox.warning(controller.oBundle.getText("viewWRK.warnig.missedtype"));
-            }
-            
-            if (oWrkHeaderModel["STATUS_ID"] === "") {
-                return MessageBox.warning(controller.oBundle.getText("viewWRK.warnig.missedStatus"));
-            }
-			
-            let xmlInput = "<root>";
-			
-			xmlInput = xmlInput + "<WORKCENTER>" + oWrkHeaderModel["WORKCENTER"] + "</WORKCENTER>";
-			xmlInput = xmlInput + "<WORKCENTER_DESC>" + oWrkHeaderModel["WORKCENTER_DESC"] + "</WORKCENTER_DESC>";           
-            xmlInput = xmlInput + "<SITE_ID>" + controller.SiteId + "</SITE_ID>";           
-            xmlInput = xmlInput + "<WORKCENTER_ID>" + oWrkHeaderModel["WORKCENTER_ID"] + "</WORKCENTER_ID>";
-            xmlInput = xmlInput + "<WORKCENTERTYPE_ID>" + oWrkHeaderModel["WORKCENTERTYPE_ID"]+ "</WORKCENTERTYPE_ID>";
-            xmlInput = xmlInput + "<PARENTWORKCENTER_ID>" + oWrkHeaderModel["PARENTWORKCENTER_ID"] + "</PARENTWORKCENTER_ID>";
-            xmlInput = xmlInput + "<STATUS_ID>" + oWrkHeaderModel["STATUS_ID"] + "</STATUS_ID>";
-            xmlInput = xmlInput + "<WORKCENTER_AUTHOMA>" + oWrkHeaderModel["WORKCENTER_AUTHOMA"] + "</WORKCENTER_AUTHOMA>";
-            xmlInput = xmlInput + "<LANGUAGE>" + controller.language + "</LANGUAGE>";
-            xmlInput = xmlInput + "</root>";
-
-            let oInput = {
-                "DATA": xmlInput
-            },
-            aResult = controller.sendData("INSERT_WORKCENTER", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", oInput);
-           
-		   if (aResult[0]["RC"] === "0") {
-                controllerWorkCenter.newSlot(false);
-           } else {
-                let message = "";
-				
-                try {
-                    message = controller.oBundle.getText(aResult[0]["MESSAGE"]);
-                } catch (err) {
-                    message = aResult[0]["MESSAGE"];
+            try {
+                let oWrkHeaderModel = controllerWorkCenter.wrkModel.getProperty("/wrkDetails"); 
+                
+                if (oWrkHeaderModel["WORKCENTER"] === "") {
+                    return MessageBox.warning(controller.oBundle.getText("viewWRK.warnig.missedcdl"));
                 }
-                MessageBox.error(message);
+                
+                if (oWrkHeaderModel["WORKCENTER_DESC"] === "") {
+                    return MessageBox.warning(controller.oBundle.getText("viewWRK.warnig.misseddescr"));
+                }
+                
+                if (oWrkHeaderModel["WORKCENTERTYPE_ID"] === "") {
+                    return MessageBox.warning(controller.oBundle.getText("viewWRK.warnig.missedtype"));
+                }
+                
+                if (oWrkHeaderModel["STATUS_ID"] === "") {
+                    return MessageBox.warning(controller.oBundle.getText("viewWRK.warnig.missedStatus"));
+                }
+                
+                let xmlInput = "<root>";
+                
+                xmlInput = xmlInput + "<WORKCENTER>" + oWrkHeaderModel["WORKCENTER"] + "</WORKCENTER>";
+                xmlInput = xmlInput + "<WORKCENTER_DESC>" + oWrkHeaderModel["WORKCENTER_DESC"] + "</WORKCENTER_DESC>";           
+                xmlInput = xmlInput + "<SITE_ID>" + controller.SiteId + "</SITE_ID>";           
+                xmlInput = xmlInput + "<WORKCENTER_ID>" + oWrkHeaderModel["WORKCENTER_ID"] + "</WORKCENTER_ID>";
+                xmlInput = xmlInput + "<WORKCENTERTYPE_ID>" + oWrkHeaderModel["WORKCENTERTYPE_ID"]+ "</WORKCENTERTYPE_ID>";
+                xmlInput = xmlInput + "<PARENTWORKCENTER_ID>" + oWrkHeaderModel["PARENTWORKCENTER_ID"] + "</PARENTWORKCENTER_ID>";
+                xmlInput = xmlInput + "<STATUS_ID>" + oWrkHeaderModel["STATUS_ID"] + "</STATUS_ID>";
+                xmlInput = xmlInput + "<WORKCENTER_AUTHOMA>" + oWrkHeaderModel["WORKCENTER_AUTHOMA"] + "</WORKCENTER_AUTHOMA>";
+                xmlInput = xmlInput + "<LANGUAGE>" + controller.language + "</LANGUAGE>";
+                xmlInput = xmlInput + "</root>";
+
+                let oInput = {
+                    "DATA": xmlInput
+                };
+                
+                let aResult = controller.sendData("INSERT_WORKCENTER", "WORKCENTER/TRANSACTION/WRK", oInput);
+                
+                if (aResult && aResult[0] && aResult[0]["RC"] === "0") {
+                    controllerWorkCenter.newSlot(false);
+                    MessageToast.show(controller.oBundle ? controller.oBundle.getText("contrWRK.insertOK") : "Piazzola salvata con successo");
+                } else {
+                    let message = "";
+                    
+                    try {
+                        message = (aResult && aResult[0] && aResult[0]["MESSAGE"]) ? 
+                                 controller.oBundle.getText(aResult[0]["MESSAGE"]) : 
+                                 aResult[0]["MESSAGE"];
+                    } catch (err) {
+                        message = (aResult && aResult[0] && aResult[0]["MESSAGE"]) ? 
+                                 aResult[0]["MESSAGE"] : 
+                                 "Errore nel salvataggio";
+                    }
+                    MessageBox.error(message);
+                }
+            } catch (error) {
+                console.error("Error in saveUpdateNew:", error);
+                MessageBox.error(controller.oBundle ? controller.oBundle.getText("controllerUpdate.err") : "Errore nel salvataggio della piazzola");
             }
         },
 
@@ -791,33 +909,28 @@ sap.ui.define([
         },
 
         /* -------------------- Definizione Tipo Piazzola -------------------- */
-        /*
-        newType: function () {
-            controllerWorkCenter.enabledWorkCenterFields("NEW_WKC_TYPE", true);
-            controllerWorkCenter.getWrkType();
-        },
-
-        undoWrkType: function () {
-            controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC_TYPE", false);
-            controllerWorkCenter.getWrkType();
-        },
-
         getWrkType: function () {
-            let oInput = {
+            try {
+                let oInput = {
                     "LANGUAGE": controller.language
                 };
-            let result = controller.sendData("GET_WOKCENTER_TYPE", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", oInput);
-            
-            if (result && result["Rows"]) {
-                controllerWorkCenter.wrkModel.setProperty("/tabwrktype", result["Rows"]);
-            } else {
-                console.error("Invalid response from GET_WOKCENTER_TYPE:", result);
+                let result = controller.sendData("GET_WOKCENTER_TYPE", "WORKCENTER/TRANSACTION", oInput);
+                
+                if (result && result["Rows"]) {
+                    controllerWorkCenter.wrkModel.setProperty("/tabwrktype", result["Rows"]);
+                } else {
+                    console.error("Invalid response from GET_WOKCENTER_TYPE:", result);
+                    controllerWorkCenter.wrkModel.setProperty("/tabwrktype", []);
+                }
+            } catch (error) {
+                console.error("Error in getWrkType:", error);
                 controllerWorkCenter.wrkModel.setProperty("/tabwrktype", []);
             }
-        
         },
-        */
-
+		
+		undoWrkType: function(){
+			controllerWorkCenter.pressWkcTabBar();
+		},
         
         newType: function () {
             var addRowModel = controllerWorkCenter.wrkModel.getProperty("/tabwrktype");
@@ -853,56 +966,69 @@ sap.ui.define([
         },
 		
         saveNewType: function () {
-            var input = {};
-            var model = controllerWorkCenter.wrkModel.getProperty("/tabwrktype");
-            var Name = false;
-            var Desc = false;
-            var modInput = [];
-            var obj = {};
+            try {
+                var input = {};
+                var model = controllerWorkCenter.wrkModel.getProperty("/tabwrktype");
+                var Name = false;
+                var Desc = false;
+                var modInput = [];
+                var obj = {};
 
-            for (var i = 0; i < model.length; i++) {
-                if (model[i].EDIT === "true") {
-                    if (model[i].WORKCENTERTYPE === "") {
-                        return MessageBox.warning(controller.oBundle.getText("contrSite.errMissSite"));
-                    } else {
-                        obj.WORKCENTERTYPE = model[i].WORKCENTERTYPE;
-                        Name = true;
+                for (var i = 0; i < model.length; i++) {
+                    if (model[i].EDIT === "true") {
+                        if (model[i].WORKCENTERTYPE === "") {
+                            return MessageBox.warning(controller.oBundle.getText("contrSite.errMissSite"));
+                        } else {
+                            obj.WORKCENTERTYPE = model[i].WORKCENTERTYPE;
+                            Name = true;
+                        }
+                        if (model[i].WORKCENTERTYPE_DESC === "") {
+                            return MessageBox.warning(controller.oBundle.getText("contrSite.errMissSiteDescr"));
+                        } else {
+                            obj.WORKCENTERTYPE_DESC = model[i].WORKCENTERTYPE_DESC;
+                            Desc = true
+                        }
+                        obj.LANGUAGE = controller.language;
+                        modInput.push(obj);
+                        obj = new Object;
                     }
-                    if (model[i].WORKCENTERTYPE_DESC === "") {
-                        return MessageBox.warning(controller.oBundle.getText("contrSite.errMissSiteDescr"));
-                    } else {
-                        obj.WORKCENTERTYPE_DESC = model[i].WORKCENTERTYPE_DESC;
-                        Desc = true
+                }
+                if (modInput.length === 0) {
+                    return MessageToast.show(controller.oBundle.getText("contrSite.insertSite"));
+                } else {
+                    if (Desc && Name) {
+                        input = {
+                            "DATA": JSON.stringify(modInput)
+                        };
+                        controllerWorkCenter.getDataSync("INSERT_WRKTYPE", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION", input, controllerWorkCenter.saveNewTypeSuccess, controllerWorkCenter.transactionError);
                     }
-                    obj.LANGUAGE = controller.language;
-                    modInput.push(obj);
-                    obj = new Object;
                 }
-            }
-            if (modInput.length === 0)
-                return MessageToast.show(controller.oBundle.getText("contrSite.insertSite"));
-            else {
-                if (Desc && Name) {
-                    input = {
-                        "DATA": JSON.stringify(modInput)
-                    };
-                    controllerWorkCenter.getDataSync("INSERT_WRKTYPE", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION", input, controllerWorkCenter.saveNewTypeSuccess, this.transactionError);
-                }
+            } catch (error) {
+                console.error("Error in saveNewType:", error);
+                MessageBox.error(controller.oBundle ? controller.oBundle.getText("controllerUpdate.err") : "Errore nel salvataggio del tipo piazzola");
             }
         },
 		
         saveNewTypeSuccess: function (data, response) {
             try {
                 var jsonArrStr = jQuery(data).find("Row").text();
-                var jsonArr = JSON.parse(jsonArrStr);
-                if (jsonArr[0].RC == "0")
-                    controllerWorkCenter.getWrkType();
-                //controllerWorkCenter.wrkModel.setProperty("/tabwrktype",jsonArr.Rows,false);
-                //controllerWorkCenter.getView().setModel(controllerWorkCenter.wrkModel);
+                if (jsonArrStr && jsonArrStr.trim() !== "") {
+                    var jsonArr = JSON.parse(jsonArrStr);
+                    if (jsonArr && jsonArr[0] && jsonArr[0].RC == "0") {
+                        controllerWorkCenter.getWrkType();
+                        MessageToast.show(controller.oBundle ? controller.oBundle.getText("contrWRK.insertOK") : "Operazione completata con successo");
+                    } else {
+                        var errorMessage = (jsonArr && jsonArr[0] && jsonArr[0].MESSAGE) ? jsonArr[0].MESSAGE : "Errore nell'operazione";
+                        MessageBox.error(errorMessage);
+                    }
+                } else {
+                    console.error("Empty response from server");
+                    MessageBox.error("Risposta vuota dal server");
+                }
             } catch (e) {
-                MessageBox.warning("TRANSACTION ERROR: GET_SITE. Main Controller line: 43", {
-                    onClose: function () {}
-                });
+                console.error("Error parsing response:", e);
+                console.error("Raw response:", jsonArrStr);
+                MessageBox.error(controller.oBundle ? controller.oBundle.getText("controllerUpdate.err") : "Errore nell'elaborazione della risposta");
             }
         },
 		
@@ -924,6 +1050,100 @@ sap.ui.define([
                     }
                 }
             });
+        },
+		
+		deleteNewTypeSuccess: function (data, response) {
+            try {
+                var jsonArrStr = jQuery(data).find("Row").text();
+                var jsonArr = JSON.parse(jsonArrStr);
+                if (jsonArr[0].RC == "0")
+                    controllerWorkCenter.getWrkType();
+                else {
+                    MessageBox.warning(jsonArr[0].MESSAGE)
+                }
+            } catch (e) {
+                //MessageBox.warning("TRANSACTION ERROR: GET_SITE. Main Controller line: 43", {onClose: function () {}});
+            }
+        },
+		
+		editType: function (evt) {
+            var lineSel = controllerWorkCenter.wrkModel.getProperty(evt.oSource.getBindingContext().sPath);
+            if (!controllerWorkCenter._oValueHelpDialog) {
+                controllerWorkCenter._oValueHelpDialog = sap.ui.xmlfragment("master_data.view.popup.modType", controllerWorkCenter);
+                controllerWorkCenter.getView().addDependent(controllerWorkCenter._oValueHelpDialog);
+            }
+            sap.ui.getCore().byId("inputType").setValue(lineSel.WORKCENTERTYPE);
+            sap.ui.getCore().byId("TypeId").setValue(lineSel.WORKCENTERTYPE_ID);
+            var input = {
+                "WORKCENTERTYPE_ID": lineSel.WORKCENTERTYPE_ID
+            };
+            controllerWorkCenter.getDataSync("GET_WOKCENTER_TYPE_DESCR", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION", input, controllerWorkCenter.editTypeSuccess, this.transactionError);
+        },
+		
+        editTypeSuccess: function (data, response) {
+            try {
+                var jsonArrStr = jQuery(data).find("Row").text();
+                var jsonArr = JSON.parse(jsonArrStr);
+                controllerWorkCenter.wrkModel.setProperty("/tabDescrtype", jsonArr.Rows, false);
+                controllerWorkCenter.getView().setModel(controllerWorkCenter.wrkModel);
+                controllerWorkCenter._oValueHelpDialog.open();
+            } catch (error) {}
+        },
+		
+         newDescrType: function () {
+            var addRowModel = controllerWorkCenter.wrkModel.getProperty("/tabDescrtype");
+            var idType = sap.ui.getCore().byId("TypeId").getValue();
+            var row = {
+                "WORKCENTERTYPE_ID": "" + idType + "",
+                "LANG": "",
+                "WORKCENTERTYPE_DESC": "",
+                "DEL": "false"
+            };
+            addRowModel.push(row);
+            controllerWorkCenter.wrkModel.setProperty("/tabDescrSite", addRowModel);
+        },
+		
+        confirmEditType: function () {
+            var model = controllerWorkCenter.wrkModel.getProperty("/tabDescrtype");
+            var arrInput = [];
+            var bCompact = !!controllerSite.getView().$().closest(".sapUiSizeCompact").length;
+
+            for (var i = 0; i < model.length; i++) {
+                if (model[i].DEL == "false" || model[i].LANG != "") {
+                    for (var j = i + 1; j < model.length; j++) {
+                        if (i != j & model[i].LANG == model[j].LANG & model[j].DEL == "false") {
+                            return MessageBox.warning(controller.oBundle.getText("contrSite.errSiteMod"), {
+                                styleClass: bCompact ? "sapUiSizeCompact" : ""
+                            });
+                        }
+                    }
+                    arrInput.push(model[i]);
+                }
+            }
+            if (arrInput.length > 0) {
+                var jsonInput = JSON.stringify(arrInput);
+                var input = {
+                    "DATA": jsonInput
+                };
+                controllerWorkCenter.getDataSync("EDIT_WORKCENTER_TYPE_DESCR", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION", input, controllerWorkCenter.confirmEditTypeSuccess, this.transactionError);
+            }
+        },
+		
+        confirmEditTypeSuccess: function (data, response) {
+            var jsonArrStr = jQuery(data).find("Row").text();
+            var jsonArr = JSON.parse(jsonArrStr);
+            if (jsonArr[0].RC == "0")
+                controllerWorkCenter.getWrkType();
+            else {
+                MessageBox.warning(jsonArr[0].MESSAGE)
+            }
+            controllerWorkCenter._popup.close();
+        },
+		
+        deleteWorkCenterTypeDescr: function (evt) {
+            var lineSel = controllerWorkCenter.wrkModel.getProperty(evt.oSource.getBindingContext().sPath);
+            lineSel.DEL = true;
+            controllerWorkCenter.wrkModel.refresh();
         },
 
         /* -------------------- Selection Synoptic Page -------------------- */
@@ -1081,24 +1301,19 @@ sap.ui.define([
             
             tabWrkHours.push(newRow);
             controllerWorkCenter.wrkModel.setProperty("/tabWrkHours", tabWrkHours);
-        },
+        },*/
 
         getHoursList: function () {
             // Reset alla modalità default
-            // controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC_HOURS", false);
+            controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC_HOURS", false);
             
-            var Input = {
+            let oInput = {
                 "SITE_ID": controller.SiteId
                 //,"LANGUAGE": controller.language
-            };
-            var result = controllerSite.sendData("GET_HOURS_LIST", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION", Input);
-            controllerWorkCenter.wrkModel.setProperty("/tabWrkHours", result);
-			
-			//Buttons
-			controllerWorkCenter.byId("btnCloseNewHours").setEnabled(false);
-			controllerWorkCenter.byId("saveNewHours").setEnabled(false);
+            }, aResult = controllerSite.sendData("GET_HOURS_LIST", "WORKCENTER/TRANSACTION", oInput);
+            
+			controllerWorkCenter.wrkModel.setProperty("/tabWrkHours", aResult);
         },
-        */
 
         newHours: function () {
             var addRowModel = controllerWorkCenter.wrkModel.getProperty("/tabWrkHours");
@@ -1318,6 +1533,20 @@ sap.ui.define([
 			}catch(err){}
 
 		},
+		
+		manageColor: function (DEL) {
+			//TODO Da rimuovere 
+            let color = 'None'
+			if (!DEL) {
+				color = 'None'
+			} else {
+				color = 'Error'
+			}
+			if (DEL == "false") {
+				color = 'Warning'
+			}
+			return color;
+        },
 
     });
 });
