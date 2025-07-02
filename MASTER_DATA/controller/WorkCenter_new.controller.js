@@ -1869,6 +1869,34 @@ sap.ui.define([
             return "SYNOPTIC"; // default
         },
 
+        openWkcHelp: function (oEvent) {
+            // Dati apertura popup presi da controllerWorkCenter.wrkModel.getProperty("/tabwrklist");
+
+            //if(!controllerWorkCenter.wrkModel.getProperty("/tabwrklist")){
+            var input = {};
+            input.LANGUAGE = controller.language;
+            input.SITE = controller.site;
+            input.WORKCENTER = controllerWorkCenter._wrkcenter;
+            controllerWorkCenter.getDataSync("GET_LIST_WRK_FOR_SEARCH_DISP", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", input, controllerWorkCenter.getWrkListsuccess, controllerWorkCenter.transactionError);
+            //  }
+
+            if (!controllerWorkCenter._oValueHelpDialog) {
+                Fragment.load({
+                    name: "master_data.view.popup.workcenter.listwrkSynoptic",
+                    controller: controllerWorkCenter
+                }).then(function (oValueHelpDialog) {
+                    controllerWorkCenter._oValueHelpDialog = oValueHelpDialog;
+                    controllerWorkCenter.getView().addDependent(controllerWorkCenter._oValueHelpDialog);
+                    controllerWorkCenter._oValueHelpDialog.open();
+                });
+            } else {
+                controllerWorkCenter._oValueHelpDialog.open();
+            }
+
+            //Salvo la riga selezionata
+            controllerWorkCenter.byId("rowSynopticSel").setText(oEvent.oSource.getBindingContext().sPath);
+        },
+
         /* -------------------- General Function --------------------*/
 		closePopup: function(){
 			try{
