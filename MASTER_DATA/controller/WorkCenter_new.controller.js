@@ -1230,7 +1230,7 @@ sap.ui.define([
             }
 
             //Salvo la riga selezionata
-            controllerWorkCenter.byId("rowSynopticSel").setText(oEvent.oSource.getBindingContext().sPath);
+            controllerWorkCenter.wrkModel.setProperty("/rowSynopticSel", oEvent.oSource.getBindingContext().sPath);
         },
 
         getWrkListsuccess: function (data, response) {
@@ -1244,7 +1244,7 @@ sap.ui.define([
 
         confirmWkcHelpHours: function (oEvent) {
             var oSelectedItem = oEvent.getParameter("selectedItem");
-            var modelRowSel = controllerWorkCenter.wrkModel.getProperty(controllerWorkCenter.byId("rowSynopticSel").getText());
+            var modelRowSel = controllerWorkCenter.wrkModel.getProperty(controllerWorkCenter.wrkModel.getProperty("/rowSynopticSel"));
             var model = controllerWorkCenter.wrkModel.getProperty("/tabWrkHours");
             var checkField = oSelectedItem.mProperties.highlightText + "-" + modelRowSel["USER_ID"];
 
@@ -1266,6 +1266,7 @@ sap.ui.define([
             oEvent.getSource().getBinding("items").filter([]);
 			
             controllerWorkCenter.closeDialog();
+            controllerWorkCenter.wrkModel.setProperty("/rowSynopticSel", "");
         },
 
         openUserHelpHours: function (oEvent) {
@@ -1288,7 +1289,7 @@ sap.ui.define([
             }
 
             //Salvo la riga selezionata
-            controllerWorkCenter.byId("rowSynopticSel").setText(oEvent.oSource.getBindingContext().sPath);
+            controllerWorkCenter.wrkModel.setProperty("/rowSynopticSel", oEvent.oSource.getBindingContext().sPath);
         },
 
         getUserListsuccess: function (data, response) {
@@ -1593,7 +1594,7 @@ sap.ui.define([
 
         confirmUserHelpHours: function (oEvent) {
             var oSelectedItem = oEvent.getParameter("selectedItem");
-            var modelRowSel = controllerWorkCenter.wrkModel.getProperty(controllerWorkCenter.byId("rowSynopticSel").getText());
+            var modelRowSel = controllerWorkCenter.wrkModel.getProperty(controllerWorkCenter.wrkModel.getProperty("/rowSynopticSel"));
             var model = controllerWorkCenter.wrkModel.getProperty("/tabWrkHours");
             var checkField = modelRowSel["WORKCENTER_ID"] + "-" + oSelectedItem.mProperties.highlightText;
 
@@ -1615,6 +1616,7 @@ sap.ui.define([
             oEvent.getSource().getBinding("items").filter([]);
 			
             controllerWorkCenter.closeDialog();
+            controllerWorkCenter.wrkModel.setProperty("/rowSynopticSel", "");
         },
 
         handleUserSearchHours: function (oEvent) {
@@ -1850,7 +1852,9 @@ sap.ui.define([
 		confirmWkcHelp: function (oEvent) {
             let oSelectedItem = oEvent.getParameter("selectedItem"),
 				aModelRowSel = controllerWorkCenter.wrkModel.getProperty(controllerWorkCenter.wrkModel.getProperty("/rowSynopticSel")),
-				aModel = controllerWorkCenter.wrkModel.getProperty("/tabSynoptic");
+				oModelSynopticDetails = controllerWorkCenter.wrkModel.getProperty("/SynopticDetails"),
+				aModel = controllerWorkCenter.wrkModel.getProperty(oModelSynopticDetails["propertySynopticPath"]);
+
 
             for (let i = 0; i < aModel.length; i++) {
                 if (aModel[i].WORKCENTER === oSelectedItem.mProperties.title) {
@@ -1964,9 +1968,9 @@ sap.ui.define([
             if (aModInput.length === 0)
                 return
 
-                let oInput = {
-                    "DATA": JSON.stringify(aModInput),
-                    "SYNOPTIC_TYPE": synopticType,
+            let oInput = {
+                "DATA": JSON.stringify(aModInput),
+                    "SYNOPTIC_TYPE": oModelSynopticDetails["synopticType"],
 					"PAGE": oModelSynopticDetails["sPage"]
                 }, aResult = controller.sendData("SAVE_SYNOPTIC_ASSIGNMENT", "WORKCENTER/TRANSACTION", oInput);
             
