@@ -10,7 +10,18 @@ sap.ui.define([
     "use strict";
 
     return Controller.extend("master_data.controller.MainTile", {
-        model: new sap.ui.model.json.JSONModel(),
+        model: new sap.ui.model.json.JSONModel({
+			"viewTileElements": {
+                "editMode": false,
+				"tabSelectionMode": "None",
+                // Footer buttons enablement
+                "enabledAddBtn": true,
+                "enabledCopyBtn": true,
+                "enabledUndoBtn": false,
+                "enabledSaveBtn": false
+            },
+			"tabMainTile": []
+		}),
         tileActivityPath: "",
 		_oValueHelpDialogActivity: undefined,
 		_oValueHelpDialogSite: undefined,
@@ -33,89 +44,128 @@ sap.ui.define([
                 }
                 return color;
         },
+		
+		enabledTileFields: function(sAction, bValue){
+            let oTileElements = controllerMainTile.model.getProperty("/viewTileElements");
+            
+            switch (sAction) {
+                case "ADD_ROW":
+					oTileElements["editMode"] = true;
+					oTileElements["enabledAddBtn"] = true;
+					oTileElements["enabledCopyBtn"] = false;
+					oTileElements["enabledUndoBtn"] = bValue;
+					oTileElements["enabledSaveBtn"] = bValue;					
+				break;
+				case "EDIT_ROW":
+					oTileElements["editMode"] = true;
+					oTileElements["enabledAddBtn"] = true;
+					oTileElements["enabledCopyBtn"] = false;
+					oTileElements["enabledUndoBtn"] = bValue;
+					oTileElements["enabledSaveBtn"] = bValue;
+				break;
+				case "DEL_ROW":
+					oTileElements["editMode"] = true;
+					oTileElements["enabledAddBtn"] = true;
+					oTileElements["enabledCopyBtn"] = false;
+					oTileElements["enabledUndoBtn"] = bValue;
+					oTileElements["enabledSaveBtn"] = bValue;
+				break;
+				case "COPY":
+					oTileElements["editMode"] = true;
+					oTileElements["enabledAddBtn"] = false;
+					oTileElements["enabledCopyBtn"] = false;
+					oTileElements["enabledUndoBtn"] = bValue;
+					oTileElements["enabledSaveBtn"] = bValue;
+					oTileElements["tabSelectionMode"] = "MultiToggle";
+				break;
+				case "CLOSED":
+					oTileElements["editMode"] = true;
+					oTileElements["enabledAddBtn"] = true;
+					oTileElements["enabledCopyBtn"] = true;
+					oTileElements["enabledUndoBtn"] = bValue;
+					oTileElements["enabledSaveBtn"] = bValue;
+					oTileElements["tabSelectionMode"] = "None";
+				break;
+				default:
+					oTileElements["editMode"] = false;
+					oTileElements["enabledAddBtn"] = true;
+					oTileElements["enabledCopyBtn"] = true;
+					oTileElements["enabledUndoBtn"] = false;
+					oTileElements["enabledSaveBtn"] = false;
+					oTileElements["tabSelectionMode"] = "None";
+			}
+
+			controllerMainTile.model.setProperty("/viewTileElements", oTileElements);	
+		},
 
         getData: function () {
-            var input = {};
-            input.SITE_ID = controller.SiteId;
-            controllerMainTile.getDataSync("GET_DATA", "ADIGE7/MASTER_DATA/MAIN_TILE/TRANSACTION", input, controllerMainTile.getDataSuccess, controllerMainTile.transactionError);
+            let oInput = {
+				"SITE_ID": controller.SiteId
+			};
+            controllerMainTile.getDataSync("GET_DATA", "ADIGE7/MASTER_DATA/MAIN_TILE/TRANSACTION", oInput, controllerMainTile.getDataSuccess, controllerMainTile.transactionError);
         },
 
         getDataSuccess: function (data, response) {
-            var jsonArrStr = jQuery(data).find("Row").text();
-            var jsonArr = JSON.parse(jsonArrStr);
-            controllerMainTile.model.setProperty("/tabMainTile", jsonArr, false);
-            controllerMainTile.byId("undoMainTile").setEnabled(false);
-            controllerMainTile.byId("saveMainTile").setEnabled(false);
-			controllerMainTile.byId("cloneMainTile").setEnabled(true);			
-			controllerMainTile.byId("addMainTile").setEnabled(true);
-			controllerMainTile.byId("tabMainTiles").setSelectionMode("None");
+            controllerMainTile.model.setProperty("/tabMainTile", JSON.parse(jQuery(data).find("Row").text()));
+			
+			controllerMainTile.enabledTileFields("CLOSED", false);
         },
 
         addTile: function () {
-            var addRowModel = controllerMainTile.model.getProperty("/tabMainTile");
-            var row = {
-                "TILE_MAIN_ID": "",
-                "SITE_ID": controller.SiteId,
-                "ACTIVITY": "",
-                "ACTIVITY_ID": "",
-                "POSITION": "0",
-                "TILE_ICON": "",
-                "TILE_PRESS": "",
-                "TILE_VISIBLE": "false",
-                "SECTION": "",
-                "ORDER_SECTION": "0",
-                "DEL": "false",
-                "EDIT": "true"
-            };
+            let addRowModel = controllerMainTile.model.getProperty("/tabMainTile"),
+				row = {
+					"TILE_MAIN_ID": "",
+					"SITE_ID": controller.SiteId,
+					"ACTIVITY": "",
+					"ACTIVITY_ID": "",
+					"POSITION": "0",
+					"TILE_ICON": "",
+					"TILE_PRESS": "",
+					"TILE_VISIBLE": "false",
+					"SECTION": "",
+					"ORDER_SECTION": "0",
+					"DEL": "false",
+					"EDIT": "true"
+				}, newArr = [];
 
             if (!addRowModel) {
-                var newArr = [];
                 newArr.push(row);
                 controllerMainTile.model.setProperty("/tabMainTile", newArr);
             } else {
-                if (addRowModel.length === 0) {
-                    var newArr = [];
+                if (addRowModel.length === 0) {                   
                     newArr.push(row);
                     controllerMainTile.model.setProperty("/tabMainTile", newArr);
                 } else {
-                    var addArr = controllerMainTile.model.getProperty("/tabMainTile");
+                    let addArr = controllerMainTile.model.getProperty("/tabMainTile");
                     addArr.push(row);
                     controllerMainTile.model.setProperty("/tabMainTile", addArr);
                 }
             }
-            controllerMainTile.byId("undoMainTile").setEnabled(true);
-            controllerMainTile.byId("saveMainTile").setEnabled(true);
-			controllerMainTile.byId("cloneMainTile").setEnabled(false);
+			
+			controllerMainTile.enabledTileFields("ADD_ROW", true);
 			
 			//Scroll to last table Element
 			controllerMainTile.byId("tabMainTiles").setFirstVisibleRow(addRowModel.length); 
         },
 
         deleteTileMain: function (evt) {
-            controllerMainTile.byId("undoMainTile").setEnabled(true);
-            controllerMainTile.byId("saveMainTile").setEnabled(true);
-			controllerMainTile.byId("cloneMainTile").setEnabled(false);
-            var lineSel = controllerMainTile.model.getProperty(evt.oSource.getBindingContext().sPath);
+            controllerMainTile.enabledTileFields("DEL_ROW", true);
+            let lineSel = controllerMainTile.model.getProperty(evt.oSource.getBindingContext().sPath);
             lineSel.EDIT = "true";
             lineSel.DEL = "true";
             controllerMainTile.model.refresh();
         },
 
         editTileMain: function (evt) {
-            controllerMainTile.byId("undoMainTile").setEnabled(true);
-            controllerMainTile.byId("saveMainTile").setEnabled(true);
-			controllerMainTile.byId("cloneMainTile").setEnabled(false);
-            var lineSel = controllerMainTile.model.getProperty(evt.oSource.getBindingContext().sPath);
+            controllerMainTile.enabledTileFields("EDIT_ROW", true);
+            let lineSel = controllerMainTile.model.getProperty(evt.oSource.getBindingContext().sPath);
             lineSel.EDIT = "true";
             lineSel.DEL = "false";
             controllerMainTile.model.refresh();
         },
 		
 		cloneMainTile: function(){
-			controllerMainTile.byId("undoMainTile").setEnabled(true);
-            controllerMainTile.byId("saveMainTile").setEnabled(true);
-			controllerMainTile.byId("addMainTile").setEnabled(false);
-			controllerMainTile.byId("tabMainTiles").setSelectionMode("MultiToggle");
+			controllerMainTile.enabledTileFields("COPY", true);
 		},
 
         /*Match Code selezione Attività*/

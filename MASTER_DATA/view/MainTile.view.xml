@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:table="sap.ui.table" xmlns:u="sap.uxap" controllerName="master_data.controller.MainTile" height="100%" displayBlock="true">
 	<u:ObjectPageLayout id="tileMainObjectPage" enableLazyLoading="true" showTitleInHeaderContent="false" upperCaseAnchorBar="false" useIconTabBar="true" backgroundDesignAnchorBar="Transparent" showHeaderContent="false" height="100%" class="sapUiNoContentPadding" showFooter="true">
-		<u:ObjectPageSection showTitle="false" class="sapUiNoMarginBegin">
-			<u:ObjectPageSubSection>
-				<table:Table id="tabMainTiles" rows="{path: '/tabMainTile'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" visibleRowCount="14" >
+		<u:ObjectPageSection showTitle="false" >
+			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
+				<table:Table id="tabMainTiles" rows="{path: '/tabMainTile'}" width="100%" selectionMode="{/viewTileElements/tabSelectionMode}" visibleRowCountMode="Interactive" visibleRowCount="14" >
 					<table:rowSettingsTemplate>
 						<table:RowSettings highlight="{path: 'DEL', formatter: '.manageColor'}" />
 					</table:rowSettingsTemplate>
@@ -74,11 +74,11 @@
 		</u:ObjectPageSection>		
 		<u:footer>
 			<Toolbar style="Clear" design="Transparent">
-				<Button text="{i18n&gt;viewMainTile.addTile}" tooltip="{i18n&gt;viewMainTile.addTile}" press="addTile" icon="sap-icon://add-activity" />
-				<Button text="{i18n&gt;viewPhase.clone}" tooltip="{i18n&gt;viewPhase.clone}" press="cloneMainTile" icon="sap-icon://copy" />
+				<Button text="{i18n&gt;viewMainTile.addTile}" tooltip="{i18n&gt;viewMainTile.addTile}" press="addTile" icon="sap-icon://add-activity" enabled="{/viewTileElements/enabledAddBtn}" />
+				<Button text="{i18n&gt;viewPhase.clone}" tooltip="{i18n&gt;viewPhase.clone}" press="cloneMainTile" icon="sap-icon://copy" enabled="{/viewTileElements/enabledCopyBtn}" />
 				<ToolbarSpacer />
-				<Button id="undoMainTile" text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getData" icon="sap-icon://undo" type="Reject"  />
-				<Button id="saveMainTile" text="{i18n&gt;viewMainTile.save}" tooltip="{i18n&gt;viewMainTile.save}" press="updateTiles" icon="sap-icon://save" type="Accept" />				
+				<Button text="{i18n&gt;viewMainTile.undo}" tooltip="{i18n&gt;viewMainTile.undo}" press="getData" icon="sap-icon://undo" type="Reject" enabled="{/viewTileElements/enabledUndoBtn}" />
+				<Button text="{i18n&gt;viewMainTile.save}" tooltip="{i18n&gt;viewMainTile.save}" press="updateTiles" icon="sap-icon://save" type="Accept" enabled="{/viewTileElements/enabledSaveBtn}" />				
 			</Toolbar>
 		</u:footer>
 	</u:ObjectPageLayout>

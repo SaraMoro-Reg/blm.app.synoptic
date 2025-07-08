@@ -68,24 +68,25 @@ sap.ui.define([
                 "enabledSaveHoursBtn": false
             },
             "viewWrkSynopticElements": {
-                "visAdigeSynopticPageFooterBtn": false,
-                "visAdigeStr1SynopticPageFooterBtn": false,
-                "visBgs1SynopticPageFooterBtn": false,
-                "visBgs2SynopticPageFooterBtn": false,
-                "visAdigeSys1SysSynopticPageFooterBtn": false,
-                "visAdigeSys2SysSynopticPageFooterBtn": false,
-                "visAdigeSys3SysSynopticPageFooterBtn": false,
-                "visBgusaSynopticPageFooterBtn": false,
-                "visBlm1SynopticPageFooterBtn": false,
-                "visBlm2SynopticPageFooterBtn": false,
-                "visBlm3SynopticPageFooterBtn": false,
-                "visBlm4SynopticPageFooterBtn": false,
+                "visSynopticPageFooterBtn": false,
                 "editMode": false,
                 // Footer buttons enablement for all synoptic sections
                 "enabledNewPosSynBtn": true,
                 "enabledUndoSynBtn": false,
                 "enabledSaveSynBtn": false
-            }
+            },
+			"SynopticDetails": {
+				 "sPage": "",	
+				 "SynopticType": 0,
+				 "sPage": "",	
+				 "synopticType": "",
+                 "propertySynopticPath": "",
+                 "propertySynopticPathBkc": "",
+                 "tableId": "tabWrkSyn",
+				 "maxWkcNumber": 0
+			},
+			"rowSynopticSel": "",
+			"filterSynopticPage": []
         }),
         _oValueHelpDialog: undefined,
         rowSelTabWrkHours: "",
@@ -108,22 +109,18 @@ sap.ui.define([
                 sPage = oEvent.getParameter("section").sId.split("--")[1];
             }
             
-            let viewWrkElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkElements");
-            let viewWrkTypeElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkTypeElements");
-            let viewWrkHoursElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkHoursElements");
-            let viewWrkSynopticElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkSynopticElements");
+            let viewWrkElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkElements"),
+				viewWrkTypeElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkTypeElements"),
+				viewWrkHoursElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkHoursElements"),
+				viewWrkSynopticElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkSynopticElements"),
+				nSynopticType = 1,
+				sSynopticPage = "";
             
             // Reset di tutti i footer
             viewWrkElements.visWrkPageFooterBtn = false;
             viewWrkTypeElements.visWrkTypePageFooterBtn = false;
             viewWrkHoursElements.visWrkHoursPageFooterBtn = false;
-            
-            // Reset di tutti i footer synoptic
-            Object.keys(viewWrkSynopticElements).forEach(key => {
-                if (key.includes("FooterBtn")) {
-                    viewWrkSynopticElements[key] = false;
-                }
-            });
+			viewWrkSynopticElements.visSynopticPageFooterBtn = false;
         
             // Imposta il footer corretto in base alla sezione attiva
             switch (sPage) {
@@ -145,61 +142,83 @@ sap.ui.define([
 					controllerWorkCenter.getHoursList();
                     break;
                 case "SYNOPTIC":
-                    viewWrkSynopticElements.visAdigeSynopticPageFooterBtn = true;
-                    // Reset allo stato di default per tab Synoptic
-                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
+                    viewWrkSynopticElements.visSynopticPageFooterBtn = true;
+					nSynopticType = 1;
+					sSynopticPage = "ADIGE";
+                  				
                     break;
                 case "SYNOPTICADIGESTR1":
-                    viewWrkSynopticElements.visAdigeStr1SynopticPageFooterBtn = true;
-                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
+                    viewWrkSynopticElements.visSynopticPageFooterBtn = true;
+					nSynopticType = 2;
+					sSynopticPage = "SEGATRICI";
                     break;
                 case "SYNOPTICBGS1":
-                    viewWrkSynopticElements.visBgs1SynopticPageFooterBtn = true;
-                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
+                    viewWrkSynopticElements.visSynopticPageFooterBtn = true;
+					nSynopticType = 1;
+					sSynopticPage = "GOSSOLENGO";	
                     break;
                 case "SYNOPTICBGS2":
-                    viewWrkSynopticElements.visBgs2SynopticPageFooterBtn = true;
-                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
+                    viewWrkSynopticElements.visSynopticPageFooterBtn = true;
+					nSynopticType = 2;
+					sSynopticPage = "PIACENZA";
                     break;
                 case "SYNOPTICADIGESYS1":
-                    viewWrkSynopticElements.visAdigeSys1SysSynopticPageFooterBtn = true;
-                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
+                    viewWrkSynopticElements.visSynopticPageFooterBtn = true;
+					nSynopticType = 1;
+					sSynopticPage = "JUMBO";
                     break;
-                case "SYNOPTICADIGESYS2":
+                /*case "SYNOPTICADIGESYS2":
                     viewWrkSynopticElements.visAdigeSys2SysSynopticPageFooterBtn = true;
-                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
-                    break;
+					nSynopticType = 2;
+					sSynopticPage = "PageSawingMachineAdige1";
+                    break;*/
                 case "SYNOPTICADIGESYS3":
-                    viewWrkSynopticElements.visAdigeSys3SysSynopticPageFooterBtn = true;
-                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
+                    viewWrkSynopticElements.visSynopticPageFooterBtn = true;
+					nSynopticType = 3;
+					sSynopticPage = "LAMIERA";
                     break;
                 case "SYNOPTICBGUSA":
-                    viewWrkSynopticElements.visBgusaSynopticPageFooterBtn = true;
-                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
+                    viewWrkSynopticElements.visSynopticPageFooterBtn = true;
+					nSynopticType = 1;
+					sSynopticPage = "BENDER";
                     break;
                 case "SYNOPTICBLM1":
-                    viewWrkSynopticElements.visBlm1SynopticPageFooterBtn = true;
-                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
+                    viewWrkSynopticElements.visSynopticPageFooterBtn = true;
+					nSynopticType = 1;
+					sSynopticPage = "ELECT-LN";
                     break;
                 case "SYNOPTICBLM2":
-                    viewWrkSynopticElements.visBlm2SynopticPageFooterBtn = true;
-                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
+                    viewWrkSynopticElements.visSynopticPageFooterBtn = true;
+					nSynopticType = 2;
+					sSynopticPage = "LINEA-SMALL";
                     break;
                 case "SYNOPTICBLM3":
-                    viewWrkSynopticElements.visBlm3SynopticPageFooterBtn = true;
-                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
+					viewWrkSynopticElements.visSynopticPageFooterBtn = true;
+					nSynopticType = 3;
+					sSynopticPage = "DH4010N";
                     break;
                 case "SYNOPTICBLM4":
-                    viewWrkSynopticElements.visBlm4SynopticPageFooterBtn = true;
-                    controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
-                    break;
+                    viewWrkSynopticElements.visSynopticPageFooterBtn = true;
+					nSynopticType = 4;
+					sSynopticPage = "LTFREEN";
+                    break;	 
                 default:
                     // Default: mostra solo WKC
                     viewWrkElements.visWrkPageFooterBtn = true;
+					sDefaultPage = "";
                     controllerWorkCenter.enabledWorkCenterFields("DEFAULT_WKC", false);
                     break;
-            }
-                
+			}
+			
+			if(viewWrkSynopticElements.visSynopticPageFooterBtn){	
+				//Estraggo il Setup delle Pagine
+				let aResult = controller.sendData("GET_SYNOPTIC_PAGES_SETUP", "WORKCENTER/TRANSACTION", {SITE_ID: controller.SiteId})["Rows"];
+					controllerWorkCenter.wrkModel.setProperty("/filterSynopticPage", _.filter(aResult, function(o){ return o.SynopticType == nSynopticType}));
+					controllerWorkCenter.wrkModel.setProperty("/AllSynopticPages", aResult);
+				//Chiamo la funzione per estrarre la lista delle Piazzole per Sinottico
+				controllerWorkCenter.getSynopticList(sPage, nSynopticType, sSynopticPage);	
+			}		
+            
             // Aggiorna i modelli
             controllerWorkCenter.wrkModel.setProperty("/viewWrkElements", viewWrkElements);
             controllerWorkCenter.wrkModel.setProperty("/viewWrkTypeElements", viewWrkTypeElements);
@@ -563,15 +582,6 @@ sap.ui.define([
             }
         },
 
-        closeDialog: function () {
-            try {
-                controllerWorkCenter._oValueHelpDialog.close();
-                controllerWorkCenter._oValueHelpDialog.destroy();
-            } catch (err) {}
-
-            controllerWorkCenter._oValueHelpDialog = undefined;
-        },
-
         /* -------------------- Refresh Data -------------------- */
 		refreshWrkData: function(oInput){
 		   let aResult = controller.sendData("GET_WRK_DATA", "WORKCENTER/TRANSACTION/WRK", oInput),     // TODO - Da Realizzare
@@ -883,25 +893,29 @@ sap.ui.define([
                     label: controller.oBundle.getText("viewWRK.dwnl.workArea"),
                     property: 'PIAZZOLA',
                     type: exportLibrary.EdmType.String,
-					width: 15
+					wrap : true,
+					width: 25
                 },{
                     // PIAZZOLA_DESCR
                     label: controller.oBundle.getText("viewWRK.dwnl.workAreaDescr"),   
 					property: 'PIAZZOLA_DESCR',
 					type: exportLibrary.EdmType.String,
-					width: 30
+					wrap : true,
+					width: 60
                 }, {
                     // TIPO - TIPO_DESCR
                     label: controller.oBundle.getText("viewWRK.dwnl.workAreaType") + " - " + controller.oBundle.getText("viewWRK.dwnl.workAreaDescr"),
                     property: ['TIPO', 'TIPO_DESCR'],
                     template: '{0} - {1}',
                     type: exportLibrary.EdmType.String,
-					width: 30
+					wrap : true,
+					width: 60
                 }, {
                     // GRUPPO_PIAZZOLA
                     label: controller.oBundle.getText("viewWRK.dwnl.workAreaGroup"),
                     property: 'GRUPPO_PIAZZOLA',
                     type: exportLibrary.EdmType.String,
+					wrap : true,
 					width: 15
                 }];
                 
@@ -912,44 +926,13 @@ sap.ui.define([
                     label: controller.oBundle.getText("viewWRK.dwnl.workAreaAuthoma"),
                     property: 'PIAZZOLA_AUTHOMA',
                     type: exportLibrary.EdmType.String,
-                    width: 15
+					wrap : true,
+                    width: 25
                 });
             }
             
             return columns;
 		},
-
-        getWrksuccessExport: function (data, response) {
-            try {
-                var jsonArrStr = jQuery(data).find("Row").text();
-                var jsonArr = JSON.parse(jsonArrStr);
-                controllerWorkCenter.wrkModel.setProperty("/tabwrklistExport", jsonArr.Rows, false);
-            } catch (e) {}
-        },
-
-        getWrk: function (selection) {
-            if (!selection) {
-                selection = 0
-            }
-            var input = {};
-            input.LANGUAGE = controller.language;
-            input.SITE = controller.site;
-            input.WORKCENTER = controllerWorkCenter._wrkcenter;
-            switch (selection) {
-            case 0:
-                controllerWorkCenter.getDataSync("GET_LIST_WRK_FOR_SEARCH", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", input, controllerWorkCenter.getWrkListsuccess, controllerWorkCenter.transactionError);
-                break;
-            case 1:
-                controllerWorkCenter.getDataSync("GET_WRK_LIST_FILTER", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", input, controllerWorkCenter.getWrksuccess, controllerWorkCenter.transactionError);
-                break;
-            case 3:
-                controllerWorkCenter.getDataSync("GET_WRK_LIST_EXPORT", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/TRANSDWN", input, controllerWorkCenter.getWrksuccessExport, controllerWorkCenter.transactionError);
-                break;
-            default:
-                controllerWorkCenter.getDataSync("GET_LIST_WRK_FOR_SEARCH", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", input, controllerWorkCenter.getWrkListsuccess, controllerWorkCenter.transactionError);
-                break;
-            }
-        },
 
         /* -------------------- Definizione Tipo Piazzola -------------------- */
         getWrkType: function () {
@@ -1220,138 +1203,7 @@ sap.ui.define([
             lineSel.DEL = true;
             controllerWorkCenter.wrkModel.refresh();
         },
-
-        /* -------------------- Selection Synoptic Page -------------------- */
-        getSynopticPages: function () {
-            // Funzione per gestire la selezione delle pagine sinottiche
-            // Implementazione specifica se necessaria
-        },
-
-        getSynopticList: function () {
-            // Reset alla modalità default per sinottico
-            controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
-            
-            var synopticType = "", propertySynopticPath = "", propertySynopticPathBkc = "", tableId = "", undoBtnId = "", saveBtnId = "";
-                switch (controllerWorkCenter.byId("wkcITB").getSelectedKey()) {
-                    case "SYNOPTIC":
-                        synopticType = 1;
-                        propertySynopticPath = "/tabSynoptic";
-                        propertySynopticPathBkc = "/tabSynopticBkc";
-                        tableId = "tabWrkSyn";
-                        undoBtnId = "btnUndoNewAdige";
-                        saveBtnId = "btnSaveAdige";
-                        break;
-                    case "SYNOPTICADIGESTR1":
-                        synopticType = 2;
-                        propertySynopticPath = "/tabSynopticAdigeStr1";
-                        propertySynopticPathBkc = "/tabSynopticAdigeStr1Bkc";
-                        tableId = "tabWrkSynAdigeStr1";
-                        undoBtnId = "btnUndoNewAdigeStr1";
-                        saveBtnId = "btnSaveNewAdigeStr1";
-                        break;
-                    case "SYNOPTICBGS1":
-                        synopticType = 1;
-                        propertySynopticPath = "/tabSynopticBGS1";
-                        propertySynopticPathBkc = "/tabSynopticBGS1Bkc";
-                        tableId = "tabWrkSynBGS1";
-                        undoBtnId = "btnUndoNewBgs1";
-                        saveBtnId = "btnSaveNewBgs1";
-                        break;
-                    case "SYNOPTICBGS2":
-                        synopticType = 2;
-                        propertySynopticPath = "/tabSynopticBGS2";
-                        propertySynopticPathBkc = "/tabSynopticBGS2Bkc";
-                        tableId = "tabWrkSynBGS2";
-                        undoBtnId = "btnUndoNewBgs2";
-                        saveBtnId = "btnSaveNewBgs2";
-                        break;
-                    case "SYNOPTICADIGESYS1":
-                        synopticType = 1;
-                        propertySynopticPath = "/tabSynopticAdigeSys1";
-                        propertySynopticPathBkc = "/tabSynopticAdigeSys1Bkc";
-                        tableId = "tabWrkSynAdigeSys1";
-                        undoBtnId = "btnUndoNewAdigeSys1";
-                        saveBtnId = "btnSaveNewAdigeSys1";
-                        break;
-                    case "SYNOPTICADIGESYS2":
-                        synopticType = 2;
-                        propertySynopticPath = "/tabSynopticAdigeSys2";
-                        propertySynopticPathBkc = "/tabSynopticAdigeSys2Bkc";
-                        tableId = "tabWrkSynAdigeSys2";
-                        undoBtnId = "btnUndoAdigeSys2";
-                        saveBtnId = "btnSaveNewAdigeSys2";
-                        break;
-                    case "SYNOPTICADIGESYS3":
-                        synopticType = 3;
-                        propertySynopticPath = "/tabSynopticAdigeSys3";
-                        propertySynopticPathBkc = "/tabSynopticAdigeSys3Bkc";
-                        tableId = "tabWrkSynAdigeSys3";
-                        undoBtnId = "btnUndoNewAdigeSys3";
-                        saveBtnId = "btnSaveNewAdigeSys3";
-                        break; 
-                    case "SYNOPTICBGUSA":
-                        synopticType = 1;
-                        propertySynopticPath = "/tabSynopticBgusa";
-                        propertySynopticPathBkc = "/tabSynopticBgusaBkc";
-                        tableId = "tabWrkBgusa";
-                        undoBtnId = "btnUndoNewBgusa";
-                        saveBtnId = "btnSaveNewBgusa";
-                        break; 
-                    case "SYNOPTICBLM1":
-                        synopticType = 1;
-                        propertySynopticPath = "/tabSynopticBlm1";
-                        propertySynopticPathBkc = "/tabSynopticBlm1Bkc";
-                        tableId = "tabWrkSynBlm1";
-                        undoBtnId = "btnUndoNewBlm1";
-                        saveBtnId = "btnSaveNewBlm1";
-                        break;
-                    case "SYNOPTICBLM2":
-                        synopticType = 2;
-                        propertySynopticPath = "/tabSynopticBlm2";
-                        propertySynopticPathBkc = "/tabSynopticBlm2Bkc";
-                        tableId = "tabWrkSynBlm2";
-                        undoBtnId = "btnUndoNewBlm2";
-                        saveBtnId = "btnSaveNewBlm2";
-                        break;
-                    case "SYNOPTICBLM3":
-                        synopticType = 3;
-                        propertySynopticPath = "/tabSynopticBlm3";
-                        propertySynopticPathBkc = "/tabSynopticBlm3Bkc";
-                        tableId = "tabWrkSynBlm3";
-                        undoBtnId = "btnUndoNewBlm3";
-                        saveBtnId = "btnSaveNewBlm3";
-                        break;
-                    case "SYNOPTICBLM4":
-                        synopticType = 4;
-                        propertySynopticPath = "/tabSynopticBlm4";
-                        propertySynopticPathBkc = "/tabSynopticBlm4Bkc";
-                        tableId = "tabWrkSynBlm4";
-                        undoBtnId = "btnUndoNewBlm4";
-                        saveBtnId = "btnSaveNewBlm4";
-                        break;		
-                    default:
-                        synopticType = 1;
-                        propertySynopticPath = "/tabSynoptic";
-                        propertySynopticPathBkc = "/tabSynopticBkc";
-                        tableId = "tabWrkSyn";
-                        undoBtnId = "btnUndoNewAdige";
-                        saveBtnId = "btnSaveAdige";
-                        break;
-                }
-                var Input = {
-                    "SITE_ID": controller.SiteId,
-                    "LANGUAGE": controller.language,
-                    "SYNOPTIC_TYPE": synopticType
-                };
-                var result = controllerSite.sendData("GET_SYNOPTIC_LIST", "WORKCENTER/TRANSACTION", Input);
-                controllerWorkCenter.wrkModel.setProperty(propertySynopticPath, result);
-                controllerWorkCenter.wrkModel.setProperty(propertySynopticPathBkc, JSON.parse(JSON.stringify(result)));
-                
-                //Buttons
-                controllerWorkCenter.byId(undoBtnId).setEnabled(false);
-                controllerWorkCenter.byId(saveBtnId).setEnabled(false);
-        },
-
+       
         /* -------------------- Orari Lavorativi -------------------- */
         openWkcHelpHours: function (oEvent) {
             // Dati apertura popup presi da controllerWorkCenter.wrkModel.getProperty("/tabwrklist");
@@ -1446,6 +1298,14 @@ sap.ui.define([
                 controllerWorkCenter.wrkModel.setProperty("/tabUserlist", jsonArr.Rows, false);
                 controllerWorkCenter.getView().setModel(controllerWorkCenter.wrkModel);
             } catch (e) {}
+        },
+		
+		onSelectionChangeRowTabHours: function (oEvent) {
+            if (oEvent.oSource.getSelectedIndex() < 0) {
+                controllerWorkCenter.rowSelTabWrkHours = "";
+            } else {
+                controllerWorkCenter.rowSelTabWrkHours = controllerWorkCenter.wrkModel.getProperty("/tabWrkHours/" + oEvent.oSource.getSelectedIndex());
+            }
         },
 
         newHours: function () {
@@ -1554,7 +1414,7 @@ sap.ui.define([
                 "SITE_ID": controller.SiteId
             };
 
-            var result = controllerSite.sendData("SAVE_WORKING_HOURS", "WORKCENTER/TRANSACTION", Input);
+            var result = controller.sendData("SAVE_WORKING_HOURS", "WORKCENTER/TRANSACTION", Input);
             if (result[0].RC != "0") {
                 MessageBox.warning(controller.oBundle.getText("contrWRK.insertKO") + " " + result[0].MESSAGE, {
                     onClose: function () {}
@@ -1574,7 +1434,7 @@ sap.ui.define([
                 "SITE_ID": controller.SiteId
                 //,"LANGUAGE": controller.language
             };
-            var result = controllerSite.sendData("GET_HOURS_LIST", "WORKCENTER/TRANSACTION", Input);
+            var result = controller.sendData("GET_HOURS_LIST", "WORKCENTER/TRANSACTION", Input);
             controllerWorkCenter.wrkModel.setProperty("/tabWrkHours", result);
 			
 			//Buttons
@@ -1765,75 +1625,183 @@ sap.ui.define([
         },
 
         /* -------------------- Sinottico -------------------- */
-        newPosSyn: function () {
-            controllerWorkCenter.enabledWorkCenterFields("NEW_SYNOPTIC", true);
-            
-            // Logica esistente per aggiungere nuova posizione
-            var propertySynopticPath = "", propertySynopticPathBkc = "", maxWkcNumber = 0, tableId = "", undoBtnId = "", saveBtnId = "";
-            
-            // Determina la sezione attiva per ottenere il path corretto
-            let currentSection = controllerWorkCenter.getCurrentSynopticSection();
-            
-            switch (currentSection) {
-                case "SYNOPTIC":
-                    maxWkcNumber = 40;
-                    propertySynopticPath = "/tabSynoptic";
-                    break;
-                case "SYNOPTICADIGESTR1":
-                    maxWkcNumber = 22;
-                    propertySynopticPath = "/tabSynopticAdigeStr1";
-                    break;
+        
+       getSynopticList: function (sSynopticKey, nSynopticType, sSynopticPage) {        
+			// Reset alla modalità default per sinottico
+			controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
+			
+            let oModel = controllerWorkCenter.wrkModel.getProperty("/SynopticDetails"),
+				oSynopticSetup = _.filter(controllerWorkCenter.wrkModel.getProperty("/AllSynopticPages"), function(o){ return o.SynopticPage === sSynopticPage})[0];
+				
+                switch (sSynopticKey) {
+                    case "SYNOPTIC":
+						oModel["sKey"] = sSynopticKey;
+						oModel["sPage"] = sSynopticPage;
+                        oModel["synopticType"] = nSynopticType;
+                        oModel["propertySynopticPath"] = "/tabSynoptic";
+                        oModel["propertySynopticPathBkc"] = "/tabSynopticBkc";
+                        oModel["tableId"] = "tabWrkSyn";
+						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+                        break;
+                    case "SYNOPTICADIGESTR1":
+						oModel["sKey"] = sSynopticKey;
+						oModel["sPage"] = sSynopticPage;
+                        oModel["synopticType"] = nSynopticType;
+                        oModel["propertySynopticPath"] = "/tabSynopticAdigeStr1";
+                        oModel["propertySynopticPathBkc"] = "/tabSynopticAdigeStr1Bkc";
+                        oModel["tableId"] = "tabWrkSynAdigeStr1";
+						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+                        break;
                     case "SYNOPTICBGS1":
-                        maxWkcNumber = 14;
-                        propertySynopticPath = "/tabSynopticBGS1";
+						oModel["sKey"] = sSynopticKey;
+						oModel["sPage"] = sSynopticPage;
+                        oModel["synopticType"] = nSynopticType;
+                        oModel["propertySynopticPath"] = "/tabSynopticBGS1";
+                        oModel["propertySynopticPathBkc"] = "/tabSynopticBGS1Bkc";
+                        oModel["tableId"] = "tabWrkSynBGS1";
+						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
                         break;
-                        case "SYNOPTICBGS2":
-                            maxWkcNumber = 53;
-                            propertySynopticPath = "/tabSynopticBGS2";
-                            break;
+                    case "SYNOPTICBGS2":
+						oModel["sKey"] = sSynopticKey;
+						oModel["sPage"] = sSynopticPage;
+                        oModel["synopticType"] = nSynopticType;
+                        oModel["propertySynopticPath"] = "/tabSynopticBGS2";
+                        oModel["synopticType"] = "/tabSynopticBGS2Bkc";
+                        oModel["propertySynopticPathBkc"] = "tabWrkSynBGS2";
+						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+                        break;
                     case "SYNOPTICADIGESYS1":
-                        maxWkcNumber = 24;
-                        propertySynopticPath = "/tabSynopticAdigeSys1";
+						oModel["sKey"] = sSynopticKey;
+						oModel["sPage"] = sSynopticPage;
+                        oModel["synopticType"] = nSynopticType;
+                        oModel["propertySynopticPath"] = "/tabSynopticAdigeSys1";
+                        oModel["propertySynopticPathBkc"] = "/tabSynopticAdigeSys1Bkc";
+                        oModel["tableId"] = "tabWrkSynAdigeSys1";
+						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
                         break;
-                    case "SYNOPTICADIGESYS2":
-                        maxWkcNumber = 11;
-                        propertySynopticPath = "/tabSynopticAdigeSys2";
-                        break;
+                    /*case "SYNOPTICADIGESYS2":
+						oModel["sKey"] = sSynopticKey;
+						oModel["sPage"] = sSynopticPage;
+                        oModel["synopticType"] = nSynopticType;
+                        oModel["propertySynopticPath"] = "/tabSynopticAdigeSys2";
+                        oModel["propertySynopticPathBkc"] = "/tabSynopticAdigeSys2Bkc";
+                        oModel["tableId"] = "tabWrkSynAdigeSys2";
+						oModel["maxWkcNumber"] = 11;
+                        break;*/
                     case "SYNOPTICADIGESYS3":
-                        maxWkcNumber = 27;
-                        propertySynopticPath = "/tabSynopticAdigeSys3";
-                        break;
+						oModel["sKey"] = sSynopticKey;
+						oModel["sPage"] = sSynopticPage;
+                        oModel["synopticType"] = nSynopticType;
+                        oModel["propertySynopticPath"] = "/tabSynopticAdigeSys3";
+                        oModel["propertySynopticPathBkc"] = "/tabSynopticAdigeSys3Bkc";
+                        oModel["tableId"] = "tabWrkSynAdigeSys3";
+						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+                        break; 
                     case "SYNOPTICBGUSA":
-                        maxWkcNumber = 20;
-                        propertySynopticPath = "/tabSynopticBgusa";
-                        break;
+						oModel["sKey"] = sSynopticKey;
+						oModel["sPage"] = sSynopticPage;
+                        oModel["synopticType"] = nSynopticType;
+                        oModel["propertySynopticPath"] = "/tabSynopticBgusa";
+                        oModel["propertySynopticPathBkc"] = "/tabSynopticBgusaBkc";
+                        oModel["tableId"] = "tabWrkBgusa";
+						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+                        break; 
                     case "SYNOPTICBLM1":
-                        maxWkcNumber = 244;
-                        propertySynopticPath = "/tabSynopticBlm1";
+						oModel["sKey"] = sSynopticKey;
+						oModel["sPage"] = sSynopticPage;
+                        oModel["synopticType"] = nSynopticType;
+                        oModel["propertySynopticPath"] = "/tabSynopticBlm1";
+                        oModel["propertySynopticPathBkc"] = "/tabSynopticBlm1Bkc";
+                        oModel["tableId"] = "tabWrkSynBlm1";
+						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
                         break;
                     case "SYNOPTICBLM2":
-                        maxWkcNumber = 48;
-                        propertySynopticPath = "/tabSynopticBlm2";
+					    oModel["sKey"] = sSynopticKey;
+						oModel["sPage"] = sSynopticPage;
+                        oModel["synopticType"] = nSynopticType;
+                        oModel["propertySynopticPath"] = "/tabSynopticBlm2";
+                        oModel["propertySynopticPathBkc"] = "/tabSynopticBlm2Bkc";
+                        oModel["tableId"] = "tabWrkSynBlm2";
+						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
                         break;
                     case "SYNOPTICBLM3":
-                        maxWkcNumber = 56;
-                        propertySynopticPath = "/tabSynopticBlm3";
+						oModel["sKey"] = sSynopticKey;
+						oModel["sPage"] = sSynopticPage;
+                        oModel["synopticType"] = nSynopticType;
+                        oModel["propertySynopticPath"] = "/tabSynopticBlm3";
+                        oModel["propertySynopticPathBkc"] = "/tabSynopticBlm3Bkc";
+                        oModel["tableId"] = "tabWrkSynBlm3";
+						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
                         break;
                     case "SYNOPTICBLM4":
-                        maxWkcNumber = 12;
-                        propertySynopticPath = "/tabSynopticBlm4";
+						oModel["sKey"] = sSynopticKey;
+						oModel["sPage"] = sSynopticPage;
+                        oModel["synopticType"] = nSynopticType;
+                        oModel["propertySynopticPath"] = "/tabSynopticBlm4";
+                        oModel["propertySynopticPathBkc"] = "/tabSynopticBlm4Bkc";
+                        oModel["tableId"] = "tabWrkSynBlm4";
+						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+                        break;		
+                    default:	
+						oModel["sKey"] = sSynopticKey;
+						oModel["sPage"] = sSynopticPage;
+                        oModel["synopticType"] = nSynopticType;
+                        oModel["propertySynopticPath"] = "/tabSynoptic";
+                        oModel["propertySynopticPathBkc"] = "/tabSynopticBkc";
+                        oModel["tableId"] = "tabWrkSyn";
+						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
                         break;
-                default:
-                    maxWkcNumber = 40;
-                    propertySynopticPath = "/tabSynoptic";
-                    break;
-            }
-            
-            var addRowModel = controllerWorkCenter.wrkModel.getProperty(propertySynopticPath);
+                }
+				
+                let oInput = {
+                    "SITE_ID": controller.SiteId,
+                    "LANGUAGE": controller.language,
+                    "SYNOPTIC_TYPE": nSynopticType,
+					"PAGE": sSynopticPage
+                };
+				
+				controllerWorkCenter.refreshSynopticData(oInput);
+        },
+		
+		onChangeSynopticPages: function(oEvent){
+		 let oItemSel = controllerWorkCenter.wrkModel.getProperty(oEvent.getParameter("selectedItem").getBindingContext().sPath),
+			 oInput = {
+				"SITE_ID": controller.SiteId,
+				"LANGUAGE": controller.language,
+				"SYNOPTIC_TYPE": oItemSel["SynopticType"],
+				"PAGE": oItemSel["SynopticPage"]
+			 };
+			
+			 controllerWorkCenter.refreshSynopticData(oInput);
+		},
+		
+		refreshSynopticData: function(oInput){
+			let oModel = controllerWorkCenter.wrkModel.getProperty("/SynopticDetails");
+			
+			if(oInput === ""){				
+				oInput = {
+					"SITE_ID": controller.SiteId,
+					"LANGUAGE": controller.language,
+					"SYNOPTIC_TYPE": oModel["synopticType"],
+					"PAGE": oModel["sPage"]
+				}; 
+			}
+			
+			let aResult = controller.sendData("GET_SYNOPTIC_LIST", "WORKCENTER/TRANSACTION", oInput);
+                
+				controllerWorkCenter.wrkModel.setProperty(oModel["propertySynopticPath"], aResult);
+                controllerWorkCenter.wrkModel.setProperty(oModel["propertySynopticPathBkc"], JSON.parse(JSON.stringify(aResult)));
+		},
+
+        newPosSyn: function () {            
+            let oModel = controllerWorkCenter.wrkModel.getProperty("/SynopticDetails"),            
+				// Determina la sezione attiva per ottenere il path corretto
+				addRowModel = controllerWorkCenter.wrkModel.getProperty(oModel["propertySynopticPath"]);
+			
             if (!addRowModel) addRowModel = [];
 
-            if (addRowModel.length <= maxWkcNumber) {
-                var row = {
+            if (addRowModel.length < oModel["maxWkcNumber"]) {
+                let oRow = {
                     "WORKCENTER_ID": "",
                     "WORKCENTER": "",
                     "WORKCENTER_DESCR": "",
@@ -1841,44 +1809,26 @@ sap.ui.define([
                     "EDIT": "true",
                     "DEL": "false"
                 };
-                addRowModel.push(row);
-                controllerWorkCenter.wrkModel.setProperty(propertySynopticPath, addRowModel);
-                controllerWorkCenter.wrkModel.setProperty(propertySynopticPathBkc, JSON.parse(JSON.stringify(addRowModel)));
+                addRowModel.push(oRow);
+                controllerWorkCenter.wrkModel.setProperty(oModel["propertySynopticPath"], addRowModel);
+                controllerWorkCenter.wrkModel.setProperty(oModel["propertySynopticPathBkc"], JSON.parse(JSON.stringify(addRowModel)));
+				
+				controllerWorkCenter.enabledWorkCenterFields("NEW_SYNOPTIC", true);
+				
+				//Scroll to last table Element
+				controllerWorkCenter.byId(oModel["tableId"]).setFirstVisibleRow(addRowModel.length);
             } else {
                 return MessageToast.show(controller.oBundle.getText("contrWRK.maxLimit"));
             }
         },
 
-        /* Funzione helper per determinare la sezione sinottico attiva */
-        getCurrentSynopticSection: function () {
-            let viewWrkSynopticElements = controllerWorkCenter.wrkModel.getProperty("/viewWrkSynopticElements");
-            
-            if (viewWrkSynopticElements.visAdigeSynopticPageFooterBtn) return "SYNOPTIC";
-            if (viewWrkSynopticElements.visAdigeStr1SynopticPageFooterBtn) return "SYNOPTICADIGESTR1";
-            if (viewWrkSynopticElements.visBgs1SynopticPageFooterBtn) return "SYNOPTICBGS1";
-            if (viewWrkSynopticElements.visBgs2SynopticPageFooterBtn) return "SYNOPTICBGS2";
-            if (viewWrkSynopticElements.visAdigeSys1SysSynopticPageFooterBtn) return "SYNOPTICADIGESYS1";
-            if (viewWrkSynopticElements.visAdigeSys2SysSynopticPageFooterBtn) return "SYNOPTICADIGESYS2";
-            if (viewWrkSynopticElements.visAdigeSys3SysSynopticPageFooterBtn) return "SYNOPTICADIGESYS3";
-            if (viewWrkSynopticElements.visBgusaSynopticPageFooterBtn) return "SYNOPTICBGUSA";
-            if (viewWrkSynopticElements.visBlm1SynopticPageFooterBtn) return "SYNOPTICBLM1";
-            if (viewWrkSynopticElements.visBlm2SynopticPageFooterBtn) return "SYNOPTICBLM2";
-            if (viewWrkSynopticElements.visBlm3SynopticPageFooterBtn) return "SYNOPTICBLM3";
-            if (viewWrkSynopticElements.visBlm4SynopticPageFooterBtn) return "SYNOPTICBLM4";
-            
-            return "SYNOPTIC"; // default
-        },
-
-        openWkcHelp: function (oEvent) {
-            // Dati apertura popup presi da controllerWorkCenter.wrkModel.getProperty("/tabwrklist");
-
-            //if(!controllerWorkCenter.wrkModel.getProperty("/tabwrklist")){
-            var input = {};
-            input.LANGUAGE = controller.language;
-            input.SITE = controller.site;
-            input.WORKCENTER = controllerWorkCenter._wrkcenter;
+        openWkcHelp: function (oEvent) {            
+            let input = {
+				LANGUAGE: controller.language,
+				SITE: controller.site,
+				WORKCENTER: controllerWorkCenter._wrkcenter
+			};
             controllerWorkCenter.getDataSync("GET_LIST_WRK_FOR_SEARCH_DISP", "ADIGE7/MASTER_DATA/WORKCENTER/TRANSACTION/WRK", input, controllerWorkCenter.getWrkListsuccess, controllerWorkCenter.transactionError);
-            //  }
 
             if (!controllerWorkCenter._oValueHelpDialog) {
                 Fragment.load({
@@ -1894,10 +1844,155 @@ sap.ui.define([
             }
 
             //Salvo la riga selezionata
-            controllerWorkCenter.byId("rowSynopticSel").setText(oEvent.oSource.getBindingContext().sPath);
+			controllerWorkCenter.wrkModel.setProperty("/rowSynopticSel", oEvent.oSource.getBindingContext().sPath);
+        },
+		
+		confirmWkcHelp: function (oEvent) {
+            let oSelectedItem = oEvent.getParameter("selectedItem"),
+				aModelRowSel = controllerWorkCenter.wrkModel.getProperty(controllerWorkCenter.wrkModel.getProperty("/rowSynopticSel")),
+				aModel = controllerWorkCenter.wrkModel.getProperty("/tabSynoptic");
+
+            for (let i = 0; i < aModel.length; i++) {
+                if (aModel[i].WORKCENTER === oSelectedItem.mProperties.title) {
+                    return MessageToast.show(controller.oBundle.getText("contrWRK.errSelWkc"));
+                }
+            }
+
+            aModelRowSel["WORKCENTER_ID"] = oSelectedItem.mProperties.highlightText;
+            aModelRowSel["WORKCENTER"] = oSelectedItem.mProperties.title;
+            aModelRowSel["WORKCENTER_DESCR"] = oSelectedItem.mProperties.description;
+
+            aModelRowSel["EDIT"] = "true";
+            controllerWorkCenter.wrkModel.refresh();
+			
+			//Remove Filter Value
+            oEvent.getSource().getBinding("items").filter([]);
+			
+            controllerWorkCenter.closeDialog();
+			controllerWorkCenter.wrkModel.setProperty("/rowSynopticSel", "");
+        },
+		
+		controlPositionValue: function (oEvent) {
+            let valueParam = oEvent.mParameters.value,
+				oModelSynopticDetails = controllerWorkCenter.wrkModel.getProperty("/SynopticDetails"),
+				aModel = controllerWorkCenter.wrkModel.getProperty(oModelSynopticDetails["propertySynopticPath"]),
+				aModelBkc = controllerWorkCenter.wrkModel.getProperty(oModelSynopticDetails["propertySynopticPathBkc"]),
+				sRowPath = oEvent.oSource.oParent.oBindingContexts.undefined.sPath;
+
+            if (valueParam != "") {
+                if (valueParam < 1 || valueParam > oModelSynopticDetails["maxWkcNumber"]) {
+                    valueParam = oEvent.oSource.mProperties.value;
+                    aModel[sRowPath.split("/")[2]]["POSITION"] = aModelBkc[sRowPath.split("/")[2]]["POSITION"];
+                    controllerWorkCenter.wrkModel.refresh(true);
+                    return MessageToast.show(controller.oBundle.getText("contrWRK.errPosInterval") + oModelSynopticDetails["maxWkcNumber"])
+                } else if (valueParam.replace(".", ",") % 1 != 0) {
+                    valueParam = oEvent.oSource.mProperties.value;
+                    aModel[sRowPath.split("/")[2]]["POSITION"] = aModelBkc[sRowPath.split("/")[2]]["POSITION"];
+                    controllerWorkCenter.wrkModel.refresh(true);
+                    return MessageToast.show(controller.oBundle.getText("contrWRK.errPosInt"))
+                } else {
+                    controllerWorkCenter.wrkModel.getProperty(sRowPath)["EDIT"] = "true";                    
+                }
+
+                let index = sRowPath.split("/")[2];
+
+                for (let i = 0; i < aModel.length; i++) {
+                    if (aModel[i].POSITION === valueParam && i != index) {
+                        valueParam = oEvent.oSource.mProperties.value;
+                        aModel[sRowPath.split("/")[2]]["POSITION"] = aModelBkc[sRowPath.split("/")[2]]["POSITION"];
+                        controllerWorkCenter.getView().byId("tabWrkSyn").getModel().refresh(true);
+                        return MessageToast.show(controller.oBundle.getText("contrWRK.errPosAlreadyExists"))
+                    }
+                }
+
+            } else {
+               controllerWorkCenter.wrkModel.getProperty(sRowPath)["EDIT"] = "true"; 
+            }
+			
+			controllerWorkCenter.enabledWorkCenterFields("NEW_SYNOPTIC", true);
+        },
+		
+		deleteSynopticPos: function (oEvent) {
+            let lineSel = controllerWorkCenter.wrkModel.getProperty(oEvent.oSource.getBindingContext().sPath);
+				lineSel["DEL"] = "true";
+				lineSel["EDIT"] = "true";
+				
+            controllerWorkCenter.wrkModel.refresh();
+			controllerWorkCenter.enabledWorkCenterFields("NEW_SYNOPTIC", true);
         },
 
-        /* -------------------- General Function --------------------*/
+        savePosSyn: function () {
+			let oModelSynopticDetails = controllerWorkCenter.wrkModel.getProperty("/SynopticDetails"),
+				aModel = controllerWorkCenter.wrkModel.getProperty(oModelSynopticDetails["propertySynopticPath"]),
+				obj = {},
+				aModInput = [];
+				
+            for (let i = 0; i < aModel.length; i++) {
+                if (aModel[i].WORKCENTER === "" && aModel[i].WORKCENTER_ID === "") {
+                    return MessageBox.warning(controller.oBundle.getText("contrWRK.errMissWkc"), {
+                        onClose: function () {}
+                    });
+                }
+
+                if (aModel[i].POSITION === "" && aModel[i].DEL === "false") {
+                    return MessageBox.warning(controller.oBundle.getText("contrWRK.errMissPosition"), {
+                        onClose: function () {}
+                    });
+                }
+
+                if (aModel[i].POSITION.replace(".", ",") < 1 || aModel[i].POSITION > oModelSynopticDetails["maxWkcNumber"]) {
+                    return MessageBox.warning(controller.oBundle.getText("contrWRK.errPosInterval"), {
+                        onClose: function () {}
+                    });
+                }
+
+                if (aModel[i].POSITION.replace(".", ",") % 1 != 0) {
+                    return MessageBox.warning(controller.oBundle.getText("contrWRK.errPosInt"), {
+                        onClose: function () {}
+                    });
+                }
+
+                if (aModel[i].EDIT === "true" || aModel[i].DEL === "true") {
+                    obj.WORKCENTER_ID = aModel[i].WORKCENTER_ID;
+                    obj.POSITION = aModel[i].POSITION;
+                    obj.DEL = aModel[i].DEL;
+                    aModInput.push(obj);
+                    obj = new Object;
+                }
+            }
+
+            if (aModInput.length === 0)
+                return
+
+                let oInput = {
+                    "DATA": JSON.stringify(aModInput),
+                    "SYNOPTIC_TYPE": synopticType,
+					"PAGE": oModelSynopticDetails["sPage"]
+                }, aResult = controller.sendData("SAVE_SYNOPTIC_ASSIGNMENT", "WORKCENTER/TRANSACTION", oInput);
+            
+			if (aResult[0].RC != "0") {
+                MessageBox.warning(controller.oBundle.getText("contrWRK.insertKO") + " " + aResult[0].MESSAGE, {
+                    onClose: function () {}
+                });
+            } else {
+                MessageToast.show(controller.oBundle.getText("contrWRK.insertOK"));
+            }
+			
+            controllerWorkCenter.refreshSynopticData("");
+        },
+
+
+        /* -------------------- General Function --------------------*/		
+		
+        closeDialog: function () {
+            try {
+                controllerWorkCenter._oValueHelpDialog.close();
+                controllerWorkCenter._oValueHelpDialog.destroy();
+            } catch (err) {}
+
+            controllerWorkCenter._oValueHelpDialog = undefined;
+        },
+		
 		closePopup: function(){
 			try{
 				if(controllerWorkCenter._oValueHelpDialog){
