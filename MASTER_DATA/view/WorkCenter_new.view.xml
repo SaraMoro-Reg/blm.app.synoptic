@@ -226,7 +226,7 @@
 
 		<!-- ____________ Site BGS ____________ -->
 		<!-- Sinottico SYNOPTICBGS1 -->
-		<u:ObjectPageSection id="SYNOPTICBGS1" title="{i18n&gt;viewWRK.wrkSynopticBGS1}" visible="{= ${/currentSite} === 'BGS'}" >
+		<u:ObjectPageSection id="SYNOPTICBGS1" title="{i18n&gt;viewWRK.wrkSynopticBGS1}" visible="{= ${/currentSite} === 'BGS'}"  >
 			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkSynBGS1" rows="{path: '/tabSynopticBGS1'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" visibleRowCount="13" >
 					<table:rowSettingsTemplate>
@@ -338,7 +338,8 @@
 		</u:ObjectPageSection>
 
 		<!-- Sinottico SYNOPTICADIGESYS2 -->
-		<u:ObjectPageSection id="SYNOPTICADIGESYS2" title="{i18n&gt;viewWRK.wrkSynopticAdigeSys2}" visible="{= ${/currentSite} === 'ADIGE-SYS'}" >
+		<!-- Sinottico Disabilitato -->
+		<!-- <u:ObjectPageSection id="SYNOPTICADIGESYS2" title="{i18n&gt;viewWRK.wrkSynopticAdigeSys2}" visible="{= ${/currentSite} === 'ADIGE-SYS'}" >
 			<u:ObjectPageSubSection class="customUxapSubsectionNoPadding">
 				<table:Table id="tabWrkSynAdigeSys2" rows="{path: '/tabSynopticAdigeSys2'}" width="100%" selectionMode="None" visibleRowCountMode="Interactive" visibleRowCount="13" >
 					<table:rowSettingsTemplate>
@@ -372,7 +373,7 @@
 					</table:columns>
 				</table:Table>
 			</u:ObjectPageSubSection>
-		</u:ObjectPageSection>
+		</u:ObjectPageSection> -->
 
 		<!-- Sinottico SYNOPTICADIGESYS3 -->
 		<u:ObjectPageSection id="SYNOPTICADIGESYS3" title="{i18n&gt;viewWRK.wrkSynopticAdigeSys3}" visible="{= ${/currentSite} === 'ADIGE-SYS'}" >
@@ -615,7 +616,7 @@
 				<Button text="{i18n&gt;viewWRK.newHours}" tooltip="{i18n&gt;viewWRK.newHours}" press="newHours" icon="sap-icon://add" visible="{/viewWrkHoursElements/visWrkHoursPageFooterBtn}" enabled="{/viewWrkHoursElements/enabledNewHoursBtn}" />
 				
 				<!-- Synoptic -->
-				<Select id="filterSynopticPage" visible="{/viewWrkSynopticElements/visSynopticPageFooterBtn}" change="onChangeSynopticPages" items="{path : '/filterSynopticPage',sorter : {path : 'PageOrders', descending : false}}" showSecondaryValues="true" enabled="{= ${/filterSynopticPage}.length > 1}" width="20%" >
+				<Select id="filterSynopticPage" visible="{/viewWrkSynopticElements/visSynopticPageFooterBtn}" change="onChangeSynopticPages" items="{path : '/filterSynopticPage'}" showSecondaryValues="true" enabled="{= ${/filterSynopticPage}.length > 1}" width="20%" >
 					<core:ListItem key="{SynopticPage}" text="{SynopticPage}" tooltip="{SynopticPage}" />
 				</Select>
 				<Button text="{i18n&gt;viewWRK.newPosSyn}" tooltip="{i18n&gt;viewWRK.newPosSyn}" press="newPosSyn" icon="sap-icon://add" visible="{/viewWrkSynopticElements/visSynopticPageFooterBtn}" enabled="{/viewWrkSynopticElements/enabledNewPosSynBtn}" />

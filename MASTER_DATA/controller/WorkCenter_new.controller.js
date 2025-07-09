@@ -213,8 +213,13 @@ sap.ui.define([
 			if(viewWrkSynopticElements.visSynopticPageFooterBtn){	
 				//Estraggo il Setup delle Pagine
 				let aResult = controller.sendData("GET_SYNOPTIC_PAGES_SETUP", "WORKCENTER/TRANSACTION", {SITE_ID: controller.SiteId})["Rows"];
-					controllerWorkCenter.wrkModel.setProperty("/filterSynopticPage", _.filter(aResult, function(o){ return o.SynopticType == nSynopticType}));
-					controllerWorkCenter.wrkModel.setProperty("/AllSynopticPages", aResult);
+				let filteredResult = _.filter(aResult, function(o){ return o.SynopticType == nSynopticType});
+				// Ordina numericamente per PageOrders
+				filteredResult.sort(function(a, b) {
+					return parseInt(a.PageOrders || 0) - parseInt(b.PageOrders || 0);
+				});
+				controllerWorkCenter.wrkModel.setProperty("/filterSynopticPage", filteredResult);
+				controllerWorkCenter.wrkModel.setProperty("/AllSynopticPages", aResult);
 				//Chiamo la funzione per estrarre la lista delle Piazzole per Sinottico
 				controllerWorkCenter.getSynopticList(sPage, nSynopticType, sSynopticPage);	
 			}		
