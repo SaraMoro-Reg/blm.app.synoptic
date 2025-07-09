@@ -1628,12 +1628,27 @@ sap.ui.define([
 
         /* -------------------- Sinottico -------------------- */
         
-       getSynopticList: function (sSynopticKey, nSynopticType, sSynopticPage) {        
+        // Funzione helper per impostare maxWkcNumber con controllo errori
+        setMaxWkcNumber: function(oModel, oSynopticSetup, sSynopticPage) {
+            if (oSynopticSetup && oSynopticSetup["MaxWorkcenterNumber"]) {
+                oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+                return true; // Successo
+            } else {
+                oModel["maxWkcNumber"] = null;
+                console.error("Errore: MaxWorkcenterNumber non trovato per la pagina", sSynopticPage);
+                MessageBox.error(controller.oBundle.getText("contrWRK.errMaxWkcNumberNotFound") || 
+                               "Errore: Impossibile determinare il numero massimo di posizioni per questa pagina sinottico.");
+                return false; // Errore
+            }
+        },
+
+        getSynopticList: function (sSynopticKey, nSynopticType, sSynopticPage) {        
 			// Reset alla modalità default per sinottico
 			controllerWorkCenter.enabledWorkCenterFields("DEFAULT_SYNOPTIC", false);
 			
             let oModel = controllerWorkCenter.wrkModel.getProperty("/SynopticDetails"),
 				oSynopticSetup = _.filter(controllerWorkCenter.wrkModel.getProperty("/AllSynopticPages"), function(o){ return o.SynopticPage === sSynopticPage})[0];
+				// console.log("Setup dati sinottico per pagina", sSynopticPage, ":", oSynopticSetup);
 				
                 switch (sSynopticKey) {
                     case "SYNOPTIC":
@@ -1643,7 +1658,9 @@ sap.ui.define([
                         oModel["propertySynopticPath"] = "/tabSynoptic";
                         oModel["propertySynopticPathBkc"] = "/tabSynopticBkc";
                         oModel["tableId"] = "tabWrkSyn";
-						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+						if (!controllerWorkCenter.setMaxWkcNumber(oModel, oSynopticSetup, sSynopticPage)) {
+							return; // Ferma l'esecuzione se ci sono errori
+						}
                         break;
                     case "SYNOPTICADIGESTR1":
 						oModel["sKey"] = sSynopticKey;
@@ -1652,7 +1669,9 @@ sap.ui.define([
                         oModel["propertySynopticPath"] = "/tabSynopticAdigeStr1";
                         oModel["propertySynopticPathBkc"] = "/tabSynopticAdigeStr1Bkc";
                         oModel["tableId"] = "tabWrkSynAdigeStr1";
-						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+						if (!controllerWorkCenter.setMaxWkcNumber(oModel, oSynopticSetup, sSynopticPage)) {
+							return;
+						}
                         break;
                     case "SYNOPTICBGS1":
 						oModel["sKey"] = sSynopticKey;
@@ -1661,7 +1680,9 @@ sap.ui.define([
                         oModel["propertySynopticPath"] = "/tabSynopticBGS1";
                         oModel["propertySynopticPathBkc"] = "/tabSynopticBGS1Bkc";
                         oModel["tableId"] = "tabWrkSynBGS1";
-						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+						if (!controllerWorkCenter.setMaxWkcNumber(oModel, oSynopticSetup, sSynopticPage)) {
+							return;
+						}
                         break;
                     case "SYNOPTICBGS2":
 						oModel["sKey"] = sSynopticKey;
@@ -1670,7 +1691,9 @@ sap.ui.define([
                         oModel["propertySynopticPath"] = "/tabSynopticBGS2";
                         oModel["synopticType"] = "/tabSynopticBGS2Bkc";
                         oModel["propertySynopticPathBkc"] = "tabWrkSynBGS2";
-						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+						if (!controllerWorkCenter.setMaxWkcNumber(oModel, oSynopticSetup, sSynopticPage)) {
+							return;
+						}
                         break;
                     case "SYNOPTICADIGESYS1":
 						oModel["sKey"] = sSynopticKey;
@@ -1679,7 +1702,9 @@ sap.ui.define([
                         oModel["propertySynopticPath"] = "/tabSynopticAdigeSys1";
                         oModel["propertySynopticPathBkc"] = "/tabSynopticAdigeSys1Bkc";
                         oModel["tableId"] = "tabWrkSynAdigeSys1";
-						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+						if (!controllerWorkCenter.setMaxWkcNumber(oModel, oSynopticSetup, sSynopticPage)) {
+							return;
+						}
                         break;
                     /*case "SYNOPTICADIGESYS2":
 						oModel["sKey"] = sSynopticKey;
@@ -1697,7 +1722,9 @@ sap.ui.define([
                         oModel["propertySynopticPath"] = "/tabSynopticAdigeSys3";
                         oModel["propertySynopticPathBkc"] = "/tabSynopticAdigeSys3Bkc";
                         oModel["tableId"] = "tabWrkSynAdigeSys3";
-						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+						if (!controllerWorkCenter.setMaxWkcNumber(oModel, oSynopticSetup, sSynopticPage)) {
+							return;
+						}
                         break; 
                     case "SYNOPTICBGUSA":
 						oModel["sKey"] = sSynopticKey;
@@ -1706,7 +1733,9 @@ sap.ui.define([
                         oModel["propertySynopticPath"] = "/tabSynopticBgusa";
                         oModel["propertySynopticPathBkc"] = "/tabSynopticBgusaBkc";
                         oModel["tableId"] = "tabWrkBgusa";
-						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+						if (!controllerWorkCenter.setMaxWkcNumber(oModel, oSynopticSetup, sSynopticPage)) {
+							return;
+						}
                         break; 
                     case "SYNOPTICBLM1":
 						oModel["sKey"] = sSynopticKey;
@@ -1715,7 +1744,9 @@ sap.ui.define([
                         oModel["propertySynopticPath"] = "/tabSynopticBlm1";
                         oModel["propertySynopticPathBkc"] = "/tabSynopticBlm1Bkc";
                         oModel["tableId"] = "tabWrkSynBlm1";
-						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+						if (!controllerWorkCenter.setMaxWkcNumber(oModel, oSynopticSetup, sSynopticPage)) {
+							return;
+						}
                         break;
                     case "SYNOPTICBLM2":
 					    oModel["sKey"] = sSynopticKey;
@@ -1724,7 +1755,9 @@ sap.ui.define([
                         oModel["propertySynopticPath"] = "/tabSynopticBlm2";
                         oModel["propertySynopticPathBkc"] = "/tabSynopticBlm2Bkc";
                         oModel["tableId"] = "tabWrkSynBlm2";
-						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+						if (!controllerWorkCenter.setMaxWkcNumber(oModel, oSynopticSetup, sSynopticPage)) {
+							return;
+						}
                         break;
                     case "SYNOPTICBLM3":
 						oModel["sKey"] = sSynopticKey;
@@ -1733,7 +1766,9 @@ sap.ui.define([
                         oModel["propertySynopticPath"] = "/tabSynopticBlm3";
                         oModel["propertySynopticPathBkc"] = "/tabSynopticBlm3Bkc";
                         oModel["tableId"] = "tabWrkSynBlm3";
-						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+						if (!controllerWorkCenter.setMaxWkcNumber(oModel, oSynopticSetup, sSynopticPage)) {
+							return;
+						}
                         break;
                     case "SYNOPTICBLM4":
 						oModel["sKey"] = sSynopticKey;
@@ -1742,7 +1777,9 @@ sap.ui.define([
                         oModel["propertySynopticPath"] = "/tabSynopticBlm4";
                         oModel["propertySynopticPathBkc"] = "/tabSynopticBlm4Bkc";
                         oModel["tableId"] = "tabWrkSynBlm4";
-						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+						if (!controllerWorkCenter.setMaxWkcNumber(oModel, oSynopticSetup, sSynopticPage)) {
+							return;
+						}
                         break;		
                     default:	
 						oModel["sKey"] = sSynopticKey;
@@ -1751,7 +1788,9 @@ sap.ui.define([
                         oModel["propertySynopticPath"] = "/tabSynoptic";
                         oModel["propertySynopticPathBkc"] = "/tabSynopticBkc";
                         oModel["tableId"] = "tabWrkSyn";
-						oModel["maxWkcNumber"] = oSynopticSetup["MaxWorkcenterNumber"];
+						if (!controllerWorkCenter.setMaxWkcNumber(oModel, oSynopticSetup, sSynopticPage)) {
+							return;
+						}
                         break;
                 }
 				
@@ -1801,6 +1840,13 @@ sap.ui.define([
 				addRowModel = controllerWorkCenter.wrkModel.getProperty(oModel["propertySynopticPath"]);
 			
             if (!addRowModel) addRowModel = [];
+
+            // Controllo se maxWkcNumber è disponibile
+            if (oModel["maxWkcNumber"] === null || oModel["maxWkcNumber"] === undefined) {
+                MessageBox.error(controller.oBundle.getText("contrWRK.errMaxWkcNumberNotFound") || 
+                               "Errore: Impossibile determinare il numero massimo di posizioni.");
+                return;
+            }
 
             if (addRowModel.length < oModel["maxWkcNumber"]) {
                 let oRow = {
@@ -1883,6 +1929,13 @@ sap.ui.define([
 				aModelBkc = controllerWorkCenter.wrkModel.getProperty(oModelSynopticDetails["propertySynopticPathBkc"]),
 				sRowPath = oEvent.oSource.oParent.oBindingContexts.undefined.sPath;
 
+            // Controllo se maxWkcNumber è disponibile
+            if (oModelSynopticDetails["maxWkcNumber"] === null || oModelSynopticDetails["maxWkcNumber"] === undefined) {
+                MessageBox.error(controller.oBundle.getText("contrWRK.errMaxWkcNumberNotFound") || 
+                               "Errore: Impossibile determinare il numero massimo di posizioni.");
+                return;
+            }
+
             if (valueParam != "") {
                 if (valueParam < 1 || valueParam > oModelSynopticDetails["maxWkcNumber"]) {
                     valueParam = oEvent.oSource.mProperties.value;
@@ -1930,7 +1983,14 @@ sap.ui.define([
 				aModel = controllerWorkCenter.wrkModel.getProperty(oModelSynopticDetails["propertySynopticPath"]),
 				obj = {},
 				aModInput = [];
-				
+
+            // Controllo se maxWkcNumber è disponibile
+            if (oModelSynopticDetails["maxWkcNumber"] === null || oModelSynopticDetails["maxWkcNumber"] === undefined) {
+                MessageBox.error(controller.oBundle.getText("contrWRK.errMaxWkcNumberNotFound") || 
+                               "Errore: Impossibile determinare il numero massimo di posizioni.");
+                return;
+            }
+			
             for (let i = 0; i < aModel.length; i++) {
                 if (aModel[i].WORKCENTER === "" && aModel[i].WORKCENTER_ID === "") {
                     return MessageBox.warning(controller.oBundle.getText("contrWRK.errMissWkc"), {
@@ -1944,8 +2004,12 @@ sap.ui.define([
                     });
                 }
 
-                if (aModel[i].POSITION.replace(".", ",") < 1 || aModel[i].POSITION > oModelSynopticDetails["maxWkcNumber"]) {
-                    return MessageBox.warning(controller.oBundle.getText("contrWRK.errPosInterval"), {
+                // validazione della posizione
+                let position = parseInt(aModel[i].POSITION);
+                let maxNumber = parseInt(oModelSynopticDetails["maxWkcNumber"]);
+                
+                if (isNaN(position) || position < 1 || position > maxNumber) {
+                    return MessageBox.warning(controller.oBundle.getText("contrWRK.errPosInterval") + maxNumber, {
                         onClose: function () {}
                     });
                 }
@@ -1958,8 +2022,10 @@ sap.ui.define([
 
                 if (aModel[i].EDIT === "true" || aModel[i].DEL === "true") {
                     obj.WORKCENTER_ID = aModel[i].WORKCENTER_ID;
+                    obj.WORKCENTER = aModel[i].WORKCENTER || "";
+                    obj.WORKCENTER_DESCR = aModel[i].WORKCENTER_DESCR || "";
                     obj.POSITION = aModel[i].POSITION;
-                    obj.DEL = aModel[i].DEL;
+                    obj.DEL = (aModel[i].DEL === "true"); // Converte in boolean
                     aModInput.push(obj);
                     obj = new Object;
                 }
@@ -1970,9 +2036,11 @@ sap.ui.define([
 
             let oInput = {
                 "DATA": JSON.stringify(aModInput),
-                    "SYNOPTIC_TYPE": oModelSynopticDetails["synopticType"],
-					"PAGE": oModelSynopticDetails["sPage"]
-                }, aResult = controller.sendData("SAVE_SYNOPTIC_ASSIGNMENT", "WORKCENTER/TRANSACTION", oInput);
+                "SYNOPTIC_TYPE": oModelSynopticDetails["synopticType"],
+                "PAGE": oModelSynopticDetails["sPage"]
+                };
+                
+            let aResult = controller.sendData("SAVE_SYNOPTIC_ASSIGNMENT", "WORKCENTER/TRANSACTION", oInput);
             
 			if (aResult[0].RC != "0") {
                 MessageBox.warning(controller.oBundle.getText("contrWRK.insertKO") + " " + aResult[0].MESSAGE, {
