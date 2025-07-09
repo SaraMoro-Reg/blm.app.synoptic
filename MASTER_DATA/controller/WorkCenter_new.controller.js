@@ -1813,6 +1813,12 @@ sap.ui.define([
 				"PAGE": oItemSel["SynopticPage"]
 			 };
 			
+			// aggiorna anche SynopticDetails con la nuova pagina selezionata
+			let oSynopticDetails = controllerWorkCenter.wrkModel.getProperty("/SynopticDetails");
+			oSynopticDetails["sPage"] = oItemSel["SynopticPage"];
+			oSynopticDetails["synopticType"] = oItemSel["SynopticType"];
+			controllerWorkCenter.wrkModel.setProperty("/SynopticDetails", oSynopticDetails);
+			
 			 controllerWorkCenter.refreshSynopticData(oInput);
 		},
 		
