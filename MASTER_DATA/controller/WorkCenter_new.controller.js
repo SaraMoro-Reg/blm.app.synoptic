@@ -1793,7 +1793,7 @@ sap.ui.define([
                         oModel["propertySynopticPath"] = "/tabSynoptic";
                         oModel["propertySynopticPathBkc"] = "/tabSynopticBkc";
                         oModel["tableId"] = "tabWrkSyn";
-						if (!controllerWorkCenter.setMaxWkcNumber(oModel, oSynopticSetup, sSynopticPage)) {
+                        if (!controllerWorkCenter.setMaxWkcNumber(oModel, oSynopticSetup, sSynopticPage)) {
 							return;
 						}
                         break;
@@ -1822,6 +1822,14 @@ sap.ui.define([
 			let oSynopticDetails = controllerWorkCenter.wrkModel.getProperty("/SynopticDetails");
 			oSynopticDetails["sPage"] = oItemSel["SynopticPage"];
 			oSynopticDetails["synopticType"] = oItemSel["SynopticType"];
+			
+			// aggiorno il maxWkcNumber per la nuova pagina selezionata
+			if (oItemSel["MaxWorkcenterNumber"]) {
+				oSynopticDetails["maxWkcNumber"] = parseInt(oItemSel["MaxWorkcenterNumber"]);
+			} else {
+				console.error("Debug onChangeSynopticPages - MaxWorkcenterNumber non trovato per la pagina:", oItemSel["SynopticPage"]);
+			}
+			
 			controllerWorkCenter.wrkModel.setProperty("/SynopticDetails", oSynopticDetails);
 			
 			 controllerWorkCenter.refreshSynopticData(oInput);
@@ -1837,6 +1845,19 @@ sap.ui.define([
 					"SYNOPTIC_TYPE": oModel["synopticType"],
 					"PAGE": oModel["sPage"]
 				}; 
+			}
+			
+			// verifico che maxWkcNumber sia ancora corretto per la pagina corrente
+			let oSynopticSetup = _.filter(controllerWorkCenter.wrkModel.getProperty("/AllSynopticPages"), function(o){ 
+				return o.SynopticPage === oInput.PAGE;
+			})[0];
+			
+			if (oSynopticSetup && oSynopticSetup.MaxWorkcenterNumber) {
+				let newMaxWkc = parseInt(oSynopticSetup.MaxWorkcenterNumber);
+				if (oModel["maxWkcNumber"] !== newMaxWkc) {
+					oModel["maxWkcNumber"] = newMaxWkc;
+					controllerWorkCenter.wrkModel.setProperty("/SynopticDetails", oModel);
+				}
 			}
 			
 			let aResult = controller.sendData("GET_SYNOPTIC_LIST", "WORKCENTER/TRANSACTION", oInput);
@@ -1859,7 +1880,11 @@ sap.ui.define([
                 return;
             }
 
-            if (addRowModel.length < oModel["maxWkcNumber"]) {
+            // Conta solo le righe attive (non eliminate)
+            let activeRows = addRowModel.filter(row => row.DEL !== "true");
+            let currentActiveCount = activeRows.length;
+            
+            if (currentActiveCount < oModel["maxWkcNumber"]) {
                 let oRow = {
                     "WORKCENTER_ID": "",
                     "WORKCENTER": "",
